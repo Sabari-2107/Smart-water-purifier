@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NEXZORA – Smart Water Purification &amp; Monitoring</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#f2f8fc;--card:#fff;--ink:#0b2540;--muted:#5a7089;--line:#dfeaf3;--blue:#0a6cff;--blue-d:#0850c2;--blue-l:#e5f0ff;--green:#12a150;--green-l:#e1f6e9;--amber:#c27a00;--amber-l:#fff2d3;--red:#d92d3a;--red-l:#fde7e9;--shadow:0 1px 3px rgba(10,60,120,.08),0 6px 18px rgba(10,60,120,.06);--nav:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#06121e;--card:#0d2133;--ink:#e7f1fa;--muted:#8da6bd;--line:#1a3550;--blue:#4b97ff;--blue-d:#7bb2ff;--blue-l:#0f2f57;--green:#34c77c;--green-l:#0e3523;--amber:#f0b429;--amber-l:#3a2d0a;--red:#ff6b75;--red-l:#42191e;--shadow:0 1px 3px rgba(0,0,0,.4);--nav:#0a1b2b}}
+:root[data-theme="dark"]{--bg:#06121e;--card:#0d2133;--ink:#e7f1fa;--muted:#8da6bd;--line:#1a3550;--blue:#4b97ff;--blue-d:#7bb2ff;--blue-l:#0f2f57;--green:#34c77c;--green-l:#0e3523;--amber:#f0b429;--amber-l:#3a2d0a;--red:#ff6b75;--red-l:#42191e;--shadow:0 1px 3px rgba(0,0,0,.4);--nav:#0a1b2b}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:15px/1.45 'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+button,input,select,textarea{font:inherit;color:inherit}
+#app{height:100%;max-width:440px;margin:0 auto;display:flex;flex-direction:column;background:var(--bg);position:relative;overflow:hidden}
+@media (min-width:500px){#app{border-inline:1px solid var(--line);box-shadow:0 0 40px rgba(10,60,120,.12)}}
+.top{display:flex;align-items:center;gap:8px;padding:10px 14px;color:#fff;background:linear-gradient(120deg,#0a5fe0 0%,#0a86c8 60%,#12a150 135%)}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;letter-spacing:.02em;font-size:17px;flex:1;min-width:0}
+.brand svg{flex:none}
+.tchip{display:inline-flex;align-items:center;gap:5px;border:0;border-radius:99px;padding:5px 10px;font-size:12px;font-weight:600;background:rgba(255,255,255,.18);color:#fff;cursor:pointer;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tchip.off{background:#ffb02e;color:#3a2500}
+.avatar{width:32px;height:32px;border-radius:50%;background:#fff;color:var(--blue-d);font-weight:800;border:0;display:grid;place-items:center;cursor:pointer;flex:none}
+.main{flex:1;overflow-y:auto;padding:14px 14px 22px;-webkit-overflow-scrolling:touch}
+.nav{display:grid;grid-template-columns:repeat(5,1fr);background:var(--nav);border-top:1px solid var(--line)}
+.nav button{background:none;border:0;padding:8px 0 7px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;position:relative}
+.nav button.on{color:var(--blue)}
+.nav button.on::before{content:'';position:absolute;top:0;width:28px;height:3px;border-radius:0 0 4px 4px;background:var(--blue)}
+.badge{position:absolute;top:3px;left:calc(50% + 7px);background:var(--red);color:#fff;border-radius:99px;font-size:10px;min-width:16px;height:16px;padding:0 4px;display:grid;place-items:center}
+.ic{flex:none;vertical-align:middle}
+h2{font-size:19px;margin:0}h3{font-size:15px;margin:0 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.card.flat{box-shadow:none}
+.sub{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.sub h2{flex:1}
+.iconbtn{width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;cursor:pointer;color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:12px;padding:11px 16px;font-weight:700;background:var(--blue);color:#fff;cursor:pointer;min-height:44px}
+.btn.green{background:var(--green)}.btn.red{background:var(--red)}.btn.amber{background:#e0a21a;color:#2b1c00}
+.btn.ghost{background:var(--blue-l);color:var(--blue-d)}.btn.line{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.btn.sm{padding:6px 11px;min-height:34px;font-size:13px;border-radius:10px}.btn.block{width:100%}
+.btn:disabled,.btn.dis{opacity:.45;cursor:not-allowed}
+.btn:focus-visible,.iconbtn:focus-visible,.nav button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.row{display:flex;align-items:center;gap:10px}.row.sp{justify-content:space-between}.wrap{flex-wrap:wrap}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.muted{color:var(--muted)}.small{font-size:12.5px}.b{font-weight:700}
+.chip{display:inline-flex;align-items:center;gap:4px;border-radius:99px;padding:2px 9px;font-size:12px;font-weight:700;background:var(--blue-l);color:var(--blue-d);white-space:nowrap}
+.chip.ok{background:var(--green-l);color:var(--green)}.chip.warn{background:var(--amber-l);color:var(--amber)}.chip.bad{background:var(--red-l);color:var(--red)}.chip.gray{background:var(--line);color:var(--muted)}
+.hero{display:flex;gap:14px;align-items:center}
+.tank{--wv:#2b8cff;width:84px;height:116px;flex:none;border-radius:22px 22px 28px 28px;border:3px solid var(--line);position:relative;overflow:hidden;background:var(--blue-l)}
+.tank.green{--wv:#1fb866}.tank.red{--wv:#e5484d}.tank.amber{--wv:#e0a21a}
+.tank .fill{position:absolute;left:0;right:0;bottom:0;background:var(--wv);transition:height .5s}
+.tank .fill::before{content:'';position:absolute;left:0;right:0;top:-7px;height:14px;background:radial-gradient(circle at 10px 14px,var(--wv) 9px,transparent 10px) repeat-x;background-size:20px 14px}
+.tank.run .fill::before{animation:wv 1.6s linear infinite}
+@keyframes wv{to{background-position-x:20px}}
+.tank .pc{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;font-size:19px;color:var(--ink);mix-blend-mode:normal;text-shadow:0 0 6px var(--card)}
+.supply{border-radius:14px;padding:11px 13px;font-weight:800;display:flex;align-items:center;gap:9px;margin-top:10px;line-height:1.25}
+.supply.SAFE{background:var(--green-l);color:var(--green)}.supply.UNSAFE,.supply.BLOCKED{background:var(--red-l);color:var(--red)}.supply.PENDING{background:var(--amber-l);color:var(--amber)}.supply.OVERRIDE{background:var(--amber-l);color:var(--amber)}
+.pipe{display:flex;margin:2px 0 14px;padding:12px 4px 10px;background:var(--card);border:1px solid var(--line);border-radius:16px}
+.pp{flex:1;position:relative;text-align:center;min-width:0}
+.pp .pc{width:26px;height:26px;border-radius:50%;margin:0 auto 5px;display:grid;place-items:center;background:var(--line);color:var(--muted);position:relative;z-index:1}
+.pp em{font-style:normal;font-size:10px;line-height:1.15;display:block;color:var(--muted);font-weight:600;padding:0 1px}
+.pp:not(:last-child)::after{content:'';position:absolute;top:12px;left:calc(50% + 14px);right:calc(-50% + 14px);height:3px;border-radius:2px;background:var(--line)}
+.pp.done::after{background:var(--blue)}
+.pp.done .pc{background:var(--blue);color:#fff}.pp.active .pc{background:var(--blue-l);color:var(--blue);box-shadow:0 0 0 3px var(--blue)}.pp.active em,.pp.done em{color:var(--ink)}
+.pp.safe .pc{background:var(--green);color:#fff}.pp.unsafe .pc,.pp.fail .pc{background:var(--red);color:#fff}.pp.warn .pc{background:#e0a21a;color:#2b1c00}
+.pp.active .pc i{width:8px;height:8px;border-radius:50%;background:var(--blue);animation:pl 1.2s ease-in-out infinite}
+@keyframes pl{50%{transform:scale(.45);opacity:.5}}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;box-shadow:var(--shadow);border-left:5px solid var(--green)}
+.tile.s-warn{border-left-color:#e0a21a}.tile.s-bad,.tile.s-fault{border-left-color:var(--red)}
+.tile .tl{display:flex;align-items:center;gap:6px;color:var(--muted);font-weight:600;font-size:13px}
+.tile .tv{display:flex;align-items:baseline;gap:4px;margin:4px 0 8px}.tile .tv b{font-size:26px;font-weight:800;letter-spacing:-.02em}.tile .tv small{color:var(--muted);font-size:12px}
+.bar{position:relative;height:6px;border-radius:4px;background:var(--line)}
+.bar .band{position:absolute;top:0;bottom:0;background:var(--green);opacity:.35;border-radius:4px}
+.bar .dot{position:absolute;top:-3px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--ink);border:2px solid var(--card);transition:left .5s}
+.tile .ts{font-size:12px;margin-top:7px;font-weight:700}
+.tile.s-ok .ts{color:var(--green)}.tile.s-warn .ts{color:var(--amber)}.tile.s-bad .ts,.tile.s-fault .ts{color:var(--red)}
+.kv{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}.kv:last-child{border:0}
+.kv .k{flex:1;min-width:0}.kv .k small{display:block;color:var(--muted)}
+.li{display:flex;align-items:center;gap:12px;padding:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:8px;cursor:pointer;width:100%;text-align:left}
+.li .lc{flex:1;min-width:0}.li small{display:block;color:var(--muted)}
+.li .ib{width:38px;height:38px;border-radius:12px;background:var(--blue-l);color:var(--blue-d);display:grid;place-items:center;flex:none}
+.stg{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.stg:last-child{border:0}
+.stg .sn{width:26px;height:26px;border-radius:50%;background:var(--line);display:grid;place-items:center;font-weight:800;font-size:12px;flex:none;color:var(--muted)}
+.stg.active .sn{background:var(--blue);color:#fff}.stg.done .sn{background:var(--green);color:#fff}
+.stg .sb{flex:1;min-width:0}.stg .sb small{display:block;color:var(--muted);line-height:1.3}
+.pb{height:6px;border-radius:4px;background:var(--line);overflow:hidden;margin-top:6px}.pb i{display:block;height:100%;background:var(--blue);border-radius:4px;transition:width .4s linear}
+.pb.big{height:10px}.pb.g i{background:var(--green)}
+.alert{border-radius:14px;border:1px solid var(--line);background:var(--card);padding:12px;margin-bottom:10px;border-left:5px solid var(--amber)}
+.alert.critical{border-left-color:var(--red)}.alert.resolved{opacity:.7;border-left-color:var(--muted)}
+.seg{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px;padding-bottom:2px}
+.seg button{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:7px 13px;font-weight:700;font-size:13px;white-space:nowrap;cursor:pointer;color:var(--muted)}
+.seg button.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.tbl-wrap{overflow-x:auto;max-width:100%}
+table{border-collapse:collapse;width:100%;font-size:12.5px}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--muted);font-weight:700;background:var(--bg)}
+.banner{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;margin-bottom:12px;font-weight:600;font-size:13.5px}
+.banner.warn{background:var(--amber-l);color:var(--amber)}.banner.info{background:var(--blue-l);color:var(--blue-d)}.banner.bad{background:var(--red-l);color:var(--red)}
+label.f{display:block;margin-bottom:10px;font-weight:600;font-size:13px}label.f span{display:block;margin-bottom:4px;color:var(--muted)}
+input,select,textarea{width:100%;border:1px solid var(--line);background:var(--card);border-radius:11px;padding:10px 12px;min-height:44px}
+textarea{min-height:90px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sw{display:flex;align-items:center;gap:10px}.sw input{width:22px;height:22px;min-height:0}
+pre{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px;overflow:auto;font-size:11.5px;max-height:260px;margin:8px 0}
+details{border:1px solid var(--line);border-radius:12px;padding:8px 12px;margin-bottom:8px;background:var(--card)}summary{cursor:pointer;font-weight:700}
+.sheetbg{position:fixed;inset:0;background:rgba(5,20,35,.55);display:flex;align-items:flex-end;justify-content:center;z-index:50}
+.sheet{background:var(--card);color:var(--ink);width:100%;max-width:440px;max-height:88%;overflow-y:auto;border-radius:20px 20px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom,0px))}
+.sheet h3{font-size:17px;margin-bottom:12px}
+#toasts{position:fixed;left:0;right:0;top:calc(10px + env(safe-area-inset-top,0px));display:flex;flex-direction:column;align-items:center;gap:8px;z-index:80;pointer-events:none;padding:0 12px}
+.toast{background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:12px;font-weight:600;font-size:13.5px;max-width:420px;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.toast.ok{background:var(--green);color:#fff}.toast.bad{background:var(--red);color:#fff}.toast.warn{background:#e0a21a;color:#2b1c00}
+.login{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.login .hd{padding:42px 24px 30px;color:#fff;background:linear-gradient(150deg,#0a5fe0 0%,#0a86c8 62%,#12a150 130%)}
+.login .hd h1{margin:14px 0 4px;font-size:30px;letter-spacing:.03em}.login .hd p{margin:0;opacity:.92;font-size:14px}
+.login .bd{padding:20px 18px 28px}
+.spin{width:18px;height:18px;border-radius:50%;border:3px solid var(--blue-l);border-top-color:var(--blue);animation:sp .8s linear infinite;display:inline-block}
+@keyframes sp{to{transform:rotate(360deg)}}
+.lockrow{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:13px;margin-top:8px}
+.spark{display:block;width:100%;height:34px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.tile.s-nodata{border-left-color:var(--line)}.tile.s-nodata .ts{color:var(--muted)}
+.tchip .sr{display:none}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="modal"></div>
+<div id="toasts" aria-live="polite"></div>
+<script>
+(function(){
+'use strict';
+/* =====================================================================
+   NEXZORA – core logic (database, auth, RBAC, analysis, purification,
+   alerts, devices, offline sync). UI lives in ui.js.
+   ===================================================================== */
+const G = typeof window !== 'undefined' ? window : globalThis;
+const now = () => Date.now();
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const fmt = (v, d = 1) => (v == null || typeof v !== 'number' || isNaN(v)) ? '—' : v.toFixed(d);
+const pad = n => String(n).padStart(2, '0');
+const nz = a => (Math.random() - 0.5) * 2 * a;
+const clone = o => JSON.parse(JSON.stringify(o));
+function fdate(ts) { const d = new Date(ts); return d.toLocaleDateString([], { day: '2-digit', month: 'short' }) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+function ago(ts) { if (!ts) return 'never'; const s = Math.round((now() - ts) / 1000); if (s < 5) return 'just now'; if (s < 60) return s + 's ago'; if (s < 3600) return Math.round(s / 60) + 'm ago'; if (s < 86400) return Math.round(s / 3600) + 'h ago'; return Math.round(s / 86400) + 'd ago'; }
+function hash(str) { // cyrb53 – DEMO-GRADE ONLY. Production: bcrypt/argon2 on the server.
+  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+  for (let i = 0; i < str.length; i++) { const ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(16);
+}
+class AppError extends Error { }
+
+/* ---------- safe storage (localStorage with in-memory fallback) ---------- */
+const mem = {};
+const LS = {
+  get(k) { try { const v = localStorage.getItem(k); return v == null ? (mem[k] ?? null) : v; } catch (e) { return mem[k] ?? null; } },
+  set(k, v) { mem[k] = v; try { localStorage.setItem(k, v); } catch (e) { } },
+  del(k) { delete mem[k]; try { localStorage.removeItem(k); } catch (e) { } }
+};
+const KEY_DB = 'nexzora_edge_db_v1', KEY_CLOUD = 'nexzora_cloud_v1', KEY_SESS = 'nexzora_session_v1', KEY_THEME = 'nexzora_theme', KEY_MODE = 'nexzora_mode';
+const dbKey = m => m === 'demo' ? KEY_DB : 'nexzora_edge_db_real_v1', cloudKey = m => m === 'demo' ? KEY_CLOUD : 'nexzora_cloud_real_v1';
+
+/* ---------- database schema (also drives the SQL DDL shown in the app) ---------- */
+const SCHEMA = {
+  roles: 'id:pk,key:text,name:text,permissions:json',
+  users: 'id:pk,name:text,email:text,pass_hash:text,salt:text,role_id:fk>roles,active:bool,last_login:ts,created_at:ts',
+  locations: 'id:pk,name:text,source_type:text,lat:real,lng:real,address:text',
+  devices: 'id:pk,code:text,name:text,location_id:fk>locations,mode:text,status:text,firmware:text,last_seen:ts,created_at:ts',
+  device_components: 'id:pk,device_id:fk>devices,type:text,status:text,value:text,note:text,updated_at:ts',
+  sensor_readings: 'id:pk,device_id:fk>devices,location_id:fk>locations,ts:ts,point:text,ph:real,tds:real,turbidity:real,temperature:real,battery_pct:real,online:bool,synced:bool',
+  water_analysis: 'id:pk,device_id:fk>devices,location_id:fk>locations,user_id:fk>users,ts:ts,readings:json,conditions:json,summary:text,source_type:text,synced:bool',
+  treatment_selections: 'id:pk,analysis_id:fk>water_analysis,seq:int,treatment_key:text,name:text,selected:bool,basis:text,reason:text,synced:bool',
+  purification_sessions: 'id:pk,analysis_id:fk>water_analysis,device_id:fk>devices,started_by:fk>users,state:text,progress:real,stage_idx:int,started_at:ts,ended_at:ts,end_reason:text,synced:bool',
+  final_water_results: 'id:pk,session_id:fk>purification_sessions,ts:ts,readings:json,checks:json,verdict:text,supply:text,override_by:fk>users,override_reason:text,synced:bool',
+  alerts: 'id:pk,type:text,severity:text,device_id:fk>devices,message:text,value:text,status:text,created_at:ts,ack_by:fk>users,ack_at:ts,resolved_by:fk>users,resolved_at:ts,note:text,synced:bool',
+  maintenance_records: 'id:pk,device_id:fk>devices,component:text,kind:text,title:text,description:text,status:text,assigned_to:fk>users,created_by:fk>users,created_at:ts,completed_at:ts,alert_id:fk>alerts,synced:bool',
+  audit_logs: 'id:pk,ts:ts,user_id:fk>users,action:text,detail:text,result:text,synced:bool'
+};
+const PFX = { roles: 'role', users: 'usr', locations: 'loc', devices: 'dev', device_components: 'cmp', sensor_readings: 'rd', water_analysis: 'wa', treatment_selections: 'tsel', purification_sessions: 'ps', final_water_results: 'fw', alerts: 'al', maintenance_records: 'mt', audit_logs: 'au' };
+const SYNC_TABLES = ['sensor_readings', 'water_analysis', 'treatment_selections', 'purification_sessions', 'final_water_results', 'alerts', 'maintenance_records', 'audit_logs'];
+function ddl() {
+  const mp = { text: 'TEXT', int: 'INTEGER', real: 'REAL', bool: 'BOOLEAN', ts: 'TIMESTAMPTZ', json: 'JSONB' };
+  return Object.entries(SCHEMA).map(([t, cols]) => `CREATE TABLE ${t} (\n` + cols.split(',').map(c => {
+    const [n, ty] = c.split(':');
+    if (ty === 'pk') return `  ${n} TEXT PRIMARY KEY`;
+    if (ty.startsWith('fk>')) return `  ${n} TEXT REFERENCES ${ty.slice(3)}(id)`;
+    return `  ${n} ${mp[ty]}`;
+  }).join(',\n') + '\n);').join('\n\n');
+}
+
+/* ---------- roles & permissions ---------- */
+const PERMS = {
+  'dashboard.view': 'View dashboard', 'quality.view': 'View sensor readings & water quality',
+  'analysis.run': 'Run water analysis & enter lab values', 'purify.view': 'View purification status',
+  'purify.control': 'Start / pause / stop purification', 'supply.override': 'Override a supply block (audited)',
+  'alerts.view': 'View alerts', 'alerts.ack.water': 'Acknowledge water-quality alerts', 'alerts.resolve.water': 'Resolve water-quality alerts',
+  'alerts.ack.maint': 'Acknowledge maintenance alerts', 'alerts.resolve.maint': 'Resolve maintenance alerts',
+  'devices.view': 'View devices, sensors, pump & valve', 'devices.control': 'Control pump / valve, run self-tests, repair',
+  'devices.manage': 'Add, edit, remove devices & switch mode', 'maintenance.view': 'View maintenance records', 'maintenance.manage': 'Create & update maintenance records',
+  'locations.manage': 'Manage locations', 'users.manage': 'Manage users & roles', 'treatment.configure': 'Configure treatment rules & limits',
+  'reports.water': 'Report: water quality history', 'reports.purification': 'Report: purification history', 'reports.safety': 'Report: safe / unsafe events',
+  'reports.alerts': 'Report: alerts', 'reports.devices': 'Report: device status', 'reports.maintenance': 'Report: maintenance', 'reports.export': 'Export reports',
+  'audit.view': 'View audit log', 'demo.use': 'Use Demo Lab (simulate sources & faults)', 'sync.manage': 'Sync data now', 'data.manage': 'Data source, API & database settings'
+};
+const ROLES = [
+  { id: 'role_sa', key: 'super_admin', name: 'Super Admin', permissions: ['*'] },
+  { id: 'role_op', key: 'operator', name: 'Water Quality Operator', permissions: ['dashboard.view', 'quality.view', 'analysis.run', 'purify.view', 'purify.control', 'alerts.view', 'alerts.ack.water', 'devices.view', 'reports.water', 'reports.purification', 'reports.safety', 'reports.alerts', 'reports.devices', 'reports.export', 'demo.use', 'sync.manage'] },
+  { id: 'role_ft', key: 'technician', name: 'Field Technician', permissions: ['dashboard.view', 'quality.view', 'purify.view', 'alerts.view', 'alerts.ack.maint', 'alerts.resolve.maint', 'devices.view', 'devices.control', 'maintenance.view', 'maintenance.manage', 'reports.alerts', 'reports.devices', 'reports.maintenance', 'demo.use', 'sync.manage'] },
+  { id: 'role_vw', key: 'viewer', name: 'Viewer / Authority', permissions: ['dashboard.view', 'quality.view', 'purify.view', 'alerts.view', 'reports.water', 'reports.purification', 'reports.safety', 'reports.alerts'] }
+];
+
+/* ---------- treatment catalogue, standards & default configuration ---------- */
+const TREAT = {
+  coagulation: { name: 'Coagulation + Sedimentation', order: 1, dur: 9, icon: 'layers' },
+  sediment: { name: 'Sediment / Multimedia Filter', order: 2, dur: 7, icon: 'filter' },
+  ironmn: { name: 'Iron / Manganese Removal', order: 3, dur: 8, icon: 'flask' },
+  ph: { name: 'pH Correction', order: 4, dur: 6, icon: 'sliders' },
+  carbon: { name: 'Activated Carbon', order: 5, dur: 7, icon: 'filter' },
+  softener: { name: 'Water Softener', order: 6, dur: 7, icon: 'droplet' },
+  special: { name: 'Specialized Media (Mining Contaminants)', order: 7, dur: 9, icon: 'flask' },
+  ro: { name: 'Reverse Osmosis (RO)', order: 8, dur: 12, icon: 'layers' },
+  uv: { name: 'UV / Disinfection', order: 9, dur: 6, icon: 'zap' }
+};
+const DEFAULT_CFG = {
+  thresholds: { turb_coag: 25, turb_sediment: 1, turb_ro_protect: 0.5, turb_uv_risk: 5, ph_min: 6.5, ph_max: 8.5, tds_ro: 500, hardness: 200, iron: 0.3, manganese: 0.1, organics: 2, arsenic: 0.01, lead: 0.01, fluoride: 1.0 },
+  final: { ph_min: 6.5, ph_max: 8.5, tds: 500, turbidity: 1, hardness: 200, iron: 0.3, manganese: 0.1, arsenic: 0.01, lead: 0.01, fluoride: 1.0, organics: 2 },
+  alerts: { tds: 500, turbidity: 5, ph_min: 6.5, ph_max: 8.5, battery_low: 20, battery_crit: 10 },
+  treatments: Object.fromEntries(Object.entries(TREAT).map(([k, v]) => [k, { enabled: true, duration: v.dur }]))
+};
+const THRESH_LABELS = {
+  turb_coag: ['Coagulation above turbidity', 'NTU'], turb_sediment: ['Sediment filter above turbidity', 'NTU'], turb_ro_protect: ['RO pre-filter above turbidity', 'NTU'], turb_uv_risk: ['UV barrier above turbidity', 'NTU'],
+  ph_min: ['pH minimum', ''], ph_max: ['pH maximum', ''], tds_ro: ['RO above TDS', 'mg/L'], hardness: ['Softener above hardness', 'mg/L'], iron: ['Iron removal above', 'mg/L'], manganese: ['Manganese removal above', 'mg/L'],
+  organics: ['Carbon above organics', 'mg/L'], arsenic: ['Special media above arsenic', 'mg/L'], lead: ['Special media above lead', 'mg/L'], fluoride: ['Special media above fluoride', 'mg/L']
+};
+const FINAL_LABELS = { ph_min: ['Final pH minimum', ''], ph_max: ['Final pH maximum', ''], tds: ['Final TDS max', 'mg/L'], turbidity: ['Final turbidity max', 'NTU'], hardness: ['Final hardness max', 'mg/L'], iron: ['Final iron max', 'mg/L'], manganese: ['Final manganese max', 'mg/L'], arsenic: ['Final arsenic max', 'mg/L'], lead: ['Final lead max', 'mg/L'], fluoride: ['Final fluoride max', 'mg/L'], organics: ['Final organics max', 'mg/L'] };
+const SURFACE = ['River', 'Lake / Pond', 'Open well', 'Rainwater', 'Field', 'Unknown'];
+
+/* ---------- demo water sources (replaced by real ESP32 data in 'api' mode) ---------- */
+const SCENARIOS = {
+  clean: { name: 'Clean borewell', source: 'Borewell', base: { ph: 7.2, tds: 230, turbidity: 0.4, temperature: 26.5 }, extra: { hardness: 110, iron: 0.05, manganese: 0.02 } },
+  river: { name: 'Turbid river water', source: 'River', base: { ph: 7.6, tds: 290, turbidity: 38, temperature: 28.5 }, extra: {} },
+  hard: { name: 'Hard groundwater', source: 'Borewell', base: { ph: 7.7, tds: 440, turbidity: 0.5, temperature: 27.5 }, extra: { hardness: 330, iron: 0.1 } },
+  brackish: { name: 'Brackish groundwater', source: 'Borewell', base: { ph: 7.8, tds: 1650, turbidity: 3, temperature: 29 }, extra: { hardness: 520 } },
+  iron: { name: 'Iron-rich groundwater', source: 'Borewell', base: { ph: 6.2, tds: 380, turbidity: 12, temperature: 25.5 }, extra: { iron: 1.8, manganese: 0.4, hardness: 140 } },
+  mine: { name: 'Acid mine drainage', source: 'Mine site', base: { ph: 3.4, tds: 2600, turbidity: 22, temperature: 24 }, extra: { iron: 14, manganese: 3.1, arsenic: 0.04, lead: 0.08, hardness: 900, fluoride: 0.6 } },
+  bacterial: { name: 'Contaminated open well', source: 'Open well', base: { ph: 7.0, tds: 350, turbidity: 3.5, temperature: 30 }, extra: { organics: 6, microbial: true, hardness: 150 } }
+};
+const SENSOR_COMP = { ph: 'ph_sensor', tds: 'tds_sensor', turbidity: 'turbidity_sensor', temperature: 'temp_sensor' };
+const COMP_TYPES = [['ph_sensor', 'pH Sensor'], ['tds_sensor', 'TDS Sensor'], ['turbidity_sensor', 'Turbidity Sensor'], ['temp_sensor', 'Temperature Sensor'], ['pump', 'Pump'], ['solenoid_valve', 'Solenoid Supply Valve'], ['battery', 'Battery'], ['solar_panel', 'Solar Panel'], ['internet', 'Internet Connection']];
+const COMP_LABEL = Object.fromEntries(COMP_TYPES);
+const ALERT_TYPES = {
+  HIGH_TDS: { label: 'High TDS', kind: 'water' }, HIGH_TURBIDITY: { label: 'High turbidity', kind: 'water' }, ABNORMAL_PH: { label: 'Abnormal pH', kind: 'water' },
+  SENSOR_FAILURE: { label: 'Sensor failure', kind: 'maint' }, PURIFICATION_FAILURE: { label: 'Purification failure', kind: 'both' }, UNSAFE_FINAL_WATER: { label: 'Unsafe final water', kind: 'water' },
+  LOW_BATTERY: { label: 'Low battery', kind: 'maint' }, DEVICE_OFFLINE: { label: 'Device offline', kind: 'maint' }
+};
+
+/* ---------- database runtime ---------- */
+let db, cloud, dirty = false, ver = 0, session = null, syncing = false;
+const runtime = { analysis: null, fails: {}, lastRead: {}, lastTick: now() };
+const live = { latest: {}, hist: [], extra: {} };
+const isDemo = () => db.meta.dataSource === 'demo';
+const batVal = id => { const c = comp(id, 'battery'); return c && c.value != null ? +c.value : null; };
+const STORE_EVERY = 10000, READING_CAP = 2500;
+let toastFn = () => { };
+const setToast = f => { toastFn = f; };
+const toast = (m, t) => toastFn(m, t);
+
+function touch(quiet) { dirty = true; if (!quiet) ver++; }
+const getVer = () => ver;
+function uid(t) { const p = PFX[t]; db.meta.counters[p] = (db.meta.counters[p] || 0) + 1; return p + '_' + db.meta.counters[p]; }
+function insert(t, row, quiet) { row.id = row.id || uid(t); if (SYNC_TABLES.includes(t)) { if (row.synced === undefined) row.synced = false; row.rev = 0; } db[t].push(row); touch(quiet); return row; }
+function patch(t, row, ch, quiet) { Object.assign(row, ch); if (SYNC_TABLES.includes(t)) { row.synced = false; row.rev = (row.rev || 0) + 1; } touch(quiet); return row; }
+const byId = (t, id) => db[t].find(r => r.id === id);
+const comp = (devId, type) => db.device_components.find(c => c.device_id === devId && c.type === type);
+const activeDev = () => byId('devices', db.meta.activeDevice) || db.devices[0];
+const cfg = () => db.config;
+
+function newDB() {
+  const d = { meta: { ver: 1, counters: {}, scenario: 'river', activeDevice: 'dev_1', forceOffline: false, faults: {}, lab: {}, speed: 1, dataSource: 'demo', apiBase: '', autoSync: true, currentAnalysisId: null, currentSessionId: null, lastSync: null, syncLog: [], lastStore: {} }, config: clone(DEFAULT_CFG) };
+  Object.keys(SCHEMA).forEach(t => d[t] = []);
+  return d;
+}
+
+/* ---------- audit ---------- */
+function audit(action, detail = '', o = {}) {
+  const u = o.user !== undefined ? o.user : cur();
+  return insert('audit_logs', { ts: now(), user_id: u ? u.id : null, action, detail, result: o.result || 'ok' }, true);
+}
+
+/* ---------- auth & RBAC ---------- */
+function cur() { if (!session) return null; const u = byId('users', session.uid); return u && u.active ? u : null; }
+function roleOf(u) { return u ? byId('roles', u.role_id) : null; }
+function hasPerm(u, p) { const r = roleOf(u); return !!(r && (r.permissions.includes('*') || r.permissions.includes(p))); }
+const can = p => hasPerm(cur(), p);
+const canAny = ps => ps.some(can);
+function need(p) {
+  const u = cur();
+  if (!u) throw new AppError('Please sign in first.');
+  if (!hasPerm(u, p)) { audit('ACCESS_DENIED', p, { result: 'denied' }); throw new AppError('Access denied – ' + roleOf(u).name + ' role cannot do this.'); }
+  return u;
+}
+function login(email, pw) {
+  email = (email || '').trim().toLowerCase();
+  const f = runtime.fails[email] || { n: 0, until: 0 };
+  if (f.until > now()) throw new AppError('Too many attempts. Try again in ' + Math.ceil((f.until - now()) / 1000) + 's.');
+  const u = db.users.find(x => x.email.toLowerCase() === email);
+  if (!u || u.pass_hash !== hash(u.salt + ':' + (pw || ''))) {
+    f.n++; if (f.n >= 5) { f.until = now() + 60000; f.n = 0; } runtime.fails[email] = f;
+    audit('LOGIN_FAILED', email, { user: null, result: 'failed' }); throw new AppError('Incorrect email or password.');
+  }
+  if (!u.active) { audit('LOGIN_BLOCKED', email, { user: null, result: 'denied' }); throw new AppError('This account is deactivated. Contact a Super Admin.'); }
+  runtime.fails[email] = { n: 0, until: 0 };
+  patch('users', u, { last_login: now() });
+  session = { uid: u.id, ts: now() }; LS.set(KEY_SESS, JSON.stringify(session));
+  audit('LOGIN', roleOf(u).name, { user: u });
+  return u;
+}
+function logout() { audit('LOGOUT'); session = null; LS.del(KEY_SESS); persist(true); }
+function restoreSession() {
+  try { const s = JSON.parse(LS.get(KEY_SESS) || 'null'); if (s && now() - s.ts < 8 * 3600e3 && byId('users', s.uid)) { session = s; } } catch (e) { }
+}
+function mkUser(name, email, pw, roleId) {
+  const salt = Math.random().toString(36).slice(2, 10);
+  return insert('users', { name, email: email.trim().toLowerCase(), salt, pass_hash: hash(salt + ':' + pw), role_id: roleId, active: true, last_login: null, created_at: now() });
+}
+
+/* ---------- user / location / device administration ---------- */
+const superAdmins = () => db.users.filter(u => u.active && roleOf(u).key === 'super_admin');
+function addUser({ name, email, password, role_id }) {
+  need('users.manage');
+  name = (name || '').trim(); email = (email || '').trim().toLowerCase();
+  if (!name || !/^\S+@\S+\.\S+$/.test(email)) throw new AppError('Enter a name and a valid email.');
+  if ((password || '').length < 6) throw new AppError('Password must be at least 6 characters.');
+  if (db.users.some(u => u.email === email)) throw new AppError('That email is already registered.');
+  if (!byId('roles', role_id)) throw new AppError('Choose a role.');
+  const u = mkUser(name, email, password, role_id); audit('USER_CREATE', email + ' as ' + byId('roles', role_id).name); return u;
+}
+function updateUser(id, { name, role_id, active, password }) {
+  const me = need('users.manage'); const u = byId('users', id); if (!u) throw new AppError('User not found.');
+  const ch = {};
+  if (name != null && name.trim()) ch.name = name.trim();
+  if (role_id && role_id !== u.role_id) {
+    if (u.id === me.id) throw new AppError('You cannot change your own role.');
+    ch.role_id = role_id;
+  }
+  if (active != null && active !== u.active) {
+    if (u.id === me.id) throw new AppError('You cannot deactivate your own account.');
+    ch.active = active;
+  }
+  const after = { ...u, ...ch };
+  if (roleOf(u).key === 'super_admin' && (!after.active || roleOf(after).key !== 'super_admin') && superAdmins().length <= 1) throw new AppError('At least one active Super Admin is required.');
+  if (password) { if (password.length < 6) throw new AppError('Password must be at least 6 characters.'); ch.salt = Math.random().toString(36).slice(2, 10); ch.pass_hash = hash(ch.salt + ':' + password); }
+  patch('users', u, ch); audit('USER_UPDATE', u.email + ' ' + Object.keys(ch).filter(k => k !== 'pass_hash' && k !== 'salt').join(',') + (password ? ' password-reset' : ''));
+}
+function deleteUser(id) {
+  const me = need('users.manage'); const u = byId('users', id); if (!u) return;
+  if (u.id === me.id) throw new AppError('You cannot delete your own account.');
+  if (roleOf(u).key === 'super_admin' && superAdmins().length <= 1) throw new AppError('At least one Super Admin is required.');
+  db.users = db.users.filter(x => x.id !== id); touch(); audit('USER_DELETE', u.email);
+}
+function saveLocation(id, { name, source_type, lat, lng, address }) {
+  need('locations.manage'); name = (name || '').trim(); if (!name) throw new AppError('Location needs a name.');
+  const v = { name, source_type: source_type || 'Borewell', lat: parseFloat(lat) || 0, lng: parseFloat(lng) || 0, address: address || '' };
+  if (id) { patch('locations', byId('locations', id), v); audit('LOCATION_UPDATE', name); } else { insert('locations', v); audit('LOCATION_CREATE', name); }
+}
+function deleteLocation(id) {
+  need('locations.manage'); if (db.devices.some(d => d.location_id === id)) throw new AppError('Devices are assigned to this location. Move them first.');
+  const l = byId('locations', id); db.locations = db.locations.filter(x => x.id !== id); touch(); audit('LOCATION_DELETE', l ? l.name : id);
+}
+function makeComps(devId, battery = 92) {
+  COMP_TYPES.forEach(([type]) => insert('device_components', { device_id: devId, type, status: 'ok', note: '', updated_at: now(), value: type === 'pump' ? 'off' : type === 'solenoid_valve' ? 'closed' : type === 'battery' ? battery : type === 'solar_panel' ? 0 : type === 'internet' ? 'WiFi' : null }, true));
+}
+function addDevice({ name, code, location_id, mode, conn_type, conn_url }) {
+  need('devices.manage'); name = (name || '').trim(); if (!name) throw new AppError('Device needs a name.');
+  mode = mode === 'portable' ? 'portable' : 'fixed';
+  const d = insert('devices', { code: (code || 'NZX-' + (db.devices.length + 1).toString().padStart(2, '0')).trim(), name, location_id: location_id || db.locations[0].id, mode, status: isDemo() ? 'online' : 'offline', firmware: isDemo() ? '1.4.2' : '—', last_seen: isDemo() ? now() : null, created_at: now(), conn: { type: conn_type || 'http', url: conn_url || '' } });
+  makeComps(d.id, isDemo() ? 100 : null); if (!isDemo()) comp(d.id, 'solar_panel').value = null; audit('DEVICE_CREATE', d.code); return d;
+}
+function updateDevice(id, { name, location_id }) {
+  need('devices.manage'); const d = byId('devices', id); if (!d) throw new AppError('Device not found.');
+  patch('devices', d, { name: (name || d.name).trim(), location_id: location_id || d.location_id }); audit('DEVICE_UPDATE', d.code);
+}
+function deleteDevice(id) {
+  need('devices.manage'); if (db.devices.length <= 1) throw new AppError('At least one device must remain.');
+  if (activeSession() && activeSession().device_id === id) throw new AppError('Stop purification on this device first.');
+  const d = byId('devices', id); disconnectLink(id); db.devices = db.devices.filter(x => x.id !== id); db.device_components = db.device_components.filter(c => c.device_id !== id);
+  if (db.meta.activeDevice === id) db.meta.activeDevice = db.devices[0].id; touch(); audit('DEVICE_DELETE', d.code);
+}
+function setMode(id, mode) {
+  need('devices.manage'); const d = byId('devices', id); if (!d) return;
+  if (activeSession() && activeSession().device_id === id) throw new AppError('Stop purification before switching mode.');
+  const ch = { mode };
+  if (mode === 'portable') { let f = db.locations.find(l => l.source_type === 'Field'); if (!f) f = insert('locations', { name: 'Field deployment (GPS)', source_type: 'Field', lat: 0, lng: 0, address: 'Position from GPS' }); ch.location_id = f.id; }
+  patch('devices', d, ch); audit('DEVICE_MODE', d.code + ' → ' + mode); toast(d.code + ' is now in ' + mode + ' mode', 'ok');
+}
+function setActiveDevice(id) { need('devices.view'); if (activeSession()) throw new AppError('Finish or stop purification before switching device.'); if (runtime.analysis) throw new AppError('Analysis in progress.'); db.meta.activeDevice = id; live.hist = []; touch(); audit('DEVICE_SELECT', byId('devices', id).code); }
+function repairComp(devId, type, note) {
+  need('devices.control'); const c = comp(devId, type); if (!c) return;
+  patch('device_components', c, { status: 'ok', note: note || 'Repaired / reset', fault_src: null, updated_at: now() }); audit('COMPONENT_REPAIR', byId('devices', devId).code + ' ' + COMP_LABEL[type]); toast(COMP_LABEL[type] + ' marked healthy', 'ok');
+}
+function selfTest(devId) {
+  need('devices.control'); const d = byId('devices', devId); if (d.status !== 'online') throw new AppError('Device is offline – cannot run self-test.');
+  const res = db.device_components.filter(c => c.device_id === devId).map(c => ({ c, ok: c.status !== 'fault' && !(c.type === 'internet' && !netOnline()) }));
+  res.forEach(r => { if (r.ok) patch('device_components', r.c, { note: 'Self-test passed ' + new Date().toLocaleTimeString(), updated_at: now() }, true); });
+  const bad = res.filter(r => !r.ok).map(r => COMP_LABEL[r.c.type]);
+  audit('SELF_TEST', d.code + (bad.length ? ' failed: ' + bad.join(', ') : ' passed'), { result: bad.length ? 'failed' : 'ok' });
+  return bad;
+}
+function controlComp(devId, type, value) {
+  need('devices.control'); const d = byId('devices', devId); const c = comp(devId, type);
+  if (d.status !== 'online') throw new AppError('Device is offline.');
+  if (c.status === 'fault') throw new AppError(COMP_LABEL[type] + ' is faulty – repair it first.');
+  if (type === 'pump') { const s = activeSession(); if (s && s.device_id === devId) throw new AppError('Pump is controlled by the running purification.'); }
+  if (type === 'solenoid_valve' && value === 'open') { const ss = supplyStatus(); if (ss.code !== 'SAFE' && ss.code !== 'OVERRIDE') throw new AppError('Supply locked – water is not verified safe.'); }
+  if (!isDemo() && !sendCmd(d, { cmd: 'set', [type === 'pump' ? 'pump' : 'valve']: value })) throw new AppError('Machine link not connected – command not sent.');
+  patch('device_components', c, { value, updated_at: now() }); audit('COMPONENT_SET', d.code + ' ' + COMP_LABEL[type] + ' = ' + value);
+}
+const setComp = (devId, type, value) => { const c = comp(devId, type); if (c && c.value !== value) patch('device_components', c, { value, updated_at: now() }, true); };
+
+/* ---------- connectivity ---------- */
+function netOnline() { return !db.meta.forceOffline && (typeof navigator === 'undefined' || navigator.onLine !== false); }
+let lastNet = true;
+function netTick() {
+  const n = netOnline();
+  if (n !== lastNet) {
+    lastNet = n; audit(n ? 'NET_ONLINE' : 'NET_OFFLINE', '', { user: null }); touch();
+    if (n) { toast('Back online – syncing saved readings…', 'ok'); if (db.meta.autoSync) syncNow(); } else toast('Internet lost – Offline Mode. Readings are saved on this device.', 'warn');
+  }
+}
+const pendingCounts = () => { const o = {}; let t = 0; SYNC_TABLES.forEach(k => { const n = db[k].filter(r => !r.synced).length; o[k] = n; t += n; }); o.total = t; return o; };
+const CloudAPI = {
+  async push(batch) {
+    if (!isDemo()) {
+      if (!db.meta.apiBase) throw new Error('no server URL set');
+      const res = await fetch(db.meta.apiBase.replace(/\/$/, '') + '/sync', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(batch) });
+      if (!res.ok) throw new Error('HTTP ' + res.status); return;
+    }
+    await new Promise(r => setTimeout(r, 600));
+    cloud.counts = cloud.counts || {};
+    Object.entries(batch).forEach(([t, rows]) => { cloud.counts[t] = (cloud.counts[t] || 0) + rows.length; });
+    cloud.received = now(); dirty = true;
+  }
+};
+async function syncNow(manual, quiet) {
+  if (manual) need('sync.manage');
+  if (!isDemo() && !db.meta.apiBase) { if (manual) throw new AppError('Real-data mode keeps records on this device until a server URL is set (More → Data source).'); return; }
+  if (!netOnline()) { if (manual) throw new AppError('No internet – data stays queued on this device.'); return; }
+  if (syncing) return;
+  const batch = {}, marks = []; let n = 0;
+  SYNC_TABLES.forEach(t => { const rows = db[t].filter(r => !r.synced); if (rows.length) { batch[t] = rows.map(r => ({ ...r })); rows.forEach(r => marks.push([r, r.rev])); n += rows.length; } });
+  if (!n) { if (manual) toast('Everything is already synced.', 'ok'); return; }
+  syncing = true; touch();
+  try {
+    await CloudAPI.push(batch);
+    marks.forEach(([r, rv]) => { if (r.rev === rv) r.synced = true; });
+    db.meta.lastSync = now(); db.meta.syncLog.unshift({ ts: now(), n }); db.meta.syncLog.length = Math.min(db.meta.syncLog.length, 8);
+    if (!quiet) { audit('SYNC', n + ' records', { user: manual ? cur() : null }); toast('Synced ' + n + ' records to server', 'ok'); }
+  } catch (e) { if (!quiet) toast('Sync failed – ' + e.message + '. Will retry.', 'warn'); }
+  syncing = false; touch();
+}
+
+/* ---------- sensors: simulator + ingestion (single entry point for real ESP32 data) ---------- */
+function rawNow(dev) {
+  const sc = SCENARIOS[db.meta.scenario], b = sc.base, t = now() / 1000, off = dev && dev.id !== db.meta.activeDevice ? 1.03 : 1;
+  return { ph: b.ph + Math.sin(t / 37) * 0.05 + nz(0.04), tds: b.tds * off * (1 + Math.sin(t / 53) * 0.01 + nz(0.008)), turbidity: Math.max(0.05, b.turbidity * off * (1 + Math.sin(t / 29) * 0.04 + nz(0.03))), temperature: b.temperature + Math.sin(t / 120) * 0.4 + nz(0.1) };
+}
+function extrasNow() { return isDemo() ? { ...SCENARIOS[db.meta.scenario].extra, ...db.meta.lab } : { ...(live.extra[db.meta.activeDevice] || {}), ...db.meta.lab }; }
+function sourceTypeNow() {
+  if (isDemo()) return SCENARIOS[db.meta.scenario].source;
+  const l = byId('locations', activeDev().location_id); return l ? l.source_type : 'Unknown';
+}
+const RANGE = { ph: [0, 14], tds: [0, 6000], turbidity: [0, 1000], temperature: [-5, 85] };
+function ingestReading(deviceId, p, opt = {}) {
+  const dev = byId('devices', deviceId); if (!dev) throw new AppError('Unknown device ' + deviceId);
+  const ts = p.ts || now();
+  const row = { device_id: dev.id, location_id: dev.location_id, ts, point: opt.point || 'inlet', online: netOnline() };
+  Object.keys(RANGE).forEach(k => {
+    const v = p[k], c = comp(dev.id, SENSOR_COMP[k]);
+    if (typeof v === 'number' && isFinite(v) && v >= RANGE[k][0] && v <= RANGE[k][1]) {
+      row[k] = +v.toFixed(3);
+      if (c.status === 'fault' && c.fault_src === 'reading') { patch('device_components', c, { status: 'ok', fault_src: null, note: 'Reading restored' }, true); touch(); }
+    } else {
+      row[k] = null;
+      if (c.status !== 'fault') { patch('device_components', c, { status: 'fault', fault_src: 'reading', note: 'No valid reading received', updated_at: now() }); }
+    }
+  });
+  if (opt.source !== 'sim') {
+    if (typeof p.battery === 'number') setComp(dev.id, 'battery', clamp(p.battery, 0, 100));
+    if (typeof p.solar_w === 'number') setComp(dev.id, 'solar_panel', p.solar_w);
+    if (p.pump) setComp(dev.id, 'pump', p.pump === 'on' ? 'on' : 'off');
+    if (p.valve) setComp(dev.id, 'solenoid_valve', p.valve === 'open' ? 'open' : 'closed');
+    [['pump_fault', 'pump'], ['valve_fault', 'solenoid_valve']].forEach(([f, t]) => { if (typeof p[f] === 'boolean') { const c = comp(dev.id, t); if (p[f] && c.status !== 'fault') patch('device_components', c, { status: 'fault', fault_src: 'reading', note: 'Fault reported by machine', updated_at: now() }); if (!p[f] && c.status === 'fault' && c.fault_src === 'reading') patch('device_components', c, { status: 'ok', fault_src: null, note: '' }); } });
+    if (p.fw) dev.firmware = String(p.fw);
+    if (p.extra && typeof p.extra === 'object') live.extra[dev.id] = p.extra;
+    if (dev.status !== 'online') { patch('devices', dev, { status: 'online' }); }
+  }
+  dev.last_seen = ts;
+  const bv = batVal(dev.id); row.battery_pct = bv == null ? null : +bv.toFixed(1);
+  live.latest[dev.id] = row;
+  if (dev.id === db.meta.activeDevice && row.ph != null) { live.hist.push({ ts, ph: row.ph, tds: row.tds, turbidity: row.turbidity, temperature: row.temperature, point: row.point }); if (live.hist.length > 60) live.hist.shift(); }
+  const last = db.meta.lastStore[dev.id] || 0;
+  if (opt.force || ts - last >= STORE_EVERY) { insert('sensor_readings', row, true); db.meta.lastStore[dev.id] = ts; }
+  if (row.point === 'inlet') evalReadingAlerts(dev, row);
+  return row;
+}
+function simulateReading(dev) {
+  if (dev.status !== 'online') return;
+  const s = activeSession(); let p, point = 'inlet';
+  if (s && s.device_id === dev.id) { point = s.state === 'final_check' ? 'outlet' : 'process'; p = noisy(s.water_cur || s.water); }
+  else p = rawNow(dev);
+  Object.keys(RANGE).forEach(k => { if (comp(dev.id, SENSOR_COMP[k]).status === 'fault') p[k] = null; });
+  ingestReading(dev.id, p, { point, source: 'sim' });
+}
+function noisy(w) { return { ph: w.ph + nz(0.02), tds: w.tds * (1 + nz(0.008)), turbidity: Math.max(0.03, w.turbidity * (1 + nz(0.03))), temperature: w.temperature + nz(0.08) }; }
+/* ---------- real machine links (HTTP / WebSocket / USB serial / Bluetooth / server) ---------- */
+const links = {}, NUS = { svc: '6e400001-b5a3-f393-e0a9-e50e24dcca9e', rx: '6e400002-b5a3-f393-e0a9-e50e24dcca9e', tx: '6e400003-b5a3-f393-e0a9-e50e24dcca9e' };
+const linkInfo = id => links[id] || { status: 'disconnected', msg: '' };
+function setLink(id, o) { const l = links[id] = Object.assign(links[id] || { status: 'disconnected', msg: '' }, o); touch(); return l; }
+function pointNow(dev) { const s = activeSession(); if (s && s.device_id === dev.id) return s.state === 'final_check' ? 'outlet' : 'process'; return 'inlet'; }
+function onLinkData(dev, text) {
+  let o; try { o = JSON.parse(text); } catch (e) { return; }
+  if (Array.isArray(o)) o = o[o.length - 1];
+  if (!o || typeof o !== 'object' || (o.type && o.type !== 'telemetry')) return;
+  try { ingestReading(dev.id, o, { source: 'link', point: pointNow(dev) }); } catch (e) { return; }
+  const l = linkInfo(dev.id); if (l.status !== 'connected' || l.msg !== 'Receiving live data') setLink(dev.id, { status: 'connected', msg: 'Receiving live data' });
+  links[dev.id].lastMsg = now();
+}
+function sendCmd(dev, obj) { if (isDemo()) return true; const l = links[dev.id]; if (!l || l.status !== 'connected' || !l.send) return false; try { return l.send(obj) !== false; } catch (e) { return false; } }
+function linkHint(e, url) {
+  const n = (e && e.name) || '';
+  if (n === 'NotFoundError') return 'No device was chosen.';
+  if (n === 'AbortError') return 'No reply from ' + (url || 'the machine') + ' (timeout).';
+  if (n === 'SecurityError' || n === 'NotAllowedError') return 'This page is not allowed to use that connection. Open NEXZORA from your own https site or directly in Chrome.';
+  return (e && e.message ? e.message : 'Connection failed') + (url ? ' – check the address, Wi-Fi and CORS headers on the ESP32. An https page cannot call plain http:// addresses.' : '');
+}
+async function pollOnce(dev) {
+  const l = links[dev.id]; if (!l || l.busy) return; l.busy = true; const cn = dev.conn || {};
+  try {
+    const url = cn.type === 'cloud' ? db.meta.apiBase.replace(/\/$/, '') + '/devices/' + dev.id + '/readings/latest' : (cn.url || '').replace(/\/$/, '') + '/readings';
+    const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 4000);
+    const res = await fetch(url, { signal: ctl.signal }); clearTimeout(to);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    onLinkData(dev, await res.text());
+  } catch (e) { const m = linkHint(e, cn.url || db.meta.apiBase); if (links[dev.id] && links[dev.id].msg !== m) setLink(dev.id, { status: 'error', msg: m }); }
+  finally { if (links[dev.id]) links[dev.id].busy = false; }
+}
+function openWs(dev, url) {
+  return new Promise((res, rej) => {
+    let ws; try { ws = new WebSocket(url); } catch (e) { return rej(e); }
+    const l = links[dev.id]; let opened = false;
+    l.send = o => { if (ws.readyState !== 1) return false; ws.send(JSON.stringify(o)); return true; };
+    l.close = () => { l.wanted = false; try { ws.close(); } catch (e) { } };
+    ws.onopen = () => { opened = true; setLink(dev.id, { status: 'connected', msg: 'Socket open – waiting for data' }); res(); };
+    ws.onmessage = ev => onLinkData(dev, String(ev.data));
+    ws.onerror = () => { if (!opened) rej(new Error('Could not open ' + url + ' (an https page needs wss://)')); };
+    ws.onclose = () => { const x = links[dev.id]; if (x && x.wanted) { setLink(dev.id, { status: 'connecting', msg: 'Reconnecting…' }); setTimeout(() => { const y = links[dev.id]; if (y && y.wanted) openWs(dev, url).catch(() => { }); }, 3000); } else setLink(dev.id, { status: 'disconnected', msg: '' }); };
+  });
+}
+async function openSerial(dev) {
+  if (typeof navigator === 'undefined' || !navigator.serial) throw new Error('USB serial is not available here (needs desktop Chrome or Edge, on your own https page).');
+  const port = await navigator.serial.requestPort(); await port.open({ baudRate: 115200 });
+  const l = links[dev.id], enc = new TextEncoder(), writer = port.writable.getWriter(); let reader;
+  l.send = o => { writer.write(enc.encode(JSON.stringify(o) + '\n')).catch(() => { }); return true; };
+  l.close = () => { l.wanted = false; try { reader && reader.cancel(); } catch (e) { } try { writer.releaseLock(); } catch (e) { } try { port.close(); } catch (e) { } };
+  const dec = new TextDecoderStream(); port.readable.pipeTo(dec.writable).catch(() => { }); reader = dec.readable.getReader();
+  setLink(dev.id, { status: 'connected', msg: 'USB open – waiting for data' });
+  (async () => { let buf = ''; try { for (; ;) { const { value, done } = await reader.read(); if (done) break; buf += value; let i; while ((i = buf.indexOf('\n')) >= 0) { const line = buf.slice(0, i).trim(); buf = buf.slice(i + 1); if (line) onLinkData(dev, line); } } } catch (e) { } setLink(dev.id, { status: 'disconnected', msg: 'USB closed' }); })();
+}
+async function openBle(dev) {
+  if (typeof navigator === 'undefined' || !navigator.bluetooth) throw new Error('Bluetooth is not available here (needs Chrome, on your own https page).');
+  const d = await navigator.bluetooth.requestDevice({ filters: [{ services: [NUS.svc] }] }), srv = await d.gatt.connect(), svc = await srv.getPrimaryService(NUS.svc);
+  const tx = await svc.getCharacteristic(NUS.tx), rx = await svc.getCharacteristic(NUS.rx), l = links[dev.id]; await tx.startNotifications();
+  let buf = ''; const dec = new TextDecoder();
+  tx.addEventListener('characteristicvaluechanged', e => { buf += dec.decode(e.target.value); let i; while ((i = buf.indexOf('\n')) >= 0) { const line = buf.slice(0, i).trim(); buf = buf.slice(i + 1); if (line) onLinkData(dev, line); } });
+  l.send = o => { rx.writeValue(new TextEncoder().encode(JSON.stringify(o) + '\n')).catch(() => { }); return true; };
+  l.close = () => { l.wanted = false; try { d.gatt.disconnect(); } catch (e) { } };
+  d.addEventListener('gattserverdisconnected', () => setLink(dev.id, { status: 'disconnected', msg: 'Bluetooth disconnected' }));
+  setLink(dev.id, { status: 'connected', msg: 'Bluetooth open – waiting for data' });
+}
+async function startLink(dev) {
+  const cn = dev.conn || (dev.conn = { type: 'http', url: '' }), t = cn.type;
+  disconnectLink(dev.id);
+  if ((t === 'http' || t === 'ws') && !cn.url) throw new AppError('Enter the machine address first.');
+  if (t === 'cloud' && !db.meta.apiBase) throw new AppError('Set the server URL in More → Data source first.');
+  links[dev.id] = { status: 'connecting', msg: 'Connecting…', type: t, wanted: true };
+  try {
+    if (t === 'http' || t === 'cloud') {
+      links[dev.id].send = o => { const u = t === 'cloud' ? db.meta.apiBase.replace(/\/$/, '') + '/devices/' + dev.id + '/commands' : cn.url.replace(/\/$/, '') + '/command'; fetch(u, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(o) }).catch(() => { }); return true; };
+      links[dev.id].close = () => { links[dev.id].wanted = false; };
+      await pollOnce(dev);
+    } else if (t === 'ws') await openWs(dev, cn.url);
+    else if (t === 'serial') await openSerial(dev);
+    else if (t === 'ble') await openBle(dev);
+  } catch (e) { setLink(dev.id, { status: 'error', msg: linkHint(e, t === 'ws' ? cn.url : ''), wanted: false }); throw new AppError(linkInfo(dev.id).msg); }
+}
+function disconnectLink(id) { const l = links[id]; if (l) { l.wanted = false; try { l.close && l.close(); } catch (e) { } } links[id] = { status: 'disconnected', msg: '', wanted: false }; }
+async function connectDevice(id) {
+  need('devices.control'); if (isDemo()) throw new AppError('Turn Demo mode off to connect real machines.');
+  const dev = byId('devices', id); dev.conn = dev.conn || { type: 'http', url: '' }; dev.conn.auto = true; audit('LINK_CONNECT', dev.code + ' via ' + dev.conn.type); touch();
+  await startLink(dev);
+}
+function disconnectDevice(id) { need('devices.control'); const dev = byId('devices', id); if (dev.conn) dev.conn.auto = false; disconnectLink(id); audit('LINK_DISCONNECT', dev.code); touch(); }
+function saveConn(id, { type, url }) { need('devices.control'); const d = byId('devices', id); const c = d.conn || { type: 'http', url: '' }; if (type) c.type = type; if (url != null) c.url = url.trim(); d.conn = c; touch(true); }
+function autoConnect() { if (isDemo()) return; db.devices.forEach(d => { if (d.conn && d.conn.auto && ['http', 'ws', 'cloud'].includes(d.conn.type)) startLink(d).catch(() => { }); }); }
+function pollLinks(dev) { const l = links[dev.id]; if (l && l.wanted && (l.type === 'http' || l.type === 'cloud')) pollOnce(dev); }
+
+/* ---------- alerts ---------- */
+const alertKind = t => ALERT_TYPES[t].kind;
+const openAlerts = () => db.alerts.filter(a => a.status !== 'resolved');
+function raiseAlert(type, { sev, dev, msg, val, key = '' }) {
+  const same = db.alerts.filter(a => a.type === type && a.device_id === dev && (a.key || '') === key);
+  const ex = same.find(a => a.status !== 'resolved');
+  if (ex) {
+    ex.value = val == null ? '' : String(val); ex.cleared = false; dirty = true;
+    if (ex.severity !== sev) patch('alerts', ex, { severity: sev, message: msg }); return ex;
+  }
+  const rec = same.filter(a => a.status === 'resolved').sort((x, y) => y.resolved_at - x.resolved_at)[0];
+  if (rec && !key && now() - rec.resolved_at < 90000) return null;
+  const al = insert('alerts', { type, severity: sev, device_id: dev, key, message: msg, value: val == null ? '' : String(val), status: 'active', created_at: now(), cleared: false });
+  if (cur()) toast((sev === 'critical' ? '🔴 ' : '🟠 ') + ALERT_TYPES[type].label + ': ' + msg, sev === 'critical' ? 'bad' : 'warn');
+  return al;
+}
+function clearAlert(type, dev, key = '') { db.alerts.forEach(a => { if (a.type === type && a.device_id === dev && (a.key || '') === key && a.status !== 'resolved' && !a.cleared) { a.cleared = true; touch(); } }); }
+function evalReadingAlerts(dev, r) {
+  const A = cfg().alerts, id = dev.id, c = (type, bad, sev, msg, val) => bad ? raiseAlert(type, { sev, dev: id, msg, val }) : clearAlert(type, id);
+  if (r.tds != null) c('HIGH_TDS', r.tds > A.tds, r.tds > 2000 ? 'critical' : 'warning', `TDS ${fmt(r.tds, 0)} mg/L is above ${A.tds} mg/L`, fmt(r.tds, 0));
+  if (r.turbidity != null) c('HIGH_TURBIDITY', r.turbidity > A.turbidity, r.turbidity > 50 ? 'critical' : 'warning', `Turbidity ${fmt(r.turbidity, 1)} NTU is above ${A.turbidity} NTU`, fmt(r.turbidity, 1));
+  if (r.ph != null) c('ABNORMAL_PH', r.ph < A.ph_min || r.ph > A.ph_max, (r.ph < 5 || r.ph > 10) ? 'critical' : 'warning', `pH ${fmt(r.ph, 2)} is outside ${A.ph_min}–${A.ph_max}`, fmt(r.ph, 2));
+}
+function deviceTick(dev, dt) {
+  const A = cfg().alerts, id = dev.id;
+  if (!isDemo() && dev.status === 'online' && now() - (dev.last_seen || 0) > 20000) patch('devices', dev, { status: 'offline' });
+  if (dev.status === 'offline') { if (!isDemo() && !dev.last_seen) return; raiseAlert('DEVICE_OFFLINE', { sev: 'critical', dev: id, msg: `${dev.code} is not responding`, val: 'last seen ' + ago(dev.last_seen) }); return; }
+  clearAlert('DEVICE_OFFLINE', id); if (isDemo()) dev.last_seen = now();
+  // power model (demo): battery drains with load, solar recharges in daylight
+  const hr = new Date().getHours() + new Date().getMinutes() / 60, sun = Math.max(0, Math.sin(Math.PI * (hr - 6) / 12));
+  const solarC = comp(id, 'solar_panel'), pump = comp(id, 'pump'), bat = comp(id, 'battery');
+  if (isDemo()) {
+    const peak = dev.mode === 'fixed' ? 40 : 10, w = solarC.status === 'fault' ? 0 : +(sun * peak * (0.9 + Math.random() * 0.1)).toFixed(1);
+    setComp(id, 'solar_panel', w);
+    const load = (pump.value === 'on' ? 0.012 : 0.003) * (dev.mode === 'portable' ? 1.4 : 1), gain = (w / peak) * (dev.mode === 'fixed' ? 0.012 : 0.004);
+    if (bat.status !== 'fault') bat.value = clamp(+bat.value + (gain - load) * dt * Math.max(1, db.meta.speed), 0, 100), dirty = true;
+  }
+  const b = bat.value == null ? null : +bat.value;
+  if (b != null && b < A.battery_low) raiseAlert('LOW_BATTERY', { sev: b < A.battery_crit ? 'critical' : 'warning', dev: id, msg: `${dev.code} battery at ${b.toFixed(0)}%`, val: b.toFixed(0) + '%' }); else if (b == null || b >= A.battery_low + 5) clearAlert('LOW_BATTERY', id);
+  Object.entries(SENSOR_COMP).forEach(([k, t]) => { const c = comp(id, t); if (c.status === 'fault') raiseAlert('SENSOR_FAILURE', { sev: 'critical', dev: id, key: t, msg: `${COMP_LABEL[t]} on ${dev.code} is not responding`, val: c.note || 'no data' }); else clearAlert('SENSOR_FAILURE', id, t); });
+}
+
+/* ---------- water analysis & treatment selection ---------- */
+function analyseWater(r, ctx, C = cfg()) {
+  const th = C.thresholds, T = C.treatments, src = ctx.source, cond = [], want = {}, why = {};
+  const has = k => typeof r[k] === 'number' && !isNaN(r[k]);
+  const W = (k, reason, basis) => { (want[k] = want[k] || []).push({ reason, basis }); };
+  const f = (v, d = 1) => fmt(v, d);
+  const { turbidity: turb, ph, tds } = r;
+  if (turb > th.turb_coag) { cond.push({ key: 'turb_high', sev: 'crit', label: 'Very high turbidity', detail: `${f(turb)} NTU (limit ${th.turb_coag} for filtration alone)` }); W('coagulation', `Turbidity ${f(turb)} NTU is too high for filtration alone`, 'measured'); W('sediment', 'Polish the settled water after coagulation', 'required'); }
+  else if (turb > th.turb_sediment) { cond.push({ key: 'turb_mid', sev: 'warn', label: 'Turbid water', detail: `${f(turb)} NTU (limit ${th.turb_sediment} NTU)` }); W('sediment', `Turbidity ${f(turb)} NTU exceeds ${th.turb_sediment} NTU`, 'measured'); }
+  if (ph < th.ph_min || ph > th.ph_max) { cond.push({ key: 'ph', sev: (ph < 5 || ph > 10) ? 'crit' : 'warn', label: ph < th.ph_min ? 'Acidic water' : 'Alkaline water', detail: `pH ${f(ph, 2)} (safe ${th.ph_min}–${th.ph_max})` }); W('ph', `pH ${f(ph, 2)} is outside ${th.ph_min}–${th.ph_max}`, 'measured'); }
+  const roOn = tds > th.tds_ro && T.ro.enabled;
+  if (tds > th.tds_ro) { cond.push({ key: 'tds', sev: tds > 2000 ? 'crit' : 'warn', label: 'High dissolved solids', detail: `TDS ${f(tds, 0)} mg/L (limit ${th.tds_ro})` }); W('ro', `TDS ${f(tds, 0)} mg/L exceeds ${th.tds_ro} mg/L – dissolved salts need membrane removal`, 'measured'); if (turb > th.turb_ro_protect) W('sediment', 'Protect the RO membrane from suspended solids', 'required'); }
+  if (has('hardness')) {
+    if (r.hardness > th.hardness) { cond.push({ key: 'hard', sev: 'warn', label: 'Hard water', detail: `Hardness ${f(r.hardness, 0)} mg/L (limit ${th.hardness})` }); if (roOn) why.softener = 'RO already removes hardness – softener not needed'; else W('softener', `Hardness ${f(r.hardness, 0)} mg/L exceeds ${th.hardness} mg/L`, 'measured'); }
+    else why.softener = `Hardness ${f(r.hardness, 0)} mg/L is within limit`;
+  } else why.softener = 'Not evaluated – hardness not measured (enter a lab value)';
+  if (has('iron') || has('manganese')) {
+    const hi = has('iron') && r.iron > th.iron, hm = has('manganese') && r.manganese > th.manganese;
+    if (hi || hm) { cond.push({ key: 'femn', sev: (r.iron > 5 || r.manganese > 1) ? 'crit' : 'warn', label: 'Iron / manganese', detail: [hi ? `Fe ${f(r.iron, 2)} mg/L` : '', hm ? `Mn ${f(r.manganese, 2)} mg/L` : ''].filter(Boolean).join(', ') }); W('ironmn', 'Iron/manganese above limit – oxidation and filtration needed', 'measured'); }
+    else why.ironmn = 'Iron and manganese are within limits';
+  } else why.ironmn = 'Not evaluated – iron/manganese not measured';
+  if (has('organics')) {
+    if (r.organics > th.organics) { cond.push({ key: 'org', sev: 'warn', label: 'Organic load / odour', detail: `Organics ${f(r.organics, 1)} mg/L (limit ${th.organics})` }); W('carbon', `Organics ${f(r.organics, 1)} mg/L exceed ${th.organics} mg/L`, 'measured'); }
+    else why.carbon = 'Organics are within limit';
+  } else why.carbon = 'Not evaluated – organics/odour not measured';
+  const mt = [];
+  if (has('arsenic') && r.arsenic > th.arsenic) mt.push(`arsenic ${f(r.arsenic, 3)} mg/L`);
+  if (has('lead') && r.lead > th.lead) mt.push(`lead ${f(r.lead, 3)} mg/L`);
+  if (has('fluoride') && r.fluoride > th.fluoride) mt.push(`fluoride ${f(r.fluoride, 2)} mg/L`);
+  const amd = src === 'Mine site' && ph < 5 && tds > 1500;
+  if (amd) cond.push({ key: 'amd', sev: 'crit', label: 'Suspected acid mine drainage', detail: `pH ${f(ph, 2)} and TDS ${f(tds, 0)} mg/L at a mine site` });
+  if (mt.length) { cond.push({ key: 'metals', sev: 'crit', label: 'Toxic metals / fluoride', detail: mt.join(', ') }); W('special', 'Adsorption media needed for ' + mt.join(', '), 'measured'); }
+  else if (amd && !has('arsenic') && !has('lead')) W('special', 'Mine-drainage pattern – heavy-metal media recommended until lab results confirm', 'inferred');
+  else why.special = 'No mining-contaminant indicators';
+  if (r.microbial === true) { cond.push({ key: 'micro', sev: 'crit', label: 'Microbial contamination', detail: 'Positive microbial test' }); W('uv', 'Microbial contamination detected', 'measured'); }
+  else if (SURFACE.includes(src)) { cond.push({ key: 'surface', sev: 'info', label: 'Surface-type source', detail: `${src} water can carry pathogens` }); W('uv', `${src} source – disinfection barrier required`, 'inferred'); }
+  else if (turb > th.turb_uv_risk) W('uv', 'High turbidity can shelter microbes', 'inferred');
+  else why.uv = `${src} source with no microbial indicator`;
+  const selected = [], skipped = [], warnings = [];
+  Object.keys(TREAT).sort((a, b) => TREAT[a].order - TREAT[b].order).forEach(k => {
+    if (want[k]) {
+      if (!T[k].enabled) { skipped.push({ key: k, name: TREAT[k].name, reason: 'Needed but disabled in configuration' }); warnings.push(`${TREAT[k].name} is needed but disabled – water may fail the final check.`); return; }
+      const bs = want[k].map(x => x.basis), basis = bs.includes('measured') ? 'measured' : bs.every(b => b === 'required') ? 'required' : 'inferred';
+      selected.push({ key: k, name: TREAT[k].name, reason: want[k].map(x => x.reason).join('; '), basis, dur: T[k].duration });
+    } else skipped.push({ key: k, name: TREAT[k].name, reason: why[k] || 'Not required by current readings' });
+  });
+  if (!cond.some(c => c.sev !== 'info')) cond.unshift({ key: 'ok', sev: 'ok', label: 'Within drinking-water limits', detail: 'All available readings meet the limits' });
+  return { conditions: cond, selected, skipped, warnings, summary: cond.filter(c => c.sev !== 'info' || cond.length === 1).map(c => c.label).join(' · ') };
+}
+function lerpW(a, b, t) { const o = { ...a }; Object.keys(b).forEach(k => { if (typeof b[k] === 'number' && typeof a[k] === 'number') o[k] = a[k] + (b[k] - a[k]) * t; else o[k] = t >= 1 ? b[k] : a[k]; }); return o; }
+function applyStage(w0, key, f = {}) {
+  const w = { ...w0 }, mul = (k, m) => { if (typeof w[k] === 'number') w[k] *= m; }, j = () => 0.9 + Math.random() * 0.2;
+  switch (key) {
+    case 'coagulation': mul('turbidity', 0.22 * j()); mul('iron', 0.7); break;
+    case 'sediment': w.turbidity = Math.max(0.1, w.turbidity * 0.08 * j()); mul('iron', 0.8); break;
+    case 'ironmn': mul('iron', 0.04 * j()); mul('manganese', 0.08 * j()); mul('turbidity', 0.6); break;
+    case 'ph': w.ph = w.ph + (7.3 - w.ph) * 0.93 + nz(0.08); mul('tds', 1.03); break;
+    case 'carbon': mul('organics', 0.08 * j()); mul('turbidity', 0.8); break;
+    case 'softener': mul('hardness', 0.06 * j()); mul('tds', 0.97); break;
+    case 'special': { const e = f.media_exhausted ? 0.55 : 0.04; ['arsenic', 'lead', 'fluoride'].forEach(k => mul(k, e * j())); mul('iron', 0.5); mul('tds', 0.96); break; }
+    case 'ro': { const p = f.ro_fouled ? 0.55 : 0.07 * j(); mul('tds', p); mul('hardness', p); ['arsenic', 'lead', 'fluoride', 'iron', 'manganese', 'organics'].forEach(k => mul(k, p * 0.5)); mul('turbidity', 0.1); w.ph = Math.max(5.5, w.ph - 0.4); break; }
+    case 'uv': if (!f.uv_failed && w.microbial != null) w.microbial = false; break;
+  }
+  return w;
+}
+const FINAL_SPEC = [
+  { k: 'ph', label: 'pH', unit: '', dec: 2, core: 1, range: ['ph_min', 'ph_max'] }, { k: 'tds', label: 'TDS', unit: 'mg/L', dec: 0, core: 1, max: 'tds' }, { k: 'turbidity', label: 'Turbidity', unit: 'NTU', dec: 2, core: 1, max: 'turbidity' },
+  { k: 'temperature', label: 'Temperature', unit: '°C', dec: 1, core: 1, adv: [5, 40] }, { k: 'hardness', label: 'Hardness', unit: 'mg/L', dec: 0, max: 'hardness' }, { k: 'iron', label: 'Iron', unit: 'mg/L', dec: 2, max: 'iron' },
+  { k: 'manganese', label: 'Manganese', unit: 'mg/L', dec: 2, max: 'manganese' }, { k: 'arsenic', label: 'Arsenic', unit: 'mg/L', dec: 3, max: 'arsenic' }, { k: 'lead', label: 'Lead', unit: 'mg/L', dec: 3, max: 'lead' },
+  { k: 'fluoride', label: 'Fluoride', unit: 'mg/L', dec: 2, max: 'fluoride' }, { k: 'organics', label: 'Organics', unit: 'mg/L', dec: 1, max: 'organics' }, { k: 'microbial', label: 'Microbial', bool: 1 }
+];
+function evaluateFinal(w, raw, C = cfg()) {
+  const F = C.final, checks = [];
+  FINAL_SPEC.forEach(p => {
+    if (!p.core && raw[p.k] == null) return;
+    const v = w[p.k]; let limit, ok;
+    if (p.range) limit = `${F[p.range[0]]}–${F[p.range[1]]}`; else if (p.max) limit = `≤ ${F[p.max]}`; else if (p.adv) limit = `${p.adv[0]}–${p.adv[1]} (advisory)`; else limit = 'none detected';
+    if (v == null || (typeof v === 'number' && isNaN(v))) { checks.push({ k: p.k, label: p.label, unit: p.unit || '', value: null, limit, status: 'unverified' }); return; }
+    if (p.bool) ok = v === false; else if (p.range) ok = v >= F[p.range[0]] && v <= F[p.range[1]]; else if (p.max) ok = v <= F[p.max]; else ok = v >= p.adv[0] && v <= p.adv[1];
+    checks.push({ k: p.k, label: p.label, unit: p.unit || '', value: p.bool ? (v ? 'detected' : 'none') : +v.toFixed(p.dec), dec: p.dec, limit, status: ok ? 'pass' : (p.adv ? 'warn' : 'fail'), adv: !!p.adv });
+  });
+  return { checks, verdict: checks.some(c => c.status === 'fail' || c.status === 'unverified') ? 'UNSAFE' : 'SAFE' };
+}
+
+/* ---------- analysis workflow ---------- */
+const curAnalysis = () => byId('water_analysis', db.meta.currentAnalysisId);
+const curSession = () => byId('purification_sessions', db.meta.currentSessionId);
+const ACTIVE = ['running', 'paused', 'final_check'];
+const activeSession = () => { const s = curSession(); return s && ACTIVE.includes(s.state) ? s : null; };
+const planOf = a => db.treatment_selections.filter(t => t.analysis_id === a.id && t.selected).sort((x, y) => x.seq - y.seq);
+const skippedOf = a => db.treatment_selections.filter(t => t.analysis_id === a.id && !t.selected).sort((x, y) => x.seq - y.seq);
+function currentRaw(dev) {
+  if (isDemo()) { const p = rawNow(dev); Object.keys(RANGE).forEach(k => { if (comp(dev.id, SENSOR_COMP[k]).status === 'fault') p[k] = null; }); return p; }
+  const l = live.latest[dev.id]; return l ? { ph: l.ph, tds: l.tds, turbidity: l.turbidity, temperature: l.temperature } : { ph: null, tds: null, turbidity: null, temperature: null };
+}
+function startAnalysis() {
+  const u = need('analysis.run'), dev = activeDev();
+  if (runtime.analysis) throw new AppError('Analysis already running.');
+  if (activeSession()) throw new AppError('Purification is in progress. Stop it before starting a new analysis.');
+  if (dev.status !== 'online') throw new AppError(dev.code + ' is offline – cannot read sensors.');
+  if (!isDemo()) { const l = live.latest[dev.id]; if (!l || now() - l.ts > 15000) throw new AppError('No live data from the machine in the last 15 s. Check the connection in Devices.'); }
+  const bad = Object.values(SENSOR_COMP).filter(t => comp(dev.id, t).status === 'fault').map(t => COMP_LABEL[t]);
+  if (bad.length) throw new AppError('Cannot analyse – sensor failure: ' + bad.join(', ') + '. Ask a technician to repair it.');
+  runtime.analysis = { t: 0, step: 0, samples: [], nextSample: 1.6, uid: u.id, dev: dev.id };
+  const v = comp(dev.id, 'solenoid_valve'); if (v.value === 'open') patch('device_components', v, { value: 'closed', updated_at: now() }, true);
+  audit('ANALYSIS_START', dev.code); touch();
+}
+function analysisTick(dt) {
+  const a = runtime.analysis, dev = byId('devices', a.dev);
+  if (!dev || dev.status !== 'online') { runtime.analysis = null; touch(); toast('Analysis cancelled – device went offline.', 'bad'); return; }
+  a.t += dt;
+  while (a.t >= a.nextSample && a.nextSample < 4.0) { a.samples.push(currentRaw(dev)); a.nextSample += 0.5; }
+  const st = a.t < 1.6 ? 0 : a.t < 4.0 ? 1 : a.t < 5.2 ? 2 : 3;
+  if (st !== a.step) { a.step = st; touch(); }
+  if (a.t >= 6.4) finishAnalysis(a, dev);
+}
+function averageSamples(samples) {
+  const o = {};
+  for (const k of Object.keys(RANGE)) { const vs = samples.map(s => s[k]).filter(v => typeof v === 'number'); if (!vs.length) return null; o[k] = vs.reduce((x, y) => x + y, 0) / vs.length; }
+  return o;
+}
+function recordAnalysis({ ts, user, dev, snap, source }) {
+  const res = analyseWater(snap, { source });
+  const wa = insert('water_analysis', { device_id: dev.id, location_id: dev.location_id, user_id: user ? user.id : null, ts, readings: snap, conditions: res.conditions, summary: res.summary || 'Within limits', source_type: source, warnings: res.warnings }, true);
+  let seq = 0;
+  res.selected.forEach(s => insert('treatment_selections', { analysis_id: wa.id, seq: ++seq, treatment_key: s.key, name: s.name, selected: true, basis: s.basis, reason: s.reason, dur: s.dur }, true));
+  res.skipped.forEach(s => insert('treatment_selections', { analysis_id: wa.id, seq: ++seq, treatment_key: s.key, name: s.name, selected: false, basis: '', reason: s.reason }, true));
+  touch(); return wa;
+}
+function finishAnalysis(a, dev) {
+  runtime.analysis = null;
+  const avg = averageSamples(a.samples);
+  if (!avg) { touch(); toast('Analysis failed – a sensor returned no data.', 'bad'); audit('ANALYSIS_FAILED', dev.code, { result: 'failed' }); return; }
+  const snap = { ...avg, ...extrasNow() };
+  Object.keys(snap).forEach(k => { if (typeof snap[k] === 'number') snap[k] = +snap[k].toFixed(k === 'arsenic' || k === 'lead' ? 3 : 2); });
+  const wa = recordAnalysis({ ts: now(), user: byId('users', a.uid), dev, snap, source: sourceTypeNow() });
+  db.meta.currentAnalysisId = wa.id; audit('ANALYSIS_DONE', `${dev.code}: ${wa.summary}`);
+  toast('Analysis complete – ' + planOf(wa).length + ' treatment stage(s) selected', 'ok'); touch();
+  if (G.__onAnalysisDone) G.__onAnalysisDone();
+}
+function saveLab(vals, target) {
+  need('analysis.run'); const lab = {};
+  Object.entries(vals).forEach(([k, v]) => { if (v === '' || v == null) return; if (k === 'microbial') { if (v === 'yes') lab.microbial = true; else if (v === 'no') lab.microbial = false; return; } const n = parseFloat(v); if (!isNaN(n) && n >= 0) lab[k] = n; });
+  if (target === 'final') db.meta.labFinal = lab; else db.meta.lab = lab; touch(); audit(target === 'final' ? 'LAB_FINAL_INPUT' : 'LAB_INPUT', Object.keys(lab).join(',') || 'cleared');
+}
+
+/* ---------- purification workflow ---------- */
+function preflight(dev) {
+  if (dev.status !== 'online') return dev.code + ' is offline.';
+  if (comp(dev.id, 'pump').status === 'fault') return 'Pump fault – repair before purifying.';
+  const bad = Object.values(SENSOR_COMP).filter(t => comp(dev.id, t).status === 'fault').map(t => COMP_LABEL[t]);
+  if (bad.length) return 'Sensor failure: ' + bad.join(', ');
+  if (batVal(dev.id) != null && batVal(dev.id) < 8) return 'Battery too low to run the pump.';
+  if (!isDemo() && linkInfo(dev.id).status !== 'connected') return 'Machine link is not connected – connect it in Devices.';
+  return null;
+}
+function startPurification() {
+  const u = need('purify.control'), dev = activeDev(), a = curAnalysis();
+  if (activeSession()) throw new AppError('Purification already running.');
+  if (runtime.analysis) throw new AppError('Wait for the analysis to finish.');
+  if (!a) throw new AppError('Run a water analysis first.');
+  const last = curSession(); if (last && last.analysis_id === a.id) throw new AppError('This plan was already used. Run a new analysis.');
+  if (a.device_id !== dev.id) throw new AppError('Analysis belongs to another device. Run a new analysis.');
+  const pf = preflight(dev); if (pf) throw new AppError(pf);
+  const stages = planOf(a).map(t => ({ key: t.treatment_key, name: t.name, dur: t.dur || cfg().treatments[t.treatment_key].duration, state: 'pending' }));
+  const w0 = { ...a.readings };
+  const s = insert('purification_sessions', { analysis_id: a.id, device_id: dev.id, started_by: u.id, state: 'running', progress: 0, stage_idx: 0, started_at: now(), ended_at: null, end_reason: '', stages, stage_elapsed: 0, water: w0, water_start: w0, water_end: stages[0] ? applyStage(w0, stages[0].key, db.meta.faults) : w0, water_cur: w0, final_elapsed: 0 });
+  db.meta.currentSessionId = s.id;
+  if (!stages.length) { s.state = 'final_check'; } else s.stages[0].state = 'active';
+  db.meta.labFinal = {}; setPumpValve(dev, 'on', 'closed'); if (stages[0]) sendCmd(dev, { cmd: 'stage', stage: stages[0].key, duration: stages[0].dur }); audit('PURIFY_START', `${dev.code}: ${stages.length} stage(s)`); touch();
+}
+function setPumpValve(dev, pump, valve) {
+  const p = comp(dev.id, 'pump'), v = comp(dev.id, 'solenoid_valve');
+  if (pump && p.value !== pump) patch('device_components', p, { value: pump, updated_at: now() }, true); if (valve && v.value !== valve) patch('device_components', v, { value: valve, updated_at: now() }, true);
+  if (!isDemo()) { const o = { cmd: 'set' }; if (pump) o.pump = pump; if (valve) o.valve = valve; if (!sendCmd(dev, o)) { audit('COMMAND_FAILED', dev.code + ' ' + JSON.stringify(o), { result: 'failed' }); toast('Command not delivered – machine link is down. Check the pump and valve by hand.', 'bad'); } }
+}
+function pausePurification() { need('purify.control'); const s = activeSession(); if (!s || s.state !== 'running') throw new AppError('Nothing is running.'); patch('purification_sessions', s, { state: 'paused' }); setPumpValve(byId('devices', s.device_id), 'off'); audit('PURIFY_PAUSE'); }
+function resumePurification() {
+  need('purify.control'); const s = activeSession(); if (!s || s.state !== 'paused') throw new AppError('Nothing is paused.');
+  const dev = byId('devices', s.device_id), pf = preflight(dev); if (pf) throw new AppError(pf);
+  patch('purification_sessions', s, { state: 'running' }); setPumpValve(dev, 'on'); audit('PURIFY_RESUME');
+}
+function stopPurification() {
+  const u = need('purify.control'), s = activeSession(); if (!s) throw new AppError('Nothing is running.');
+  patch('purification_sessions', s, { state: 'stopped', ended_at: now(), end_reason: 'Stopped by ' + u.name }); setPumpValve(byId('devices', s.device_id), 'off', 'closed');
+  audit('PURIFY_STOP', 'Supply stays blocked'); toast('Purification stopped – supply remains blocked', 'warn');
+}
+function failSession(s, reason) {
+  patch('purification_sessions', s, { state: 'failed', ended_at: now(), end_reason: reason }); const dev = byId('devices', s.device_id); setPumpValve(dev, 'off', 'closed');
+  raiseAlert('PURIFICATION_FAILURE', { sev: 'critical', dev: s.device_id, key: s.id, msg: reason, val: 'stage ' + (s.stage_idx + 1) + '/' + s.stages.length });
+  audit('PURIFY_FAILED', reason, { user: null, result: 'failed' });
+}
+function sessionTick(s, dt) {
+  const dev = byId('devices', s.device_id);
+  if (!dev || dev.status !== 'online') return failSession(s, 'ESP32 controller went offline during purification');
+  if (comp(dev.id, 'pump').status === 'fault') return failSession(s, 'Pump failure during purification');
+  if (batVal(dev.id) != null && batVal(dev.id) <= 3) return failSession(s, 'Battery depleted – power lost');
+  if (s.state === 'final_check') { s.final_elapsed += dt; if (s.final_elapsed >= 3) finalizeSession(s, dev); return; }
+  const st = s.stages[s.stage_idx]; s.stage_elapsed += dt;
+  const t = clamp(s.stage_elapsed / st.dur, 0, 1); s.water_cur = lerpW(s.water_start, s.water_end, t);
+  const done = s.stages.slice(0, s.stage_idx).reduce((x, y) => x + y.dur, 0) + s.stage_elapsed, total = s.stages.reduce((x, y) => x + y.dur, 0);
+  s.progress = clamp(done / total, 0, 1); dirty = true;
+  if (s.stage_elapsed >= st.dur) {
+    st.state = 'done'; s.water = s.water_end; s.stage_idx++; s.stage_elapsed = 0;
+    if (s.stage_idx >= s.stages.length) { s.state = 'final_check'; s.progress = 1; s.water_cur = s.water; s.final_elapsed = 0; }
+    else { sendCmd(dev, { cmd: 'stage', stage: s.stages[s.stage_idx].key, duration: s.stages[s.stage_idx].dur }); s.stages[s.stage_idx].state = 'active'; s.water_start = s.water; s.water_end = applyStage(s.water, s.stages[s.stage_idx].key, db.meta.faults); }
+    s.synced = false; s.rev = (s.rev || 0) + 1; touch();
+  }
+}
+function finalizeSession(s, dev) {
+  const a = byId('water_analysis', s.analysis_id), fr = noisy(s.water);
+  Object.keys(s.water).forEach(k => { if (!(k in fr)) fr[k] = s.water[k]; });
+  Object.keys(SENSOR_COMP).forEach(k => { if (comp(dev.id, SENSOR_COMP[k]).status === 'fault') fr[k] = null; });
+  if (!isDemo()) { const l = live.latest[dev.id], ok = l && now() - l.ts < 15000; Object.keys(fr).forEach(k => delete fr[k]); Object.keys(RANGE).forEach(k => fr[k] = ok ? l[k] : null); Object.assign(fr, live.extra[dev.id] || {}, db.meta.labFinal || {}); sendCmd(dev, { cmd: 'stage', stage: 'none' }); }
+  const ev = evaluateFinal(fr, a.readings);
+  insert('final_water_results', { session_id: s.id, ts: now(), readings: fr, checks: ev.checks, verdict: ev.verdict, supply: ev.verdict === 'SAFE' ? 'ALLOWED' : 'BLOCKED', override_by: null, override_reason: '' }, true);
+  if (isDemo()) ingestReading(dev.id, fr, { point: 'outlet', source: 'sim', force: true }); else insert('sensor_readings', { device_id: dev.id, location_id: dev.location_id, ts: now(), point: 'outlet', ph: fr.ph, tds: fr.tds, turbidity: fr.turbidity, temperature: fr.temperature, battery_pct: batVal(dev.id), online: netOnline() }, true);
+  patch('purification_sessions', s, { state: 'completed', ended_at: now(), end_reason: ev.verdict, progress: 1 });
+  if (ev.verdict === 'SAFE') { setPumpValve(dev, 'off', 'open'); toast('🟢 SAFE TO SUPPLY – supply valve opened', 'ok'); }
+  else {
+    setPumpValve(dev, 'off', 'closed'); const bad = ev.checks.filter(c => c.status === 'fail' || c.status === 'unverified').map(c => c.label).join(', ');
+    raiseAlert('UNSAFE_FINAL_WATER', { sev: 'critical', dev: dev.id, key: s.id, msg: 'Final water failed: ' + bad + '. Supply blocked.', val: bad }); toast('🔴 UNSAFE – SUPPLY BLOCKED', 'bad');
+  }
+  audit('FINAL_TEST', ev.verdict + ' (' + dev.code + ')', { user: null });
+}
+const finalOf = s => s && db.final_water_results.find(f => f.session_id === s.id);
+function supplyStatus() {
+  const s = curSession(), a = curAnalysis();
+  if (!s || (a && a.ts > s.started_at && a.id !== s.analysis_id)) return { code: 'PENDING', label: 'NOT VERIFIED – SUPPLY BLOCKED', detail: 'Water has not been purified and tested yet.' };
+  if (ACTIVE.includes(s.state)) return { code: 'PENDING', label: 'NOT VERIFIED – SUPPLY BLOCKED', detail: 'Purification in progress.' };
+  if (s.state === 'stopped' || s.state === 'failed') return { code: 'BLOCKED', label: 'SUPPLY BLOCKED', detail: 'Purification ' + s.state + ': ' + s.end_reason };
+  const f = finalOf(s); if (!f) return { code: 'PENDING', label: 'NOT VERIFIED – SUPPLY BLOCKED', detail: '' };
+  if (f.override_by) return { code: 'OVERRIDE', label: 'SUPPLY RELEASED – ADMIN OVERRIDE', detail: 'Unsafe result overridden: ' + f.override_reason, ts: f.ts };
+  return f.verdict === 'SAFE' ? { code: 'SAFE', label: 'SAFE TO SUPPLY', detail: 'All final checks passed.', ts: f.ts } : { code: 'UNSAFE', label: 'UNSAFE – SUPPLY BLOCKED', detail: 'Final test failed. Treat again before supplying.', ts: f.ts };
+}
+function overrideSupply(reason) {
+  const u = need('supply.override'), s = curSession(), f = finalOf(s);
+  if (!f || f.verdict !== 'UNSAFE') throw new AppError('Only an unsafe final result can be overridden.');
+  if (f.override_by) throw new AppError('Already overridden.');
+  if ((reason || '').trim().length < 10) throw new AppError('Enter a reason (at least 10 characters). It is recorded in the audit log.');
+  patch('final_water_results', f, { override_by: u.id, override_reason: reason.trim(), supply: 'OVERRIDE' }); audit('SUPPLY_OVERRIDE', reason.trim(), { result: 'override' });
+  const dev = byId('devices', s.device_id); if (comp(dev.id, 'solenoid_valve').status !== 'fault') setPumpValve(dev, null, 'open');
+}
+
+/* ---------- alert handling ---------- */
+function canHandle(action, al) { const k = alertKind(al.type); return (k === 'water' || k === 'both') && can(`alerts.${action}.water`) || (k === 'maint' || k === 'both') && can(`alerts.${action}.maint`); }
+function ackAlert(id) {
+  const u = cur(); const al = byId('alerts', id); if (!al) return;
+  if (!canHandle('ack', al)) { audit('ACCESS_DENIED', 'alerts.ack ' + al.type, { result: 'denied' }); throw new AppError('Access denied – your role cannot acknowledge this alert.'); }
+  if (al.status !== 'active') return; patch('alerts', al, { status: 'acknowledged', ack_by: u.id, ack_at: now() }); audit('ALERT_ACK', ALERT_TYPES[al.type].label);
+}
+function resolveAlert(id, note) {
+  const u = cur(); const al = byId('alerts', id); if (!al) return;
+  if (!canHandle('resolve', al)) { audit('ACCESS_DENIED', 'alerts.resolve ' + al.type, { result: 'denied' }); throw new AppError('Access denied – your role cannot resolve this alert.'); }
+  if (al.status === 'resolved') return; patch('alerts', al, { status: 'resolved', resolved_by: u.id, resolved_at: now(), note: note || '', ack_by: al.ack_by || u.id, ack_at: al.ack_at || now() }); audit('ALERT_RESOLVE', ALERT_TYPES[al.type].label + (note ? ' – ' + note : ''));
+}
+
+/* ---------- maintenance ---------- */
+function addMaintenance({ device_id, component, kind, title, description, alert_id }) {
+  const u = need('maintenance.manage'); if (!(title || '').trim()) throw new AppError('Enter a short title.');
+  const m = insert('maintenance_records', { device_id, component: component || '', kind: kind || 'corrective', title: title.trim(), description: description || '', status: 'open', assigned_to: u.id, created_by: u.id, created_at: now(), completed_at: null, alert_id: alert_id || null });
+  audit('MAINT_CREATE', title.trim()); return m;
+}
+function updateMaintenance(id, status, { note, repaired } = {}) {
+  need('maintenance.manage'); const m = byId('maintenance_records', id); if (!m) return;
+  const ch = { status }; if (status === 'done') ch.completed_at = now(); if (note) ch.description = (m.description ? m.description + '\n' : '') + 'Note: ' + note;
+  patch('maintenance_records', m, ch); audit('MAINT_' + status.toUpperCase(), m.title);
+  if (status === 'done' && repaired && m.component && comp(m.device_id, m.component)) repairComp(m.device_id, m.component, 'Repaired – ' + m.title);
+}
+
+/* ---------- configuration ---------- */
+function saveConfig({ thresholds, final, alerts, treatments }) {
+  need('treatment.configure'); const c = cfg();
+  [['thresholds', thresholds], ['final', final], ['alerts', alerts]].forEach(([k, v]) => { if (v) Object.entries(v).forEach(([kk, vv]) => { const n = parseFloat(vv); if (isNaN(n) || n < 0) throw new AppError('Invalid value for ' + kk); c[k][kk] = n; }); });
+  if (treatments) Object.entries(treatments).forEach(([k, v]) => { c.treatments[k].enabled = !!v.enabled; const d = parseFloat(v.duration); if (isNaN(d) || d < 2 || d > 600) throw new AppError('Stage duration must be 2–600 s.'); c.treatments[k].duration = d; });
+  touch(); audit('CONFIG_SAVE', 'treatment & limit configuration');
+}
+function resetConfig() { need('treatment.configure'); db.config = clone(DEFAULT_CFG); touch(); audit('CONFIG_RESET'); }
+
+/* ---------- demo lab ---------- */
+function demoSet(what, val) {
+  need('demo.use'); if (!isDemo()) throw new AppError('Demo lab only works while Demo mode is on.'); const dev = activeDev();
+  if (what === 'scenario') { db.meta.scenario = val; db.meta.lab = {}; live.hist = []; if (!activeSession()) { /* new raw water arrives */ } }
+  else if (what === 'offline') db.meta.forceOffline = !!val;
+  else if (what === 'fault') { db.meta.faults[val] = !db.meta.faults[val]; }
+  else if (what === 'speed') db.meta.speed = val;
+  else if (what === 'battery') { patch('device_components', comp(dev.id, 'battery'), { value: val, status: 'ok' }, true); }
+  else if (what === 'sensor') { const c = comp(dev.id, val); if (c.status === 'fault') patch('device_components', c, { status: 'ok', fault_src: null, note: '' }); else patch('device_components', c, { status: 'fault', fault_src: 'manual', note: 'Sensor not responding (injected)', updated_at: now() }); }
+  else if (what === 'pumpfault') { const c = comp(dev.id, 'pump'); patch('device_components', c, c.status === 'fault' ? { status: 'ok', note: '' } : { status: 'fault', note: 'Pump overcurrent (injected)', updated_at: now() }); if (c.status === 'fault') setPumpValve(dev, 'off'); }
+  else if (what === 'esp32') { const d = byId('devices', val); patch('devices', d, { status: d.status === 'online' ? 'offline' : 'online', last_seen: d.status === 'online' ? d.last_seen : now() }); }
+  touch(); audit('DEMO_' + what.toUpperCase(), String(val));
+}
+function setServerUrl(u) { need('data.manage'); db.meta.apiBase = (u || '').trim(); touch(); audit('SERVER_URL', db.meta.apiBase); toast(db.meta.apiBase ? 'Server URL saved' : 'Server URL cleared', 'ok'); }
+function resetAll() { need('data.manage'); ['demo', 'real'].forEach(m => { LS.del(dbKey(m)); LS.del(cloudKey(m)); }); LS.del(KEY_MODE); LS.del(KEY_SESS); session = null; }
+
+/* ---------- main tick ---------- */
+let accum = 0, syncAcc = 0;
+function tick() {
+  const t = now(), dt = Math.min(2, (t - runtime.lastTick) / 1000); runtime.lastTick = t;
+  netTick();
+  if (runtime.analysis) analysisTick(dt);
+  const s = activeSession(); if (s && s.state !== 'paused') sessionTick(s, dt * db.meta.speed);
+  accum += dt;
+  db.devices.forEach(dev => {
+    const iv = dev.mode === 'fixed' ? 2 : 4;
+    if ((t - (runtime.lastRead[dev.id] || 0)) / 1000 >= iv) {
+      runtime.lastRead[dev.id] = t;
+      if (isDemo()) simulateReading(dev); else pollLinks(dev);
+    }
+  });
+  if (accum >= 1) { db.devices.forEach(d => deviceTick(d, accum)); accum = 0; }
+  syncAcc += dt; if (syncAcc >= 20) { syncAcc = 0; if (netOnline() && db.meta.autoSync && pendingCounts().total) syncNow(false, true); }
+}
+function trimReadings() {
+  if (db.sensor_readings.length > READING_CAP) { let extra = db.sensor_readings.length - READING_CAP; db.sensor_readings = db.sensor_readings.filter(r => { if (extra > 0 && r.synced) { extra--; return false; } return true; }); }
+  if (db.audit_logs.length > 800) { let extra = db.audit_logs.length - 800; db.audit_logs = db.audit_logs.filter(r => { if (extra > 0 && r.synced) { extra--; return false; } return true; }); }
+}
+function persist(force) {
+  if (!dirty && !force) return; dirty = false; trimReadings();
+  const m = isDemo() ? 'demo' : 'real'; LS.set(KEY_MODE, m); LS.set(dbKey(m), JSON.stringify(db)); LS.set(cloudKey(m), JSON.stringify(cloud));
+}
+
+/* ---------- seed data ---------- */
+function seed() {
+  db = newDB(); cloud = { counts: {}, received: null };
+  ROLES.forEach(r => insert('roles', { ...r }, true));
+  mkUser('Demo Super Admin', 'demo1@gmail.com', 'demo123', 'role_sa');
+  mkUser('Ravi Operator', 'demo2@gmail.com', 'demo123', 'role_op');
+  mkUser('Meena Technician', 'demo3@gmail.com', 'demo123', 'role_ft');
+  mkUser('District Authority', 'demo4@gmail.com', 'demo123', 'role_vw');
+  insert('locations', { name: 'Plant A – Borewell', source_type: 'Borewell', lat: 13.0850, lng: 80.2101, address: 'Treatment plant A' });
+  insert('locations', { name: 'River Intake Station', source_type: 'River', lat: 13.0067, lng: 80.2570, address: 'River intake' });
+  insert('locations', { name: 'Mine Site Unit', source_type: 'Mine site', lat: 11.5446, lng: 79.4780, address: 'Open-cast mine, sector 3' });
+  insert('locations', { name: 'Field deployment (GPS)', source_type: 'Field', lat: 13.0, lng: 80.2, address: 'Position from GPS' });
+  const d1 = insert('devices', { code: 'NZX-FX-01', name: 'Borewell Plant Unit', location_id: 'loc_1', mode: 'fixed', status: 'online', firmware: '1.4.2', last_seen: now(), created_at: now() - 90 * 86400e3 });
+  const d2 = insert('devices', { code: 'NZX-PT-02', name: 'Portable Field Kit', location_id: 'loc_4', mode: 'portable', status: 'online', firmware: '1.4.1', last_seen: now(), created_at: now() - 40 * 86400e3 });
+  const d3 = insert('devices', { code: 'NZX-FX-03', name: 'Mine Site Unit', location_id: 'loc_3', mode: 'fixed', status: 'offline', firmware: '1.3.9', last_seen: now() - 3 * 3600e3, created_at: now() - 60 * 86400e3 });
+  makeComps(d1.id, 91); makeComps(d2.id, 74); makeComps(d3.id, 38);
+  seedHistory(d1, d2, d3);
+  db.meta.activeDevice = d1.id;
+}
+function seedHistory(d1, d2, d3) {
+  const H = 3600e3, T0 = now(), ops = db.users[1], tech = db.users[2], sa = db.users[0];
+  const keys = ['hard', 'river', 'clean', 'brackish'];
+  for (let i = 144; i > 0; i--) {
+    const ts = T0 - i * 30 * 60e3, sc = SCENARIOS[keys[Math.floor(i / 20) % 4]].base;
+    insert('sensor_readings', { device_id: d1.id, location_id: d1.location_id, ts, point: 'inlet', ph: +(sc.ph + nz(0.12)).toFixed(2), tds: +(sc.tds * (1 + nz(0.03))).toFixed(0), turbidity: +Math.max(0.1, sc.turbidity * (1 + nz(0.08))).toFixed(1), temperature: +(sc.temperature + nz(0.8)).toFixed(1), battery_pct: +(70 + 25 * Math.sin(i / 9)).toFixed(0), online: true, synced: true }, true);
+  }
+  const hist = [{ h: 70, sc: 'river', by: ops }, { h: 56, sc: 'brackish', by: ops, fault: { ro_fouled: true } }, { h: 44, sc: 'hard', by: sa }, { h: 30, sc: 'iron', by: ops, outcome: 'stopped' }, { h: 20, sc: 'mine', by: sa }, { h: 9, sc: 'bacterial', by: ops, outcome: 'failed' }, { h: 5, sc: 'river', by: ops }];
+  hist.forEach(h => {
+    const S = SCENARIOS[h.sc], ts = T0 - h.h * H, snap = { ...S.base, ...S.extra };
+    ['ph', 'tds', 'turbidity', 'temperature'].forEach(k => snap[k] = +(snap[k] * (1 + nz(0.02))).toFixed(2));
+    const wa = recordAnalysis({ ts, user: h.by, dev: d1, snap, source: S.source }); wa.synced = true;
+    const sel = planOf(wa); sel.forEach(x => x.synced = true); skippedOf(wa).forEach(x => x.synced = true);
+    const stages = sel.map(t => ({ key: t.treatment_key, name: t.name, dur: t.dur, state: 'done' }));
+    const total = stages.reduce((x, y) => x + y.dur, 0) + 4;
+    const ps = insert('purification_sessions', { analysis_id: wa.id, device_id: d1.id, started_by: h.by.id, state: 'completed', progress: 1, stage_idx: stages.length, started_at: ts + 60e3, ended_at: ts + 60e3 + total * 1000, end_reason: '', stages, synced: true }, true);
+    db.meta.currentSessionId = ps.id; db.meta.currentAnalysisId = wa.id;
+    if (h.outcome === 'stopped') { Object.assign(ps, { state: 'stopped', end_reason: 'Stopped by ' + h.by.name, progress: 0.4 }); if (stages[2]) stages[2].state = 'pending'; return; }
+    if (h.outcome === 'failed') { Object.assign(ps, { state: 'failed', end_reason: 'Pump failure during purification', progress: 0.6 }); insert('alerts', { type: 'PURIFICATION_FAILURE', severity: 'critical', device_id: d1.id, key: ps.id, message: 'Pump failure during purification', value: 'stage 2/3', status: 'resolved', created_at: ts + 90e3, ack_by: tech.id, ack_at: ts + 20 * 60e3, resolved_by: tech.id, resolved_at: ts + 40 * 60e3, note: 'Pump relay replaced', synced: true }, true); return; }
+    let w = { ...snap }; stages.forEach(st => { w = applyStage(w, st.key, h.fault || {}); });
+    const fr = noisy(w); Object.keys(w).forEach(k => { if (!(k in fr)) fr[k] = w[k]; });
+    Object.keys(fr).forEach(k => { if (typeof fr[k] === 'number') fr[k] = +fr[k].toFixed(3); });
+    const ev = evaluateFinal(fr, snap);
+    insert('final_water_results', { session_id: ps.id, ts: ps.ended_at, readings: fr, checks: ev.checks, verdict: ev.verdict, supply: ev.verdict === 'SAFE' ? 'ALLOWED' : 'BLOCKED', override_by: null, override_reason: '', synced: true }, true);
+    ps.end_reason = ev.verdict;
+    if (ev.verdict === 'UNSAFE') insert('alerts', { type: 'UNSAFE_FINAL_WATER', severity: 'critical', device_id: d1.id, key: ps.id, message: 'Final water failed: TDS. Supply blocked.', value: 'TDS', status: 'resolved', created_at: ps.ended_at, ack_by: ops.id, ack_at: ps.ended_at + 600e3, resolved_by: sa.id, resolved_at: ps.ended_at + 3 * H, note: 'Membrane cleaned, re-treated', synced: true }, true);
+  });
+  const al = (type, sev, dev, msg, val, status, ageH, by) => insert('alerts', { type, severity: sev, device_id: dev.id, key: '', message: msg, value: val, status, created_at: T0 - ageH * H, ack_by: status !== 'active' ? by.id : null, ack_at: status !== 'active' ? T0 - (ageH - 0.2) * H : null, resolved_by: status === 'resolved' ? by.id : null, resolved_at: status === 'resolved' ? T0 - (ageH - 1) * H : null, note: status === 'resolved' ? 'Handled on site' : '', synced: true, cleared: false }, true);
+  al('HIGH_TURBIDITY', 'warning', d1, 'Turbidity 38.0 NTU is above 5 NTU', '38.0', 'resolved', 71, ops);
+  al('LOW_BATTERY', 'warning', d2, 'NZX-PT-02 battery at 18%', '18%', 'resolved', 50, tech);
+  al('SENSOR_FAILURE', 'critical', d1, 'Turbidity Sensor on NZX-FX-01 is not responding', 'no data', 'resolved', 36, tech);
+  al('HIGH_TDS', 'warning', d1, 'TDS 1650 mg/L is above 500 mg/L', '1650', 'resolved', 57, ops);
+  al('ABNORMAL_PH', 'critical', d1, 'pH 3.40 is outside 6.5–8.5', '3.40', 'resolved', 21, ops);
+  al('DEVICE_OFFLINE', 'critical', d3, 'NZX-FX-03 is not responding', 'last seen 3h ago', 'active', 3, tech);
+  [['ph_sensor', 'calibration', 'Calibrate pH probe (2-point)', 'done', 96, d1], ['turbidity_sensor', 'corrective', 'Replace turbidity sensor lens', 'done', 34, d1], ['pump', 'preventive', 'Pump seal inspection', 'in_progress', 6, d1], ['solar_panel', 'preventive', 'Clean solar panel', 'done', 120, d2], ['internet', 'corrective', 'Check GSM antenna at mine unit', 'open', 2, d3]].forEach(([c, k, t, st, h, d]) => insert('maintenance_records', { device_id: d.id, component: c, kind: k, title: t, description: '', status: st, assigned_to: tech.id, created_by: tech.id, created_at: T0 - h * H, completed_at: st === 'done' ? T0 - (h - 3) * H : null, alert_id: null, synced: true }, true));
+  [['LOGIN', 'Water Quality Operator', ops, 70.1], ['ANALYSIS_DONE', 'NZX-FX-01: Turbid water', ops, 70], ['LOGIN', 'Super Admin', sa, 44.2], ['CONFIG_SAVE', 'treatment & limit configuration', sa, 40], ['LOGIN', 'Field Technician', tech, 36.2], ['MAINT_DONE', 'Replace turbidity sensor lens', tech, 31]].forEach(([a, d, u, h]) => insert('audit_logs', { ts: T0 - h * H, user_id: u.id, action: a, detail: d, result: 'ok', synced: true }, true));
+  db.alerts.forEach(a => a.synced = true); db.sensor_readings.forEach(r => r.synced = true);
+  db.treatment_selections.forEach(x => x.synced = true); db.water_analysis.forEach(x => x.synced = true);
+  db.meta.lastSync = T0 - 20 * 60e3; db.meta.syncLog = [{ ts: T0 - 20 * 60e3, n: 38 }];
+}
+function seedReal(carry) {
+  db = newDB(); db.meta.dataSource = 'real'; cloud = { counts: {}, received: null };
+  ROLES.forEach(r => insert('roles', { ...r }, true));
+  if (carry) { db.users = clone(carry.users); db.meta.counters.usr = carry.ucount; } else mkUser('Demo Super Admin', 'demo1@gmail.com', 'demo123', 'role_sa');
+  insert('locations', { name: 'Site 1', source_type: 'Unknown', lat: 0, lng: 0, address: 'Set the real water source type in Locations' });
+  const d = insert('devices', { code: 'ESP32-001', name: 'Water treatment unit', location_id: 'loc_1', mode: 'fixed', status: 'offline', firmware: '—', last_seen: null, created_at: now(), conn: { type: 'http', url: '' } });
+  makeComps(d.id, null); comp(d.id, 'solar_panel').value = null; db.meta.activeDevice = d.id;
+}
+function loadMode(mode, carry) {
+  try {
+    const raw = LS.get(dbKey(mode));
+    if (raw) {
+      const d = JSON.parse(raw);
+      if (d && d.meta && d.meta.ver === 1 && d.devices && d.devices.length) {
+        db = d; cloud = JSON.parse(LS.get(cloudKey(mode)) || '{"counts":{}}'); db.meta.dataSource = mode === 'demo' ? 'demo' : 'real';
+        if (carry) { db.users = clone(carry.users); db.meta.counters.usr = carry.ucount; }
+        const s = curSession(); if (s && s.state === 'running') { s.state = 'paused'; setPumpValve(byId('devices', s.device_id), 'off'); }
+        if (mode === 'demo') db.devices.forEach(x => { if (x.status === 'online') x.last_seen = now(); });
+        return;
+      }
+    }
+  } catch (e) { }
+  if (mode === 'demo') { seed(); if (carry) { db.users = clone(carry.users); db.meta.counters.usr = carry.ucount; } } else seedReal(carry);
+  persist(true);
+}
+function loadDB() { const m = LS.get(KEY_MODE) === 'real' ? 'real' : 'demo'; loadMode(m); LS.set(KEY_MODE, m); }
+function switchMode(toDemo) {
+  const u = need('data.manage');
+  if (toDemo === isDemo()) return;
+  if (activeSession() || runtime.analysis) throw new AppError('Stop purification and wait for analysis to finish before switching mode.');
+  Object.keys(links).forEach(disconnectLink); persist(true);
+  const carry = { users: clone(db.users), ucount: db.meta.counters.usr }, to = toDemo ? 'demo' : 'real';
+  LS.set(KEY_MODE, to); loadMode(to, carry); persist(true);
+  live.latest = {}; live.hist = []; live.extra = {}; runtime.lastRead = {}; runtime.analysis = null; lastNet = netOnline();
+  audit('MODE_SWITCH', toDemo ? 'Demo mode ON (simulated data)' : 'Demo mode OFF (real machines)', { user: u }); touch();
+  toast(toDemo ? 'Demo mode ON – simulated data' : 'Demo mode OFF – connect your real machine to get data', 'ok');
+}
+/* =====================================================================
+   NEXZORA – UI layer
+   ===================================================================== */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const IC = {
+  home: '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>', droplet: '<path d="M12 2.7s6 6.3 6 10.8a6 6 0 0 1-12 0C6 9 12 2.7 12 2.7z"/>',
+  layers: '<path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/>', filter: '<path d="M3 4h18l-7 8v7l-4 2v-9z"/>', bell: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>',
+  more: '<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',
+  wifi: '<path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><path d="M12 20h.01"/>', wifioff: '<path d="M5 12.5a10 10 0 0 1 5-2.7M19 12.5a10 10 0 0 0-2.3-1.7M8.5 16a5 5 0 0 1 7 0"/><path d="M12 20h.01M3 3l18 18"/>',
+  battery: '<rect x="2" y="7" width="17" height="10" rx="2"/><path d="M22 11v2"/>', cpu: '<rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v4M15 1v4M9 19v4M15 19v4M1 9h4M1 15h4M19 9h4M19 15h4"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>', thermo: '<path d="M14 14.8V4a2 2 0 0 0-4 0v10.8a4 4 0 1 0 4 0z"/>',
+  play: '<path d="M7 4l13 8-13 8z"/>', pause: '<path d="M8 4v16M16 4v16"/>', stop: '<rect x="5" y="5" width="14" height="14" rx="2"/>', check: '<path d="M4 12l5 5L20 6"/>', x: '<path d="M6 6l12 12M18 6L6 18"/>',
+  warn: '<path d="M12 3l10 18H2L12 3z"/><path d="M12 10v5M12 18h.01"/>', user: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>', users: '<circle cx="9" cy="8" r="3.5"/><path d="M2 21a7 7 0 0 1 14 0M16 4.5a3.5 3.5 0 0 1 0 7M22 21a7 7 0 0 0-4-6.3"/>',
+  pin: '<path d="M12 21s7-6 7-11a7 7 0 0 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>', tool: '<path d="M14 7a4 4 0 0 0 5 5l-9 9a2.1 2.1 0 0 1-3-3l9-9z"/>',
+  file: '<path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5M8 13h8M8 17h8"/>', shield: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',
+  sliders: '<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
+  logout: '<path d="M9 21H5V3h4M16 17l5-5-5-5M21 12H9"/>', chev: '<path d="M9 6l6 6-6 6"/>', back: '<path d="M15 6l-6 6 6 6"/>', plus: '<path d="M12 5v14M5 12h14"/>',
+  refresh: '<path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/>', zap: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>', db: '<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
+  activity: '<path d="M3 12h4l3-8 4 16 3-8h4"/>', lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>', trash: '<path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14"/>',
+  edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/>', flask: '<path d="M9 3h6M10 3v6L4 20h16l-6-11V3"/>', eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  copy: '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M4 16V6a2 2 0 0 1 2-2h10"/>', logo: '<path d="M12 2.5s7 7.3 7 12.5a7 7 0 0 1-14 0C5 9.8 12 2.5 12 2.5z" fill="currentColor" stroke="none" opacity=".25"/><path d="M12 2.5s7 7.3 7 12.5a7 7 0 0 1-14 0C5 9.8 12 2.5 12 2.5z"/><path d="M8.5 14.5l2.3 2.3 4.7-5"/>'
+};
+const ic = (n, s = 20) => `<svg class="ic" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n] || ''}</svg>`;
+const chip = (t, c = '') => `<span class="chip ${c}">${t}</span>`;
+const SENS = { ph: { label: 'pH', unit: '', dec: 2, max: 14, ok: [6.5, 8.5], ic: 'droplet' }, tds: { label: 'TDS', unit: 'mg/L', dec: 0, max: 3000, ok: [0, 500], ic: 'activity' }, turbidity: { label: 'Turbidity', unit: 'NTU', dec: 1, max: 50, ok: [0, 1], ic: 'eye' }, temperature: { label: 'Temperature', unit: '°C', dec: 1, max: 50, ok: [5, 40], ic: 'thermo' } };
+const CORE = Object.keys(SENS);
+const stText = s => ({ ok: 'Normal', warn: 'Out of limit', bad: 'Critical', fault: 'Sensor failure', nodata: 'Waiting for machine' }[s]);
+const stFor = (k, L) => L ? sState(k, L[k]) : (isDemo() ? 'fault' : 'nodata');
+const btxt = id => batVal(id) == null ? '—' : batVal(id).toFixed(0);
+function sState(k, v) {
+  if (v == null) return 'fault'; const A = db.config.alerts;
+  if (k === 'ph') return (v < 5 || v > 10) ? 'bad' : (v < A.ph_min || v > A.ph_max) ? 'warn' : 'ok';
+  if (k === 'tds') return v > 2000 ? 'bad' : v > A.tds ? 'warn' : 'ok';
+  if (k === 'turbidity') return v > 50 ? 'bad' : v > 1 ? 'warn' : 'ok';
+  return v > 45 || v < 2 ? 'warn' : 'ok';
+}
+const liveRow = () => live.latest[activeDev().id] || null;
+const pointName = p => ({ inlet: 'Raw water (inlet)', process: 'In-process water', outlet: 'Treated water (outlet)' }[p] || 'Water');
+
+/* ---------- routing ---------- */
+const ROUTES = {
+  home: { perm: ['dashboard.view'], tab: 'home' }, quality: { perm: ['quality.view'], tab: 'quality' }, purify: { perm: ['purify.view'], tab: 'purify' }, alerts: { perm: ['alerts.view'], tab: 'alerts' }, more: { tab: 'more' },
+  devices: { perm: ['devices.view'], tab: 'more' }, device: { perm: ['devices.view'], tab: 'more' }, maintenance: { perm: ['maintenance.view'], tab: 'more' },
+  reports: { perm: ['reports.water', 'reports.purification', 'reports.safety', 'reports.alerts', 'reports.devices', 'reports.maintenance'], tab: 'more' },
+  users: { perm: ['users.manage'], tab: 'more' }, locations: { perm: ['locations.manage'], tab: 'more' }, treatment: { perm: ['treatment.configure'], tab: 'more' }, audit: { perm: ['audit.view'], tab: 'more' },
+  sync: { tab: 'more' }, data: { perm: ['data.manage'], tab: 'more' }, demo: { perm: ['demo.use'], tab: 'more' }, access: { tab: 'more' }
+};
+const AUTO = new Set(['home', 'quality', 'purify', 'alerts', 'devices', 'device', 'demo', 'sync', 'more', 'maintenance']);
+let route = { name: 'home' }; const stack = [];
+const ui = { alertFilter: 'active', maintFilter: 'open', rep: 'water', period: '7d', auditDenied: false, pw: false, err: '' };
+function go(name, p = {}, push = false) {
+  const def = ROUTES[name]; if (!def) return;
+  if (name === 'demo' && !isDemo()) { toast('Demo lab is only available while Demo mode is on.', 'warn'); return; }
+  if (def.perm && !canAny(def.perm)) { audit('ACCESS_DENIED', 'route ' + name, { result: 'denied' }); toast('Access denied – your role cannot open this screen.', 'bad'); return; }
+  if (push) stack.push(route); else if (['home', 'quality', 'purify', 'alerts', 'more'].includes(name)) stack.length = 0;
+  route = { name, ...p }; render(); const m = $('#main'); if (m) m.scrollTop = 0;
+}
+function back() { route = stack.pop() || { name: 'more' }; render(); }
+
+/* ---------- toast & modal ---------- */
+setToast((m, t) => { const box = $('#toasts'); if (!box) return; const d = document.createElement('div'); d.className = 'toast ' + (t || ''); d.textContent = m; box.appendChild(d); setTimeout(() => d.remove(), 4200); while (box.children.length > 3) box.firstChild.remove(); });
+let modalOpen = false;
+function openModal(title, html) { const m = $('#modal'); m.innerHTML = `<div class="sheetbg" data-act="closeBg"><div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(title)}"><h3>${esc(title)}</h3>${html}</div></div>`; modalOpen = true; const f = $('input,select,textarea', m); if (f && matchMedia('(pointer:fine)').matches) f.focus(); }
+function closeModal() { $('#modal').innerHTML = ''; modalOpen = false; }
+function confirmBox(title, msg, okLabel, act, a, cls = '') { openModal(title, `<p class="muted" style="margin-top:0">${msg}</p><div class="row"><button class="btn line" style="flex:1" data-act="closeModal">Cancel</button><button class="btn ${cls}" style="flex:1" data-act="${act}" data-a="${esc(a || '')}">${okLabel}</button></div>`); }
+const fld = (id, label, type = 'text', val = '', extra = '') => `<label class="f"><span>${label}</span><input id="${id}" type="${type}" value="${esc(val)}" ${extra}></label>`;
+const sel = (id, label, opts, val) => `<label class="f"><span>${label}</span><select id="${id}">${opts.map(([v, t]) => `<option value="${esc(v)}" ${v === val ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select></label>`;
+const val = id => { const e = $('#' + id); return e ? e.value : ''; };
+const locked = (why) => `<div class="lockrow">${ic('lock', 16)} ${why}</div>`;
+
+/* ---------- derived status ---------- */
+function pipeStates() {
+  const a = runtime.analysis, s = curSession(), an = curAnalysis(), T = 'todo', st = [T, T, T, T, T, T];
+  if (a) { st[0] = a.step === 0 ? 'active' : 'done'; st[1] = a.step < 1 ? T : a.step === 1 ? 'active' : 'done'; st[2] = a.step >= 2 ? 'active' : T; return st; }
+  if (!an) return st; st[0] = st[1] = st[2] = 'done';
+  if (!s || s.analysis_id !== an.id) return st;
+  if (s.state === 'running' || s.state === 'paused') st[3] = 'active';
+  else if (s.state === 'final_check') { st[3] = 'done'; st[4] = 'active'; }
+  else if (s.state === 'stopped' || s.state === 'failed') st[3] = 'fail';
+  else { st[3] = st[4] = 'done'; const f = finalOf(s); st[5] = f && f.override_by ? 'warn' : f && f.verdict === 'SAFE' ? 'safe' : 'unsafe'; }
+  return st;
+}
+function pipeHTML() {
+  const N = ['Raw water', 'Sensor analysis', 'Treatment selection', 'Purification', 'Final water test', 'Safe / Unsafe'], st = pipeStates();
+  const icn = { done: ic('check', 14), safe: ic('check', 14), unsafe: ic('x', 14), fail: ic('x', 14), warn: ic('warn', 14), active: '<i></i>', todo: '' };
+  return `<div class="pipe" role="list" aria-label="Purification flow">${N.map((n, i) => `<div class="pp ${st[i]}" role="listitem"><span class="pc">${icn[st[i]]}</span><em>${n}</em></div>`).join('')}</div>`;
+}
+function purifyStatus() {
+  const a = runtime.analysis, s = curSession(), an = curAnalysis();
+  if (a) return { label: 'Analysing water…', tone: 'blue' };
+  if (s && s.state === 'running') return { label: `Purifying – stage ${Math.min(s.stage_idx + 1, s.stages.length)}/${s.stages.length}`, tone: 'blue' };
+  if (s && s.state === 'paused') return { label: 'Paused', tone: 'amber' };
+  if (s && s.state === 'final_check') return { label: 'Final water test', tone: 'blue' };
+  if (an && (!s || s.analysis_id !== an.id)) return { label: 'Treatment plan ready', tone: 'blue' };
+  if (s && s.state === 'stopped') return { label: 'Stopped', tone: 'amber' };
+  if (s && s.state === 'failed') return { label: 'Purification failed', tone: 'red' };
+  if (s && s.state === 'completed') return { label: 'Completed – ' + (finalOf(s) || {}).verdict, tone: 'green' };
+  return { label: 'Idle', tone: 'blue' };
+}
+function tankInfo() {
+  const a = runtime.analysis, s = curSession(), ss = supplyStatus();
+  if (a) return { pct: Math.min(100, a.t / 6.4 * 100), tone: 'blue', run: true };
+  if (s && s.state === 'running') return { pct: s.progress * 100, tone: 'blue', run: true };
+  if (s && s.state === 'final_check') return { pct: 100, tone: 'blue', run: true };
+  if (s && s.state === 'paused') return { pct: s.progress * 100, tone: 'amber', run: false };
+  if (ss.code === 'SAFE') return { pct: 100, tone: 'green', run: false };
+  if (ss.code === 'UNSAFE') return { pct: 100, tone: 'red', run: false };
+  if (ss.code === 'OVERRIDE') return { pct: 100, tone: 'amber', run: false };
+  return { pct: 0, tone: 'blue', run: false };
+}
+function supplyBox(ss) { const ico = { SAFE: '🟢', UNSAFE: '🔴', BLOCKED: '🔴', PENDING: '🟡', OVERRIDE: '🟠' }[ss.code]; return `<div class="supply ${ss.code}" role="status"><span aria-hidden="true">${ico}</span><div>${ss.label}${ss.ts ? `<div class="small" style="font-weight:600;opacity:.85">Verified ${ago(ss.ts)}</div>` : ''}</div></div>`; }
+const eta = s => { const total = s.stages.reduce((x, y) => x + y.dur, 0), done = total * s.progress; return Math.max(0, Math.round((total - done) / db.meta.speed) + (s.state === 'final_check' ? 0 : 3)); };
+
+/* ---------- shared pieces ---------- */
+function tile(k) {
+  const L = liveRow(), v = L ? L[k] : null, S = SENS[k], st = stFor(k, L);
+  return `<div class="tile s-${st}" data-tile="${k}"><div class="tl">${ic(S.ic, 16)}<span>${S.label}</span></div><div class="tv"><b data-live="${k}">${fmt(v, S.dec)}</b><small>${S.unit}</small></div>
+  <div class="bar"><i class="band" style="left:${S.ok[0] / S.max * 100}%;width:${(Math.min(S.ok[1], S.max) - S.ok[0]) / S.max * 100}%"></i><i class="dot" data-dot="${k}" style="left:${v == null ? 0 : clamp(v / S.max * 100, 0, 100)}%"></i></div><div class="ts" data-live="st_${k}">${stText(st)}</div></div>`;
+}
+function offlineBanner() { return netOnline() ? '' : `<div class="banner warn" role="status">${ic('wifioff', 20)}<div>Offline Mode – sensor data keeps coming in and is saved on this device. <b>${pendingCounts().total}</b> records will sync automatically when internet returns.</div></div>`; }
+function sparkline(key, w = 100, h = 34) {
+  let pts = live.hist.filter(x => x[key] != null).slice(-40).map(x => x[key]);
+  if (pts.length < 2) pts = db.sensor_readings.filter(r => r.device_id === activeDev().id && r.point === 'inlet' && r[key] != null).slice(-40).map(r => r[key]);
+  if (pts.length < 2) return '';
+  const mn = Math.min(...pts), mx = Math.max(...pts), rg = mx - mn || 1;
+  const d = pts.map((v, i) => `${(i / (pts.length - 1) * w).toFixed(1)},${(h - 3 - (v - mn) / rg * (h - 6)).toFixed(1)}`).join(' ');
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true"><polyline points="${d}" fill="none" stroke="var(--blue)" stroke-width="1.8" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>`;
+}
+function head(title, right = '') { return `<div class="sub"><button class="iconbtn" data-act="back" aria-label="Back">${ic('back')}</button><h2>${title}</h2>${right}</div>`; }
+const empty = (t, s = '') => `<div class="card flat" style="text-align:center;padding:26px 14px"><div class="muted">${t}</div>${s ? `<div class="small muted" style="margin-top:4px">${s}</div>` : ''}</div>`;
+const userName = id => { const u = byId('users', id); return u ? u.name : id ? '—' : 'System'; };
+const devName = id => { const d = byId('devices', id); return d ? d.code : '—'; };
+
+/* ---------- views ---------- */
+function vLogin() {
+  const demo = [['demo1@gmail.com', 'Super Admin'], ['demo2@gmail.com', 'Water Quality Operator'], ['demo3@gmail.com', 'Field Technician'], ['demo4@gmail.com', 'Viewer / Authority']];
+  return `<div class="login"><div class="hd"><span style="color:#fff">${ic('logo', 46)}</span><h1>NEXZORA</h1><p>Smart water purification &amp; real-time water quality monitoring</p><p style="margin-top:10px;font-weight:700">Check water → Select treatment → Purify → Check again → Safe / Block</p></div>
+  <div class="bd"><label class="f"><span>Email</span><input id="l-email" type="email" autocomplete="username" inputmode="email" placeholder="you@example.com" value="${esc(ui.email||'demo1@gmail.com')}"></label>
+  <label class="f"><span>Password</span><input id="l-pw" type="${ui.pw ? 'text' : 'password'}" autocomplete="current-password" placeholder="Password" value="demo123"></label>
+  <div class="sw" style="margin:-2px 0 12px"><input id="l-show" type="checkbox" data-act="togglePw" ${ui.pw ? 'checked' : ''}><label for="l-show" class="small muted">Show password</label></div>
+  ${ui.err ? `<div class="banner bad" role="alert">${esc(ui.err)}</div>` : ''}
+  <button class="btn block" data-act="doLogin">Sign in</button>
+  <h3 style="margin-top:22px">Demo accounts <span class="muted small">(password: demo123)</span></h3>
+  ${demo.map(([e, r]) => `<button class="li" data-act="fillDemo" data-a="${e}"><span class="ib">${ic('user')}</span><span class="lc"><b>${r}</b><small>${e}</small></span>${ic('chev', 18)}</button>`).join('')}
+  <p class="small muted">Works offline after the first load. Data is stored on this device.</p></div></div>`;
+}
+function vHome() {
+  const dev = activeDev(), s = curSession(), ps = purifyStatus(), ti = tankInfo(), ss = supplyStatus(), L = liveRow(), n = pendingCounts().total;
+  const busy = !!runtime.analysis || !!activeSession();
+  const bat = comp(dev.id, 'battery'), sol = comp(dev.id, 'solar_panel');
+  let cta;
+  if (can('analysis.run')) cta = `<button class="btn block" style="margin-top:12px" data-act="startAnalysis" ${busy ? 'disabled' : ''}>${ic('play', 18)} ${runtime.analysis ? 'Analysing…' : activeSession() ? 'Purification in progress' : 'Start Water Analysis'}</button>`;
+  else cta = locked('Read-only access – analysis can be started by an Operator or Super Admin.');
+  const al = openAlerts().filter(a => a.status === 'active').sort((x, y) => (y.severity === 'critical') - (x.severity === 'critical') || y.created_at - x.created_at);
+  const linkOk = isDemo() || (dev.status === 'online' && linkInfo(dev.id).status === 'connected');
+  const modeBanner = isDemo() ? `<div class="banner info">${ic('flask', 20)}<div>Demo mode – values are simulated.</div></div>` : (!linkOk ? `<div class="banner bad">${ic('cpu', 20)}<div style="flex:1">No machine connected. Connect your ESP32 to get real readings.${can('devices.control') ? `<div style="margin-top:6px"><button class="btn sm" data-act="openDevice" data-a="${dev.id}">Connect machine</button></div>` : ''}</div></div>` : '');
+  return `${offlineBanner()}${modeBanner}
+  <div class="card"><div class="hero"><div class="tank ${ti.tone} ${ti.run ? 'run' : ''}" role="img" aria-label="Water tank ${Math.round(ti.pct)} percent"><div class="fill" data-h="tank" style="height:${ti.pct}%"></div><div class="pc" data-live="tankpct">${ti.pct >= 1 ? Math.round(ti.pct) + '%' : ''}</div></div>
+  <div style="flex:1;min-width:0"><div class="muted small">Purification status</div><div style="font-weight:800;font-size:18px;line-height:1.2" data-live="pstat">${esc(ps.label)}</div><div class="small muted" style="margin-top:4px">${esc(dev.code)} · ${dev.mode === 'fixed' ? 'Fixed mode' : 'Portable mode'}</div></div></div>
+  ${supplyBox(ss)}${cta}</div>
+  ${pipeHTML()}
+  <div class="row sp" style="margin:0 2px 8px"><h3 style="margin:0">Live water readings</h3><span class="small muted">${L ? pointName(L.point) : 'No data'} · <span data-live="age">${L ? ago(L.ts) : '—'}</span></span></div>
+  <div class="grid2">${CORE.map(tile).join('')}</div>
+  <div class="grid2">
+   <div class="card flat" style="margin:0"><div class="muted small">${ic('battery', 15)} Battery</div><div style="font-size:22px;font-weight:800"><span data-live="bat">${btxt(dev.id)}</span>${batVal(dev.id) == null ? '' : '%'}</div><div class="pb ${(batVal(dev.id) ?? 100) >= 20 ? 'g' : ''}"><i data-w="bat" style="width:${batVal(dev.id) ?? 0}%;${(batVal(dev.id) ?? 100) < 20 ? 'background:var(--red)' : ''}"></i></div><div class="small muted" style="margin-top:6px">${ic('sun', 14)} Solar <span data-live="sol">${sol.value == null ? 0 : (+sol.value).toFixed(0)}</span> W</div></div>
+   <div class="card flat" style="margin:0"><div class="muted small">${ic(netOnline() ? 'wifi' : 'wifioff', 15)} Internet</div><div style="font-size:22px;font-weight:800;color:${netOnline() ? 'var(--green)' : 'var(--amber)'}">${netOnline() ? 'Online' : 'Offline'}</div><div class="small muted" style="margin-top:6px">${n ? n + ' record(s) waiting to sync' : 'All data synced'}</div></div>
+   <div class="card flat" style="margin:0"><div class="muted small">${ic('cpu', 15)} ESP32 device</div><div style="font-size:22px;font-weight:800;color:${dev.status === 'online' ? 'var(--green)' : 'var(--red)'}">${dev.status === 'online' ? 'Online' : 'Offline'}</div><div class="small muted" style="margin-top:6px">Last data ${dev.status === 'online' ? '<span data-live="age2">' + ago(dev.last_seen) + '</span>' : ago(dev.last_seen)}</div></div>
+   <div class="card flat" style="margin:0"><div class="muted small">${ic('activity', 15)} Pump · Supply valve</div><div style="font-size:18px;font-weight:800;margin-top:3px">${comp(dev.id, 'pump').value === 'on' ? 'Pump ON' : 'Pump off'}</div><div class="small muted" style="margin-top:6px">Valve ${comp(dev.id, 'solenoid_valve').value === 'open' ? 'open (supplying)' : 'closed (locked)'}</div></div>
+  </div>
+  <div class="card"><div class="row sp"><h3 style="margin:0">Active alerts</h3>${al.length ? chip(al.length, 'bad') : chip('None', 'ok')}</div>
+  ${al.slice(0, 3).map(a => `<div class="kv"><span style="color:var(--${a.severity === 'critical' ? 'red' : 'amber'})">${ic('warn', 18)}</span><div class="k"><b>${ALERT_TYPES[a.type].label}</b><small>${esc(a.message)}</small></div></div>`).join('')}
+  ${al.length ? `<button class="btn ghost sm" style="margin-top:8px" data-act="nav" data-a="alerts">View all alerts</button>` : ''}</div>`;
+}
+function vQuality() {
+  const dev = activeDev(), L = liveRow(), F = db.config.final, an = curAnalysis(), ex = extrasNow();
+  const lim = { ph: `${F.ph_min}–${F.ph_max}`, tds: `≤ ${F.tds} mg/L`, turbidity: `≤ ${F.turbidity} NTU`, temperature: '5–40 °C (advisory)' };
+  const exLabels = { hardness: ['Hardness', 'mg/L'], iron: ['Iron', 'mg/L'], manganese: ['Manganese', 'mg/L'], arsenic: ['Arsenic', 'mg/L'], lead: ['Lead', 'mg/L'], fluoride: ['Fluoride', 'mg/L'], organics: ['Organics', 'mg/L'], microbial: ['Microbial test', ''] };
+  const recent = db.sensor_readings.filter(r => r.device_id === dev.id).slice(-8).reverse();
+  return `${offlineBanner()}<div class="row sp" style="margin-bottom:10px"><div><h2>Water quality</h2><div class="small muted">${esc(dev.name)} · ${L ? pointName(L.point) : 'no data'}</div></div>${chip(dev.status === 'online' ? 'Live' : 'Device offline', dev.status === 'online' ? 'ok' : 'bad')}</div>
+  ${dev.status !== 'online' ? `<div class="banner bad">${ic('warn')}<div>${dev.code} is offline. Showing the last known values (${ago(dev.last_seen)}).</div></div>` : ''}
+  <div class="grid2">${CORE.map(k => `<div>${tile(k)}<div class="card flat" style="margin:6px 0 0;padding:6px 10px">${sparkline(k)}</div></div>`).join('')}</div>
+  <div class="card"><h3>Drinking-water limits</h3><div class="tbl-wrap"><table><tr><th>Parameter</th><th>Now</th><th>Limit</th><th></th></tr>${CORE.map(k => { const v = L ? L[k] : null, st = stFor(k, L); return `<tr><td>${SENS[k].label}</td><td><b data-live="${k}">${fmt(v, SENS[k].dec)}</b> ${SENS[k].unit}</td><td>${lim[k]}</td><td>${chip(stText(st), st === 'ok' ? 'ok' : st === 'warn' ? 'warn' : 'bad')}</td></tr>`; }).join('')}</table></div></div>
+  <div class="card"><div class="row sp"><h3 style="margin:0">Lab / auxiliary values</h3>${can('analysis.run') ? `<button class="btn ghost sm" data-act="labModal">${ic('edit', 15)} Enter</button>` : ''}</div>
+  <p class="small muted">pH, TDS, turbidity and temperature come from the ESP32 sensors. Hardness, metals, organics and microbial results come from a lab test or extra sensors.</p>
+  ${Object.keys(exLabels).filter(k => ex[k] != null).map(k => `<div class="kv"><div class="k">${exLabels[k][0]}</div><b>${k === 'microbial' ? (ex[k] ? 'Positive' : 'Negative') : ex[k] + ' ' + exLabels[k][1]}</b></div>`).join('') || '<div class="muted small">No extra values entered.</div>'}</div>
+  <div class="card"><h3>Latest analysis</h3>${an ? `<div class="small muted">${fdate(an.ts)} · ${esc(userName(an.user_id))}</div><div style="margin:6px 0">${an.conditions.map(c => chip(esc(c.label), c.sev === 'ok' ? 'ok' : c.sev === 'info' ? '' : c.sev === 'warn' ? 'warn' : 'bad')).join(' ')}</div>${can('purify.view') ? `<button class="btn ghost sm" data-act="nav" data-a="purify">View treatment plan</button>` : ''}` : '<div class="muted small">No analysis yet.</div>'}</div>
+  <div class="card"><h3>Recent readings</h3><div class="tbl-wrap"><table><tr><th>Time</th><th>Point</th><th>pH</th><th>TDS</th><th>NTU</th><th>°C</th></tr>${recent.map(r => `<tr><td>${fdate(r.ts)}</td><td>${r.point}</td><td>${fmt(r.ph, 2)}</td><td>${fmt(r.tds, 0)}</td><td>${fmt(r.turbidity, 1)}</td><td>${fmt(r.temperature, 1)}</td></tr>`).join('')}</table></div></div>`;
+}
+function planCard(an) {
+  const sel = planOf(an), skip = skippedOf(an), r = an.readings;
+  const rd = [['pH', fmt(r.ph, 2)], ['TDS', fmt(r.tds, 0) + ' mg/L'], ['Turbidity', fmt(r.turbidity, 1) + ' NTU'], ['Temp', fmt(r.temperature, 1) + ' °C']];
+  return `<div class="card"><h3>Identified condition</h3><div style="margin-bottom:8px">${an.conditions.map(c => chip(esc(c.label), c.sev === 'ok' ? 'ok' : c.sev === 'info' ? '' : c.sev === 'warn' ? 'warn' : 'bad')).join(' ')}</div>
+  ${an.conditions.filter(c => c.sev !== 'ok').map(c => `<div class="small muted">• ${esc(c.detail)}</div>`).join('')}
+  <div class="small muted" style="margin-top:8px">${rd.map(x => `${x[0]} <b>${x[1]}</b>`).join(' · ')}</div>
+  ${(an.warnings || []).map(w => `<div class="banner warn" style="margin:8px 0 0">${ic('warn', 18)}<div>${esc(w)}</div></div>`).join('')}</div>
+  <div class="card"><h3>Selected treatment (${sel.length} of ${Object.keys(TREAT).length} stages)</h3>${sel.length ? sel.map((t, i) => `<div class="stg"><span class="sn">${i + 1}</span><div class="sb"><b>${esc(t.name)}</b><small>${esc(t.reason)}</small></div>${chip(t.basis, t.basis === 'measured' ? 'ok' : t.basis === 'required' ? '' : 'warn')}</div>`).join('') : `<div class="banner info" style="margin:0">${ic('check')}<div>No treatment needed – water already meets the limits. Run the final water test to confirm.</div></div>`}</div>
+  <details><summary>Skipped stages (${skip.length})</summary>${skip.map(t => `<div class="kv"><div class="k"><b>${esc(t.name)}</b><small>${esc(t.reason)}</small></div></div>`).join('')}</details>`;
+}
+function vPurify() {
+  const a = runtime.analysis, s = curSession(), an = curAnalysis(), dev = activeDev();
+  let body = '';
+  const hist = db.purification_sessions.slice().reverse().slice(0, 5);
+  if (a) {
+    const steps = ['Raw water intake', 'Analyse – sampling sensors', 'Identify condition', 'Select treatment'];
+    body = `<div class="card"><h3>Smart water analysis</h3>${steps.map((t, i) => `<div class="kv"><span>${i < a.step ? `<span style="color:var(--green)">${ic('check', 20)}</span>` : i === a.step ? '<span class="spin"></span>' : `<span class="muted">${ic('chev', 20)}</span>`}</span><div class="k" style="${i > a.step ? 'opacity:.5' : ''}"><b>${t}</b></div></div>`).join('')}<div class="pb big" style="margin-top:10px"><i data-w="ana" style="width:${Math.min(100, a.t / 6.4 * 100)}%"></i></div>
+    <div class="small muted" style="margin-top:8px">${a.samples.length} sensor sample(s) collected</div></div>`;
+  } else if (s && ACTIVE.includes(s.state)) {
+    const total = s.stages.reduce((x, y) => x + y.dur, 0);
+    body = `<div class="card"><div class="row sp"><h3 style="margin:0">${s.state === 'final_check' ? 'Final water test' : s.state === 'paused' ? 'Paused' : 'Purifying'}</h3>${chip(s.state === 'final_check' ? 'testing' : s.state, s.state === 'paused' ? 'warn' : '')}</div>
+    <div class="row sp" style="margin:10px 0 4px"><span class="b" style="font-size:26px" data-live="pct">${Math.round(s.progress * 100)}%</span><span class="small muted">~<span data-live="eta">${eta(s)}</span>s left</span></div><div class="pb big"><i data-w="prog" style="width:${s.progress * 100}%"></i></div>
+    ${s.state === 'final_check' ? `<div class="row" style="margin-top:12px"><span class="spin"></span><span class="b">Checking final pH, TDS and turbidity…</span></div>` : ''}
+    <div class="grid2" style="margin:12px 0 0">${['ph', 'tds', 'turbidity'].map(k => `<div class="card flat" style="margin:0;padding:8px 10px"><div class="small muted">${SENS[k].label}</div><b data-live="${k}">${fmt((liveRow() || {})[k], SENS[k].dec)}</b> <span class="small muted">${SENS[k].unit}</span></div>`).join('')}</div>
+    ${can('purify.control') ? `<div class="row" style="margin-top:14px">${s.state === 'paused' ? `<button class="btn green" style="flex:1" data-act="resume">${ic('play', 18)} Resume</button>` : `<button class="btn amber" style="flex:1" data-act="pause" ${s.state === 'final_check' ? 'disabled' : ''}>${ic('pause', 18)} Pause</button>`}<button class="btn red" style="flex:1" data-act="stopAsk">${ic('stop', 18)} Stop</button></div>` : locked('Monitoring only – your role cannot control purification.')}</div>
+    ${!isDemo() && can('analysis.run') ? `<div class="card flat"><div class="row sp"><div class="small muted" style="flex:1">Contaminants the ESP32 cannot measure (hardness, metals, microbial) must be confirmed by a lab test, or the final check blocks supply.</div><button class="btn ghost sm" data-act="labModal" data-a="final">Post-treatment lab values</button></div></div>` : ''}
+    <div class="card"><h3>Treatment stages</h3>${s.stages.map((t, i) => `<div class="stg ${t.state}"><span class="sn">${t.state === 'done' ? ic('check', 14) : i + 1}</span><div class="sb"><b>${esc(t.name)}</b><div class="pb"><i data-w="st${i}" style="width:${t.state === 'done' ? 100 : t.state === 'active' ? s.stage_elapsed / t.dur * 100 : 0}%"></i></div></div></div>`).join('') || '<div class="muted small">No stages – going straight to final test.</div>'}</div>`;
+  } else if (s && an && s.analysis_id === an.id) {
+    const f = finalOf(s), ss = supplyStatus();
+    if (s.state === 'completed' && f) {
+      body = `<div class="card">${supplyBox(ss)}<div class="small muted" style="margin:8px 2px">${esc(ss.detail)}</div>
+      <h3 style="margin-top:12px">Final water test</h3><div class="tbl-wrap"><table><tr><th>Parameter</th><th>Result</th><th>Limit</th><th></th></tr>${f.checks.map(c => `<tr><td>${c.label}</td><td><b>${c.value == null ? 'no data' : c.value}</b> ${c.unit}</td><td>${c.limit}</td><td>${chip(c.status === 'pass' ? 'Pass' : c.status === 'warn' ? 'Advisory' : c.status === 'unverified' ? 'Unverified' : 'Fail', c.status === 'pass' ? 'ok' : c.status === 'warn' ? 'warn' : 'bad')}</td></tr>`).join('')}</table></div>
+      <div class="row wrap" style="margin-top:12px">${can('analysis.run') ? `<button class="btn" data-act="startAnalysis">${ic('refresh', 18)} ${f.verdict === 'UNSAFE' ? 'Re-analyse &amp; treat again' : 'New analysis'}</button>` : ''}${f.verdict === 'UNSAFE' && !f.override_by && can('supply.override') ? `<button class="btn line" data-act="overrideAsk">${ic('shield', 18)} Admin override</button>` : ''}</div>
+      ${f.verdict === 'UNSAFE' && !can('supply.override') ? locked('Only a Super Admin can release unsafe water, with a recorded reason.') : ''}</div>` + planCard(an);
+    } else {
+      body = `<div class="card">${supplyBox(ss)}<div class="small muted" style="margin:8px 2px">${esc(s.end_reason)}</div>${can('analysis.run') ? `<button class="btn block" style="margin-top:10px" data-act="startAnalysis">${ic('refresh', 18)} Run new analysis</button>` : ''}</div>` + planCard(an);
+    }
+  } else if (an) {
+    const sel = planOf(an), pf = preflight(dev);
+    body = planCard(an) + `<div class="card">${can('purify.control') ? `<button class="btn green block" data-act="startPurify" ${pf ? 'disabled' : ''}>${ic('play', 18)} ${sel.length ? 'Start purification' : 'Run final water test'}</button>${pf ? `<div class="banner warn" style="margin:10px 0 0">${ic('warn', 18)}<div>${esc(pf)}</div></div>` : ''}` : locked('Your role cannot start purification.')}
+    ${can('analysis.run') ? `<button class="btn line block" style="margin-top:8px" data-act="startAnalysis">${ic('refresh', 18)} Re-analyse water</button>` : ''}</div>`;
+  } else {
+    body = `<div class="card" style="text-align:center;padding:24px 14px"><div style="color:var(--blue)">${ic('droplet', 40)}</div><h3 style="margin-top:8px">No analysis yet</h3><p class="muted small">Check the water first. The app picks only the treatment stages the readings call for.</p>${can('analysis.run') ? `<button class="btn" data-act="startAnalysis">${ic('play', 18)} Start Water Analysis</button>` : locked('An Operator or Super Admin can start the analysis.')}</div>`;
+  }
+  return `${offlineBanner()}<div class="row sp" style="margin-bottom:10px"><h2>Purify</h2>${chip(esc(purifyStatus().label), purifyStatus().tone === 'red' ? 'bad' : purifyStatus().tone === 'amber' ? 'warn' : purifyStatus().tone === 'green' ? 'ok' : '')}</div>${pipeHTML()}${body}
+  <div class="card"><h3>Recent sessions</h3>${hist.map(h => { const f = finalOf(h); const an2 = byId('water_analysis', h.analysis_id); return `<div class="kv"><div class="k"><b>${fdate(h.started_at)}</b><small>${devName(h.device_id)} · ${esc(an2 ? an2.summary : '')}</small></div>${chip(h.state === 'completed' && f ? (f.override_by ? 'Override' : f.verdict) : h.state, h.state === 'completed' && f ? (f.override_by ? 'warn' : f.verdict === 'SAFE' ? 'ok' : 'bad') : h.state === 'stopped' ? 'warn' : h.state === 'failed' ? 'bad' : '')}</div>`; }).join('') || '<div class="muted small">No sessions yet.</div>'}</div>`;
+}
+function vAlerts() {
+  const F = ui.alertFilter, all = db.alerts.slice().sort((a, b) => b.created_at - a.created_at);
+  const list = all.filter(a => F === 'all' ? true : a.status === F), cnt = s => all.filter(a => a.status === s).length;
+  return `<div class="row sp" style="margin-bottom:10px"><h2>Alerts</h2>${cnt('active') ? chip(cnt('active') + ' active', 'bad') : chip('All clear', 'ok')}</div>
+  <div class="seg">${[['active', 'Active'], ['acknowledged', 'Acknowledged'], ['resolved', 'Resolved'], ['all', 'All']].map(([k, t]) => `<button class="${F === k ? 'on' : ''}" data-act="alertFilter" data-a="${k}">${t}${k !== 'all' ? ' (' + cnt(k) + ')' : ''}</button>`).join('')}</div>
+  ${list.slice(0, 60).map(a => {
+    const T = ALERT_TYPES[a.type], ackOk = canHandle('ack', a), resOk = canHandle('resolve', a), mt = (T.kind === 'maint' || T.kind === 'both') && can('maintenance.manage') && a.status !== 'resolved';
+    return `<div class="alert ${a.severity} ${a.status}"><div class="row sp"><b>${ic('warn', 17)} ${T.label}</b>${chip(a.status, a.status === 'active' ? 'bad' : a.status === 'acknowledged' ? 'warn' : 'gray')}</div>
+    <div style="margin:4px 0">${esc(a.message)}</div><div class="small muted">${devName(a.device_id)} · ${fdate(a.created_at)}${a.cleared && a.status !== 'resolved' ? ' · <b style="color:var(--green)">condition cleared</b>' : ''}</div>
+    ${a.status === 'acknowledged' ? `<div class="small muted">Acknowledged by ${esc(userName(a.ack_by))}</div>` : ''}${a.status === 'resolved' ? `<div class="small muted">Resolved by ${esc(userName(a.resolved_by))}${a.note ? ' – ' + esc(a.note) : ''}</div>` : ''}
+    ${a.status !== 'resolved' ? `<div class="row wrap" style="margin-top:8px">${a.status === 'active' && ackOk ? `<button class="btn ghost sm" data-act="ack" data-a="${a.id}">Acknowledge</button>` : ''}${resOk ? `<button class="btn green sm" data-act="resolveAsk" data-a="${a.id}">Resolve</button>` : ''}${mt ? `<button class="btn line sm" data-act="taskFromAlert" data-a="${a.id}">${ic('tool', 14)} Create task</button>` : ''}${!ackOk && !resOk ? `<span class="small muted">${ic('lock', 14)} View only for your role</span>` : ''}</div>` : ''}</div>`;
+  }).join('') || empty('No alerts here', 'Alerts appear when readings leave their limits or equipment fails.')}`;
+}
+function vMore() {
+  const u = cur(), r = roleOf(u);
+  const items = [
+    ['Operations', [['devices', 'cpu', 'Devices & sensors', 'ESP32, pump, valve, battery, solar', 'devices.view'], ['maintenance', 'tool', 'Maintenance', 'Tasks and repairs', 'maintenance.view'], ['reports', 'file', 'Reports', 'History, safe/unsafe events, devices', ROUTES.reports.perm]]],
+    ['Administration', [['users', 'users', 'Users & roles', 'Create accounts, change roles', 'users.manage'], ['locations', 'pin', 'Locations', 'Plants, intakes, mine sites', 'locations.manage'], ['treatment', 'sliders', 'Treatment configuration', 'Limits, rules and stage times', 'treatment.configure'], ['audit', 'shield', 'Audit log', 'Who did what, and denied attempts', 'audit.view']]],
+    ['System', [['sync', 'refresh', 'Offline mode & sync', pendingCounts().total + ' record(s) waiting', null], ['data', 'db', 'Data source & ESP32 API', 'Connect real sensors, database schema', 'data.manage'], ['demo', 'flask', 'Demo lab', 'Simulate water types and faults', 'demo.use'], ['access', 'lock', 'My permissions', r.name, null]]]
+  ];
+  const th = LS.get(KEY_THEME) || 'auto';
+  const modeCard = `<div class="card" style="border-color:${isDemo() ? '#e0a21a' : 'var(--green)'}"><div class="row"><div style="flex:1"><b>Demo mode: ${isDemo() ? 'ON' : 'OFF'}</b><div class="small muted">${isDemo() ? 'Simulated water and machines – for training and testing.' : 'Real machine data only. Nothing is simulated.'}</div></div>${can('data.manage') ? `<button class="btn sm ${isDemo() ? 'green' : 'amber'}" data-act="modeAsk">${isDemo() ? 'Turn off' : 'Turn on'}</button>` : chip(isDemo() ? 'ON' : 'OFF', isDemo() ? 'warn' : 'ok')}</div></div>`;
+  return `<div class="card"><div class="row"><div class="avatar" style="background:var(--blue);color:#fff;width:48px;height:48px;font-size:19px;cursor:default">${esc(u.name[0])}</div><div style="flex:1;min-width:0"><b>${esc(u.name)}</b><div class="small muted">${esc(u.email)}</div>${chip(esc(r.name), 'ok')}</div><button class="iconbtn" data-act="logout" aria-label="Sign out">${ic('logout')}</button></div></div>
+  ${items.map(([t, ls]) => { const vis = ls.filter(x => (x[0] !== 'demo' || isDemo()) && (!x[4] || (Array.isArray(x[4]) ? canAny(x[4]) : can(x[4])))); return vis.length ? `<h3 style="margin:14px 2px 8px;color:var(--muted)">${t}</h3>${vis.map(([n, i, a, b]) => `<button class="li" data-act="open" data-a="${n}"><span class="ib">${ic(i)}</span><span class="lc"><b>${a}</b><small>${b}</small></span>${ic('chev', 18)}</button>`).join('')}` : ''; }).join('')}
+  ${modeCard}<h3 style="margin:14px 2px 8px;color:var(--muted)">Appearance</h3><div class="seg">${['auto', 'light', 'dark'].map(x => `<button class="${th === x ? 'on' : ''}" data-act="theme" data-a="${x}">${x[0].toUpperCase() + x.slice(1)}</button>`).join('')}</div>
+  <p class="small muted" style="text-align:center">NEXZORA · ${isDemo() ? 'Demo mode (simulated data)' : 'Live mode (real machines)'}</p>`;
+}
+const compValue = (dev, c) => {
+  const L = live.latest[dev.id], k = Object.keys(SENSOR_COMP).find(x => SENSOR_COMP[x] === c.type);
+  if (k) return L && L[k] != null ? fmt(L[k], SENS[k].dec) + ' ' + SENS[k].unit : 'no data';
+  if (c.type === 'battery') return c.value == null ? 'no data' : (+c.value).toFixed(0) + '%'; if (c.type === 'solar_panel') return (+c.value || 0).toFixed(0) + ' W';
+  if (c.type === 'pump') return c.value === 'on' ? 'Running' : 'Off'; if (c.type === 'solenoid_valve') return c.value === 'open' ? 'Open – supplying' : 'Closed – supply locked';
+  if (c.type === 'internet') return netOnline() ? 'Connected (' + c.value + ')' : 'No internet';
+  return '';
+};
+function vDevices() {
+  return `${head('Devices', can('devices.manage') ? `<button class="btn sm" data-act="addDevice">${ic('plus', 16)} Add</button>` : '')}
+  ${db.devices.map(d => { const act = d.id === db.meta.activeDevice, loc = byId('locations', d.location_id), bat = comp(d.id, 'battery'), faults = db.device_components.filter(c => c.device_id === d.id && c.status === 'fault').length;
+    return `<button class="li" data-act="openDevice" data-a="${d.id}"><span class="ib">${ic('cpu')}</span><span class="lc"><b>${esc(d.name)}</b><small>${d.code} · ${esc(loc ? loc.name : '—')}</small><span style="display:flex;gap:5px;flex-wrap:wrap;margin-top:5px">${chip(d.status, d.status === 'online' ? 'ok' : 'bad')}${chip(d.mode, '')}${chip(ic('battery', 12) + btxt(d.id) + (batVal(d.id) == null ? '' : '%'), (batVal(d.id) ?? 100) < 20 ? 'bad' : 'gray')}${!isDemo() ? chip(linkInfo(d.id).status, linkInfo(d.id).status === 'connected' ? 'ok' : linkInfo(d.id).status === 'error' ? 'bad' : 'gray') : ''}${faults ? chip(faults + ' fault', 'bad') : ''}${act ? chip('active', 'ok') : ''}</span></span>${ic('chev', 18)}</button>`; }).join('')}`;
+}
+function connCard(d) {
+  if (isDemo()) return `<div class="banner info">${ic('flask', 20)}<div>Demo mode – this unit is simulated. Turn Demo mode off in More to connect a real machine.</div></div>`;
+  const cn = d.conn || { type: 'http', url: '' }, l = linkInfo(d.id), ctl = can('devices.control'), tone = l.status === 'connected' ? 'ok' : l.status === 'error' ? 'bad' : l.status === 'connecting' ? 'warn' : 'gray';
+  const types = [['http', 'Wi-Fi (HTTP)'], ['ws', 'WebSocket'], ['serial', 'USB cable'], ['ble', 'Bluetooth'], ['cloud', 'Server']], url = cn.type === 'http' || cn.type === 'ws';
+  const hint = { serial: 'Plug the ESP32 into this device with a USB cable, tap Connect and choose the port. Needs desktop Chrome or Edge.', ble: 'The ESP32 must advertise the Nordic UART service. Tap Connect and pick it. Needs Chrome.', cloud: 'Readings come from the server URL set in More → Data source.' }[cn.type] || '';
+  return `<div class="card"><div class="row sp"><h3 style="margin:0">Machine connection</h3>${chip(l.status, tone)}</div>
+  <div class="seg" style="margin:10px 0 8px">${types.map(([k, t]) => `<button class="${cn.type === k ? 'on' : ''}" data-act="connType" data-a="${d.id}" data-b="${k}" ${ctl ? '' : 'disabled'}>${t}</button>`).join('')}</div>
+  ${url ? `<label class="f"><span>${cn.type === 'ws' ? 'WebSocket address' : 'Machine address'}</span><input data-conn="${d.id}" type="url" inputmode="url" placeholder="${cn.type === 'ws' ? 'wss://192.168.1.50:81' : 'http://192.168.1.50'}" value="${esc(cn.url || '')}" ${ctl ? '' : 'disabled'}></label>` : `<p class="small muted" style="margin:0 0 8px">${hint}</p>`}
+  ${l.msg ? `<div class="small" style="${l.status === 'error' ? 'color:var(--red)' : 'color:var(--muted)'}">${esc(l.msg)}</div>` : ''}
+  ${ctl ? `<div class="row" style="margin-top:10px">${l.status === 'connected' || l.status === 'connecting' ? `<button class="btn line" style="flex:1" data-act="disconnect" data-a="${d.id}">Disconnect</button>` : `<button class="btn green" style="flex:1" data-act="connect" data-a="${d.id}">${ic('zap', 18)} Connect machine</button>`}</div>` : locked('Technicians and Super Admins can connect machines.')}</div>`;
+}
+function vDevice() {
+  const d = byId('devices', route.id); if (!d) return head('Device') + empty('Device not found');
+  const loc = byId('locations', d.location_id), act = d.id === db.meta.activeDevice, ctl = can('devices.control'), mt = can('maintenance.manage'), s = activeSession();
+  const ms = db.maintenance_records.filter(m => m.device_id === d.id && m.status !== 'done').slice(0, 4);
+  return `${head(esc(d.code), can('devices.manage') ? `<button class="iconbtn" data-act="editDevice" data-a="${d.id}" aria-label="Edit">${ic('edit')}</button><button class="iconbtn" data-act="delDeviceAsk" data-a="${d.id}" aria-label="Delete">${ic('trash')}</button>` : '')}
+  <div class="card"><div class="row sp"><div><b style="font-size:17px">${esc(d.name)}</b><div class="small muted">${esc(loc ? loc.name : '—')}${loc && loc.source_type ? ' · ' + esc(loc.source_type) : ''}</div></div>${chip(d.status, d.status === 'online' ? 'ok' : 'bad')}</div>
+  <div class="small muted" style="margin-top:8px">ESP32 firmware ${esc(d.firmware)} · last data ${ago(d.last_seen)} · sampling every ${d.mode === 'fixed' ? 2 : 4}s</div>
+  <h3 style="margin:14px 0 6px">Operating mode</h3><div class="seg" style="margin:0">${['fixed', 'portable'].map(m => `<button class="${d.mode === m ? 'on' : ''}" data-act="mode" data-a="${d.id}" data-b="${m}" ${can('devices.manage') ? '' : 'disabled'}>${m === 'fixed' ? 'Fixed mode' : 'Portable mode'}</button>`).join('')}</div>
+  <div class="small muted" style="margin-top:6px">${d.mode === 'fixed' ? 'Permanent site, location locked, mains/solar backed, faster sampling.' : 'Carried to the field, GPS location, battery-saver sampling.'}${can('devices.manage') ? '' : ' Only a Super Admin can change the mode.'}</div>
+  <div class="row wrap" style="margin-top:12px">${!act ? `<button class="btn ghost sm" data-act="setActive" data-a="${d.id}">Use for monitoring</button>` : chip('Active device', 'ok')}${ctl ? `<button class="btn line sm" data-act="selfTest" data-a="${d.id}">${ic('check', 14)} Self-test</button>` : ''}</div></div>
+  ${connCard(d)}
+  <div class="card"><h3>Components</h3>${db.device_components.filter(c => c.device_id === d.id).map(c => {
+    const ok = c.status !== 'fault' && !(c.type === 'internet' && !netOnline()); const k = c.type;
+    return `<div class="kv"><div class="k"><b>${COMP_LABEL[k]}</b><small>${compValue(d, c)}${c.note && !ok ? ' · ' + esc(c.note) : ''}</small>${c.status === 'fault' || (ctl && (k === 'pump' || k === 'solenoid_valve')) || mt && c.status === 'fault' ? `<span class="row wrap" style="margin-top:6px;gap:6px">${ctl && k === 'pump' && c.status !== 'fault' ? `<button class="btn ghost sm" data-act="ctl" data-a="${d.id}" data-b="pump:${c.value === 'on' ? 'off' : 'on'}" ${s && s.device_id === d.id ? 'disabled' : ''}>Pump ${c.value === 'on' ? 'off' : 'on'}</button>` : ''}${ctl && k === 'solenoid_valve' && c.status !== 'fault' ? `<button class="btn ghost sm" data-act="ctl" data-a="${d.id}" data-b="solenoid_valve:${c.value === 'open' ? 'closed' : 'open'}">${c.value === 'open' ? 'Close valve' : 'Open valve'}</button>` : ''}${ctl && c.status === 'fault' ? `<button class="btn green sm" data-act="repair" data-a="${d.id}" data-b="${k}">Mark repaired</button>` : ''}${mt && c.status === 'fault' ? `<button class="btn line sm" data-act="taskFromComp" data-a="${d.id}" data-b="${k}">${ic('tool', 13)} Task</button>` : ''}</span>` : ''}</div>${chip(ok ? 'OK' : 'Fault', ok ? 'ok' : 'bad')}</div>`; }).join('')}
+  ${!ctl ? locked('Read-only. Technicians and Super Admins can control equipment.') : ''}</div>
+  ${ms.length ? `<div class="card"><h3>Open maintenance</h3>${ms.map(m => `<div class="kv"><div class="k"><b>${esc(m.title)}</b><small>${m.kind} · ${fdate(m.created_at)}</small></div>${chip(m.status.replace('_', ' '), m.status === 'open' ? 'warn' : '')}</div>`).join('')}</div>` : ''}`;
+}
+function vMaintenance() {
+  const F = ui.maintFilter, all = db.maintenance_records.slice().sort((a, b) => b.created_at - a.created_at), list = all.filter(m => F === 'all' || m.status === F), mg = can('maintenance.manage');
+  return `${head('Maintenance', mg ? `<button class="btn sm" data-act="addTask">${ic('plus', 16)} New</button>` : '')}
+  <div class="seg">${[['open', 'Open'], ['in_progress', 'In progress'], ['done', 'Done'], ['all', 'All']].map(([k, t]) => `<button class="${F === k ? 'on' : ''}" data-act="maintFilter" data-a="${k}">${t}</button>`).join('')}</div>
+  ${list.map(m => `<div class="card flat"><div class="row sp"><b>${esc(m.title)}</b>${chip(m.status.replace('_', ' '), m.status === 'done' ? 'ok' : m.status === 'open' ? 'warn' : '')}</div><div class="small muted">${devName(m.device_id)}${m.component ? ' · ' + COMP_LABEL[m.component] : ''} · ${m.kind} · ${fdate(m.created_at)}</div>${m.description ? `<div class="small" style="margin-top:4px;white-space:pre-line">${esc(m.description)}</div>` : ''}
+  ${mg && m.status !== 'done' ? `<div class="row" style="margin-top:8px">${m.status === 'open' ? `<button class="btn ghost sm" data-act="taskStart" data-a="${m.id}">Start work</button>` : ''}<button class="btn green sm" data-act="taskDoneAsk" data-a="${m.id}">Complete</button></div>` : ''}</div>`).join('') || empty('No maintenance records here')}${!mg ? locked('View only for your role.') : ''}`;
+}
+
+/* ---------- reports ---------- */
+const PERIODS = { '24h': 86400e3, '7d': 7 * 86400e3, '30d': 30 * 86400e3, all: 0 };
+const REPORTS = [['water', 'Water quality', 'reports.water'], ['purification', 'Purification', 'reports.purification'], ['safety', 'Safe / unsafe', 'reports.safety'], ['alerts', 'Alerts', 'reports.alerts'], ['devices', 'Device status', 'reports.devices'], ['maintenance', 'Maintenance', 'reports.maintenance']];
+function buildReport(kind) {
+  const since = PERIODS[ui.period] ? now() - PERIODS[ui.period] : 0, inP = ts => ts >= since;
+  const avg = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+  if (kind === 'water') {
+    const rows = db.sensor_readings.filter(r => inP(r.ts)).sort((a, b) => b.ts - a.ts), inl = rows.filter(r => r.point === 'inlet');
+    return { head: ['Time', 'Device', 'Point', 'pH', 'TDS mg/L', 'Turb NTU', 'Temp °C'], rows: rows.slice(0, 150).map(r => [fdate(r.ts), devName(r.device_id), r.point, fmt(r.ph, 2), fmt(r.tds, 0), fmt(r.turbidity, 1), fmt(r.temperature, 1)]), total: rows.length, stats: [['Readings', rows.length], ['Avg pH', fmt(avg(inl.map(r => r.ph).filter(v => v != null)), 2)], ['Avg TDS', fmt(avg(inl.map(r => r.tds).filter(v => v != null)), 0)], ['Max turbidity', fmt(Math.max(0, ...inl.map(r => r.turbidity || 0)), 1)]], chart: inl.slice().reverse() };
+  }
+  if (kind === 'purification') {
+    const ss = db.purification_sessions.filter(s => inP(s.started_at)).sort((a, b) => b.started_at - a.started_at);
+    const rows = ss.map(s => { const an = byId('water_analysis', s.analysis_id), f = finalOf(s); return [fdate(s.started_at), devName(s.device_id), (s.stages || []).map(x => x.name.split(' (')[0]).join(' → ') || 'none needed', s.ended_at ? Math.round((s.ended_at - s.started_at) / 1000) + 's' : '—', s.state, f ? (f.override_by ? 'OVERRIDE' : f.verdict) : '—', an ? an.summary : '']; });
+    return { head: ['Started', 'Device', 'Treatments', 'Duration', 'State', 'Result', 'Condition'], rows, total: rows.length, stats: [['Sessions', ss.length], ['Completed', ss.filter(s => s.state === 'completed').length], ['Stopped', ss.filter(s => s.state === 'stopped').length], ['Failed', ss.filter(s => s.state === 'failed').length]] };
+  }
+  if (kind === 'safety') {
+    const fs = db.final_water_results.filter(f => inP(f.ts)).sort((a, b) => b.ts - a.ts);
+    const rows = fs.map(f => { const s = byId('purification_sessions', f.session_id); return [fdate(f.ts), s ? devName(s.device_id) : '—', f.verdict, f.checks.filter(c => c.status === 'fail' || c.status === 'unverified').map(c => c.label).join(', ') || '—', f.override_by ? 'Override: ' + userName(f.override_by) : f.supply]; });
+    return { head: ['Time', 'Device', 'Verdict', 'Failed checks', 'Supply'], rows, total: rows.length, stats: [['Tests', fs.length], ['Safe', fs.filter(f => f.verdict === 'SAFE').length], ['Unsafe', fs.filter(f => f.verdict === 'UNSAFE').length], ['Overrides', fs.filter(f => f.override_by).length]] };
+  }
+  if (kind === 'alerts') {
+    const as = db.alerts.filter(a => inP(a.created_at)).sort((a, b) => b.created_at - a.created_at);
+    return { head: ['Time', 'Type', 'Severity', 'Device', 'Status', 'Handled by', 'Note'], rows: as.map(a => [fdate(a.created_at), ALERT_TYPES[a.type].label, a.severity, devName(a.device_id), a.status, a.resolved_by ? userName(a.resolved_by) : a.ack_by ? userName(a.ack_by) : '—', a.note || '']), total: as.length, stats: [['Alerts', as.length], ['Active', as.filter(a => a.status === 'active').length], ['Critical', as.filter(a => a.severity === 'critical').length], ['Resolved', as.filter(a => a.status === 'resolved').length]] };
+  }
+  if (kind === 'devices') {
+    const rows = db.devices.map(d => { const loc = byId('locations', d.location_id), b = comp(d.id, 'battery'), f = db.device_components.filter(c => c.device_id === d.id && c.status === 'fault').map(c => COMP_LABEL[c.type]); return [d.code, d.name, loc ? loc.name : '—', d.mode, d.status, btxt(d.id) + '%', ago(d.last_seen), f.join(', ') || 'none']; });
+    return { head: ['Code', 'Name', 'Location', 'Mode', 'Status', 'Battery', 'Last seen', 'Faults'], rows, total: rows.length, stats: [['Devices', db.devices.length], ['Online', db.devices.filter(d => d.status === 'online').length], ['Offline', db.devices.filter(d => d.status !== 'online').length], ['With faults', db.device_components.filter(c => c.status === 'fault').map(c => c.device_id).filter((v, i, a) => a.indexOf(v) === i).length]], noPeriod: true };
+  }
+  const ms = db.maintenance_records.filter(m => inP(m.created_at)).sort((a, b) => b.created_at - a.created_at);
+  return { head: ['Created', 'Device', 'Task', 'Component', 'Type', 'Status', 'Done'], rows: ms.map(m => [fdate(m.created_at), devName(m.device_id), m.title, m.component ? COMP_LABEL[m.component] : '—', m.kind, m.status, m.completed_at ? fdate(m.completed_at) : '—']), total: ms.length, stats: [['Records', ms.length], ['Open', ms.filter(m => m.status === 'open').length], ['In progress', ms.filter(m => m.status === 'in_progress').length], ['Done', ms.filter(m => m.status === 'done').length]] };
+}
+const cell = v => { const t = String(v); const m = { SAFE: 'ok', completed: 'ok', online: 'ok', resolved: 'ok', done: 'ok', UNSAFE: 'bad', failed: 'bad', offline: 'bad', critical: 'bad', active: 'bad', OVERRIDE: 'warn', stopped: 'warn', warning: 'warn', open: 'warn', acknowledged: 'warn', in_progress: '' }; return m[t] != null ? chip(esc(t.replace('_', ' ')), m[t]) : esc(t); };
+function bigSpark(rows, key, label) {
+  const pts = rows.map(r => r[key]).filter(v => v != null); if (pts.length < 2) return '';
+  const step = Math.ceil(pts.length / 60), p = pts.filter((_, i) => i % step === 0), mn = Math.min(...p), mx = Math.max(...p), rg = mx - mn || 1;
+  return `<div class="card flat" style="margin-bottom:8px;padding:10px"><div class="row sp small"><b>${label}</b><span class="muted">${fmt(mn, 1)} – ${fmt(mx, 1)}</span></div><svg class="spark" style="height:46px" viewBox="0 0 100 40" preserveAspectRatio="none"><polyline fill="none" stroke="var(--blue)" stroke-width="1.8" vector-effect="non-scaling-stroke" points="${p.map((v, i) => (i / (p.length - 1) * 100).toFixed(1) + ',' + (37 - (v - mn) / rg * 34).toFixed(1)).join(' ')}"/></svg></div>`;
+}
+function vReports() {
+  const avail = REPORTS.filter(r => can(r[2])); if (!avail.length) return head('Reports') + empty('No reports available for your role');
+  if (!avail.some(r => r[0] === ui.rep)) ui.rep = avail[0][0];
+  const R = buildReport(ui.rep);
+  return `${head('Reports')}<div class="seg">${avail.map(([k, t]) => `<button class="${ui.rep === k ? 'on' : ''}" data-act="repKind" data-a="${k}">${t}</button>`).join('')}</div>
+  ${R.noPeriod ? '' : `<div class="seg">${[['24h', 'Last 24 h'], ['7d', '7 days'], ['30d', '30 days'], ['all', 'All']].map(([k, t]) => `<button class="${ui.period === k ? 'on' : ''}" data-act="period" data-a="${k}">${t}</button>`).join('')}</div>`}
+  <div class="grid2">${R.stats.map(([k, v]) => `<div class="card flat" style="margin:0;padding:10px 12px"><div class="small muted">${k}</div><div style="font-size:21px;font-weight:800">${v}</div></div>`).join('')}</div>
+  ${R.chart ? bigSpark(R.chart, 'ph', 'pH (raw water)') + bigSpark(R.chart, 'tds', 'TDS mg/L (raw water)') + bigSpark(R.chart, 'turbidity', 'Turbidity NTU (raw water)') : ''}
+  <div class="card" style="padding:8px 4px"><div class="tbl-wrap"><table><tr>${R.head.map(h => `<th>${h}</th>`).join('')}</tr>${R.rows.map(r => `<tr>${r.map(c => `<td>${cell(c)}</td>`).join('')}</tr>`).join('') || `<tr><td colspan="${R.head.length}" class="muted">No records in this period.</td></tr>`}</table></div></div>
+  ${R.total > R.rows.length ? `<div class="small muted">Showing latest ${R.rows.length} of ${R.total}.</div>` : ''}
+  ${can('reports.export') ? `<button class="btn ghost block" style="margin-top:8px" data-act="csv">${ic('copy', 18)} Export as CSV</button>` : locked('Export is available to Operators and Super Admins.')}`;
+}
+function csvOf(R) { const q = v => '"' + String(v).replace(/"/g, '""') + '"'; return [R.head, ...R.rows].map(r => r.map(q).join(',')).join('\n'); }
+
+/* ---------- admin views ---------- */
+function vUsers() {
+  return `${head('Users & roles', `<button class="btn sm" data-act="addUser">${ic('plus', 16)} Add</button>`)}
+  ${db.users.map(u => `<button class="li" data-act="editUser" data-a="${u.id}"><span class="ib">${ic('user')}</span><span class="lc"><b>${esc(u.name)}</b><small>${esc(u.email)}</small><span style="margin-top:4px;display:flex;gap:5px">${chip(esc(roleOf(u).name), 'ok')}${u.active ? '' : chip('deactivated', 'bad')}</span></span>${ic('chev', 18)}</button>`).join('')}`;
+}
+function vLocations() {
+  return `${head('Locations', `<button class="btn sm" data-act="addLoc">${ic('plus', 16)} Add</button>`)}
+  ${db.locations.map(l => `<button class="li" data-act="editLoc" data-a="${l.id}"><span class="ib">${ic('pin')}</span><span class="lc"><b>${esc(l.name)}</b><small>${esc(l.source_type)} · ${l.lat.toFixed(3)}, ${l.lng.toFixed(3)}</small><small>${db.devices.filter(d => d.location_id === l.id).length} device(s)</small></span>${ic('chev', 18)}</button>`).join('')}`;
+}
+function vTreatment() {
+  const C = db.config, grp = (title, key, labels) => `<div class="card"><h3>${title}</h3><div class="two">${Object.entries(labels).map(([k, [l, u]]) => `<label class="f"><span>${l}${u ? ' (' + u + ')' : ''}</span><input type="number" step="any" min="0" data-cfg="${key}.${k}" value="${C[key][k]}"></label>`).join('')}</div></div>`;
+  return `${head('Treatment configuration')}<div class="banner info">${ic('shield', 20)}<div>Only the stages the readings call for are selected. These limits decide when.</div></div>
+  <div class="card"><h3>Treatment stages</h3>${Object.keys(TREAT).sort((a, b) => TREAT[a].order - TREAT[b].order).map(k => `<div class="kv"><div class="sw"><input type="checkbox" id="en-${k}" data-cfg-en="${k}" ${C.treatments[k].enabled ? 'checked' : ''}></div><label for="en-${k}" class="k"><b>${TREAT[k].name}</b></label><input type="number" min="2" max="600" style="width:78px" data-cfg-dur="${k}" value="${C.treatments[k].duration}" aria-label="Duration seconds"><span class="small muted">s</span></div>`).join('')}</div>
+  ${grp('When to select a treatment', 'thresholds', THRESH_LABELS)}${grp('Final safe-water limits', 'final', FINAL_LABELS)}
+  ${grp('Alert limits', 'alerts', { tds: ['High TDS alert above', 'mg/L'], turbidity: ['High turbidity alert above', 'NTU'], ph_min: ['pH alert below', ''], ph_max: ['pH alert above', ''], battery_low: ['Low battery below', '%'], battery_crit: ['Critical battery below', '%'] })}
+  <div class="row"><button class="btn line" style="flex:1" data-act="cfgReset">Reset defaults</button><button class="btn green" style="flex:2" data-act="cfgSave">${ic('check', 18)} Save changes</button></div>`;
+}
+function vAudit() {
+  const L = db.audit_logs.slice().sort((a, b) => b.ts - a.ts).filter(x => !ui.auditDenied || x.result === 'denied' || x.result === 'failed').slice(0, 120);
+  return `${head('Audit log')}<div class="seg"><button class="${!ui.auditDenied ? 'on' : ''}" data-act="auditF" data-a="0">All events</button><button class="${ui.auditDenied ? 'on' : ''}" data-act="auditF" data-a="1">Denied / failed</button></div>
+  ${L.map(x => `<div class="kv"><div class="k"><b>${esc(x.action)}</b><small>${esc(x.detail)}</small><small>${fdate(x.ts)} · ${esc(userName(x.user_id))}</small></div>${x.result !== 'ok' ? chip(x.result, x.result === 'override' ? 'warn' : 'bad') : ''}</div>`).join('') || empty('No events')}`;
+}
+function vSync() {
+  const p = pendingCounts(), on = netOnline();
+  return `${head('Offline mode & sync')}${offlineBanner()}${!isDemo() && !db.meta.apiBase ? `<div class="banner warn">${ic('db', 20)}<div>No server URL is set, so real readings stay on this device only. Add a server in More → Data source to back them up.</div></div>` : ''}
+  <div class="card"><div class="row sp"><div><div class="muted small">Connection</div><b style="font-size:20px;color:${on ? 'var(--green)' : 'var(--amber)'}">${on ? 'Online' : 'Offline Mode'}</b></div><div style="text-align:right"><div class="muted small">Waiting to sync</div><b style="font-size:20px">${p.total}</b></div></div>
+  <div class="small muted" style="margin-top:8px">Last sync: ${db.meta.lastSync ? fdate(db.meta.lastSync) : 'never'} · Server has received ${Object.values(cloud.counts || {}).reduce((a, b) => a + b, 0)} record(s) this session</div>
+  <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="syncNow" ${can('sync.manage') ? '' : 'disabled'}>${ic('refresh', 18)} Sync now</button></div>
+  <div class="sw" style="margin-top:12px"><input type="checkbox" id="autosync" data-act="autoSync" ${db.meta.autoSync ? 'checked' : ''} ${can('sync.manage') ? '' : 'disabled'}><label for="autosync">Sync automatically when internet returns</label></div></div>
+  <div class="card"><h3>Queue by table</h3>${SYNC_TABLES.map(t => `<div class="kv"><div class="k">${t}</div><b>${p[t]}</b></div>`).join('')}</div>
+  <div class="card"><h3>How it works</h3><p class="small muted" style="margin:0">Every reading, analysis, session, alert and audit entry is written to the on-device database first and marked <i>unsynced</i>. When internet is available they are sent to the server in one batch and marked synced. Nothing is lost while offline.</p></div>`;
+}
+function vData() {
+  const proto = `// ESP32 -> app (one JSON object per reading / per line)
+{"type":"telemetry","ph":7.31,"tds":242,"turbidity":0.8,"temperature":27.4,
+ "battery":88,"solar_w":21,"pump":"off","valve":"closed",
+ "pump_fault":false,"extra":{"hardness":120},"fw":"1.4.2"}
+
+// app -> ESP32
+{"cmd":"set","pump":"on","valve":"closed"}
+{"cmd":"stage","stage":"ro","duration":12}
+{"cmd":"stage","stage":"none"}
+
+// transports
+HTTP        GET {address}/readings   POST {address}/command
+WebSocket   wss://host:port  (JSON messages both ways)
+USB serial  115200 baud, newline-delimited JSON
+Bluetooth   Nordic UART service 6e400001-b5a3-f393-e0a9-e50e24dcca9e`;
+  const sketch = `#include <WiFi.h>
+#include <WebServer.h>
+#define PUMP_PIN 26
+#define VALVE_PIN 27
+WebServer server(80);
+bool pumpOn = false, valveOpen = false;
+float readPH()   { return 7.3; }   // replace with your ADC code
+float readTDS()  { return 240; }
+float readTurb() { return 0.8; }
+float readTemp() { return 27.4; }
+void cors() {
+  server.sendHeader("Access-Control-Allow-Origin", "*");
+  server.sendHeader("Access-Control-Allow-Headers", "Content-Type");
+}
+void handleReadings() {
+  cors();
+  String j = "{\\"type\\":\\"telemetry\\",\\"ph\\":" + String(readPH(), 2) +
+    ",\\"tds\\":" + String(readTDS(), 0) + ",\\"turbidity\\":" + String(readTurb(), 2) +
+    ",\\"temperature\\":" + String(readTemp(), 1) +
+    ",\\"pump\\":\\"" + (pumpOn ? "on" : "off") + "\\",\\"valve\\":\\"" + (valveOpen ? "open" : "closed") + "\\"}";
+  server.send(200, "application/json", j);
+}
+void handleCommand() {
+  cors();
+  String b = server.arg("plain");
+  if (b.indexOf("\\"pump\\":\\"on\\"") >= 0) pumpOn = true;
+  if (b.indexOf("\\"pump\\":\\"off\\"") >= 0) pumpOn = false;
+  if (b.indexOf("\\"valve\\":\\"open\\"") >= 0) valveOpen = true;
+  if (b.indexOf("\\"valve\\":\\"closed\\"") >= 0) valveOpen = false;
+  digitalWrite(PUMP_PIN, pumpOn); digitalWrite(VALVE_PIN, valveOpen);
+  server.send(200, "application/json", "{}");
+}
+void setup() {
+  pinMode(PUMP_PIN, OUTPUT); pinMode(VALVE_PIN, OUTPUT);
+  WiFi.begin("YOUR_WIFI", "YOUR_PASSWORD");
+  while (WiFi.status() != WL_CONNECTED) delay(300);
+  server.on("/readings", handleReadings);
+  server.on("/command", HTTP_POST, handleCommand);
+  server.on("/command", HTTP_OPTIONS, []() { cors(); server.send(204); });
+  server.begin();
+}
+void loop() { server.handleClient(); }`;
+  return `${head('Data source & machines')}
+  <div class="card" style="border-color:${isDemo() ? '#e0a21a' : 'var(--green)'}"><div class="row"><div style="flex:1"><b>Demo mode: ${isDemo() ? 'ON' : 'OFF'}</b><div class="small muted">${isDemo() ? 'Readings are simulated.' : 'Readings come only from connected machines.'}</div></div><button class="btn sm ${isDemo() ? 'green' : 'amber'}" data-act="modeAsk">${isDemo() ? 'Turn off' : 'Turn on'}</button></div>
+  <p class="small muted" style="margin:10px 0 0">Demo and real data are kept in two separate databases. Users and roles are shared.</p></div>
+  <div class="card"><h3>Server sync (optional)</h3><label class="f"><span>Server URL</span><input id="apibase" type="url" placeholder="https://your-server.example/api/v1" value="${esc(db.meta.apiBase)}"></label>
+  <button class="btn ghost sm" data-act="srvSave">Save URL</button><p class="small muted" style="margin-bottom:0">Queued records are posted to <code>{url}/sync</code>. In real mode nothing is marked synced unless a server accepts it.</p></div>
+  <div class="card"><h3>Machine protocol</h3><pre>${esc(proto)}</pre>
+  <p class="small muted">Every reading, simulated or real, goes through <code>NEXZORA.ingestReading(deviceId, payload)</code>. Connect machines in Devices → your unit → Machine connection.</p>
+  <details><summary>Example ESP32 sketch (HTTP)</summary><pre>${esc(sketch)}</pre></details>
+  <label class="f" style="margin-top:10px"><span>Send a test reading to ${esc(activeDev().code)}</span><textarea id="testjson" spellcheck="false">${esc('{"ph":7.31,"tds":242,"turbidity":0.8,"temperature":27.4,"battery":88}')}</textarea></label><button class="btn green sm" data-act="testIngest">Send test reading</button></div>
+  <div class="card"><h3>Database tables</h3>${Object.keys(SCHEMA).map(t => `<div class="kv"><div class="k"><b>${t}</b><small>${SCHEMA[t].split(',').map(c => c.split(':')[0]).slice(0, 7).join(', ')}…</small></div>${chip(db[t].length)}</div>`).join('')}
+  <details style="margin-top:10px"><summary>SQL schema (PostgreSQL)</summary><pre>${esc(ddl())}</pre></details></div>`;
+}
+function vDemo() {
+  const dev = activeDev(), f = db.meta.faults, sensors = Object.values(SENSOR_COMP), bat = comp(dev.id, 'battery');
+  return `${head('Demo lab')}<div class="banner info">${ic('flask', 20)}<div>Simulates raw water and equipment faults so every workflow can be tested without hardware.</div></div>
+  <div class="card"><h3>Incoming raw water</h3>${Object.entries(SCENARIOS).map(([k, s]) => `<button class="li" style="margin-bottom:6px;${db.meta.scenario === k ? 'border-color:var(--blue)' : ''}" data-act="scenario" data-a="${k}"><span class="lc"><b>${s.name}</b><small>pH ${s.base.ph} · TDS ${s.base.tds} · ${s.base.turbidity} NTU · ${s.source}</small></span>${db.meta.scenario === k ? chip('active', 'ok') : ''}</button>`).join('')}</div>
+  <div class="card"><h3>Connectivity</h3><div class="sw" style="margin-bottom:10px"><input type="checkbox" id="offl" data-act="demoOffline" ${db.meta.forceOffline ? 'checked' : ''}><label for="offl"><b>Simulate no internet</b> (Offline Mode)</label></div>
+  ${db.devices.map(d => `<div class="kv"><div class="k"><b>${d.code}</b><small>ESP32 ${d.status}</small></div><button class="btn line sm" data-act="esp" data-a="${d.id}">${d.status === 'online' ? 'Disconnect' : 'Reconnect'}</button></div>`).join('')}</div>
+  <div class="card"><h3>Equipment faults on ${dev.code}</h3><div class="row wrap">${sensors.map(t => `<button class="btn sm ${comp(dev.id, t).status === 'fault' ? 'red' : 'line'}" data-act="sensorFault" data-a="${t}">${COMP_LABEL[t].replace(' Sensor', '')} sensor</button>`).join('')}<button class="btn sm ${comp(dev.id, 'pump').status === 'fault' ? 'red' : 'line'}" data-act="pumpFault">Pump</button></div>
+  <h3 style="margin-top:14px">Battery (${(+bat.value).toFixed(0)}%)</h3><div class="row wrap">${[100, 50, 18, 8].map(v => `<button class="btn line sm" data-act="batt" data-a="${v}">${v}%</button>`).join('')}</div></div>
+  <div class="card"><h3>Treatment faults</h3>${[['ro_fouled', 'RO membrane fouled (TDS removal drops)'], ['uv_failed', 'UV lamp failed'], ['media_exhausted', 'Specialized media exhausted']].map(([k, t]) => `<div class="sw" style="margin-bottom:8px"><input type="checkbox" id="f-${k}" data-act="treatFault" data-a="${k}" ${f[k] ? 'checked' : ''}><label for="f-${k}">${t}</label></div>`).join('')}<p class="small muted" style="margin:0">Faults apply to the next purification run and can make the final test fail.</p></div>
+  <div class="card"><h3>Purification speed</h3><div class="seg" style="margin:0">${[1, 3, 6].map(v => `<button class="${db.meta.speed === v ? 'on' : ''}" data-act="speed" data-a="${v}">${v}×</button>`).join('')}</div></div>
+  ${can('data.manage') ? `<button class="btn red block" data-act="resetAsk">Reset all demo data</button>` : ''}`;
+}
+function vAccess() {
+  const u = cur(), r = roleOf(u);
+  return `${head('My permissions')}<div class="card"><b>${esc(r.name)}</b><div class="small muted">${esc(u.email)}</div></div>
+  <div class="card">${Object.entries(PERMS).map(([k, t]) => { const ok = hasPerm(u, k); return `<div class="kv"><span style="color:var(--${ok ? 'green' : 'muted'})">${ic(ok ? 'check' : 'lock', 18)}</span><div class="k" style="${ok ? '' : 'opacity:.55'}">${t}</div></div>`; }).join('')}</div>
+  ${can('users.manage') ? `<h3 style="margin:14px 2px 8px;color:var(--muted)">All roles</h3>${db.roles.map(x => `<details><summary>${esc(x.name)} <span class="muted small">(${x.permissions.includes('*') ? 'full access' : x.permissions.length + ' permissions'})</span></summary>${x.permissions.includes('*') ? '<div class="small muted">Everything, including users, devices, locations, treatment rules and overrides.</div>' : x.permissions.map(p => `<div class="small">• ${PERMS[p]}</div>`).join('')}</details>`).join('')}` : ''}`;
+}
+
+/* ---------- render ---------- */
+let lastVer = -1;
+const VIEWS = { home: vHome, quality: vQuality, purify: vPurify, alerts: vAlerts, more: vMore, devices: vDevices, device: vDevice, maintenance: vMaintenance, reports: vReports, users: vUsers, locations: vLocations, treatment: vTreatment, audit: vAudit, sync: vSync, data: vData, demo: vDemo, access: vAccess };
+function render() {
+  const app = $('#app'); lastVer = getVer();
+  if (!cur()) { app.innerHTML = vLogin(); return; }
+  const u = cur(), def = ROUTES[route.name];
+  if (def.perm && !canAny(def.perm)) { route = { name: 'home' }; if (!can('dashboard.view')) route = { name: 'more' }; }
+  const old = $('#main'), st = old ? old.scrollTop : 0, dev = activeDev(), n = db.alerts.filter(a => a.status === 'active').length;
+  const tabs = [['home', 'home', 'Home'], ['quality', 'droplet', 'Quality'], ['purify', 'layers', 'Purify'], ['alerts', 'bell', 'Alerts'], ['more', 'more', 'More']], tab = ROUTES[route.name].tab;
+  let body; try { body = VIEWS[route.name](); } catch (e) { console.error(e); body = `<div class="banner bad">This screen failed to load: ${esc(e.message)}</div>`; }
+  app.innerHTML = `<header class="top"><div class="brand">${ic('logo', 26)}<span>NEXZORA</span>${isDemo() ? '<span class="tchip" style="background:#ffb02e;color:#3a2500;cursor:default">DEMO</span>' : '<span class="tchip" style="background:#fff;color:#0a7a3a;cursor:default">LIVE</span>'}</div>
+  <button class="tchip" data-act="devPick" aria-label="Active device">${ic('cpu', 14)} ${esc(dev.code)}</button>
+  <span class="tchip ${netOnline() ? '' : 'off'}" style="cursor:default" role="status">${ic(netOnline() ? 'wifi' : 'wifioff', 14)}${netOnline() ? '<span class="sr"></span>' : ' Offline'}</span>
+  <button class="avatar" data-act="nav" data-a="more" aria-label="Account: ${esc(u.name)}">${esc(u.name[0])}</button></header>
+  <main class="main" id="main">${body}</main>
+  <nav class="nav" aria-label="Main">${tabs.map(([k, i, t]) => `<button class="${tab === k ? 'on' : ''}" data-act="nav" data-a="${k}" ${tab === k ? 'aria-current="page"' : ''}>${ic(i, 22)}<span>${t}</span>${k === 'alerts' && n ? `<span class="badge">${n}</span>` : ''}</button>`).join('')}</nav>`;
+  const m = $('#main'); if (m) m.scrollTop = st;
+}
+const setT = (sel, t) => $$(sel).forEach(e => { if (e.textContent !== t) e.textContent = t; });
+function refreshLive() {
+  if (!cur()) return;
+  const L = liveRow(), dev = activeDev();
+  CORE.forEach(k => { const v = L ? L[k] : null, S = SENS[k], st = stFor(k, L); setT(`[data-live="${k}"]`, fmt(v, S.dec)); setT(`[data-live="st_${k}"]`, stText(st)); $$(`[data-tile="${k}"]`).forEach(t => t.className = 'tile s-' + st); $$(`[data-dot="${k}"]`).forEach(d => d.style.left = (v == null ? 0 : clamp(v / S.max * 100, 0, 100)) + '%'); });
+  setT('[data-live="age"]', L ? ago(L.ts) : '—'); setT('[data-live="age2"]', ago(dev.last_seen));
+  const bat = batVal(dev.id) ?? 0, sol = comp(dev.id, 'solar_panel').value; setT('[data-live="bat"]', btxt(dev.id)); setT('[data-live="sol"]', (+sol || 0).toFixed(0)); $$('[data-w="bat"]').forEach(e => e.style.width = bat + '%');
+  const ti = tankInfo(); $$('[data-h="tank"]').forEach(e => e.style.height = ti.pct + '%'); setT('[data-live="tankpct"]', ti.pct >= 1 ? Math.round(ti.pct) + '%' : ''); setT('[data-live="pstat"]', purifyStatus().label);
+  const a = runtime.analysis; if (a) $$('[data-w="ana"]').forEach(e => e.style.width = Math.min(100, a.t / 6.4 * 100) + '%');
+  const s = activeSession();
+  if (s) { setT('[data-live="pct"]', Math.round(s.progress * 100) + '%'); setT('[data-live="eta"]', String(eta(s))); $$('[data-w="prog"]').forEach(e => e.style.width = s.progress * 100 + '%'); s.stages.forEach((t, i) => $$(`[data-w="st${i}"]`).forEach(e => e.style.width = (t.state === 'done' ? 100 : t.state === 'active' ? s.stage_elapsed / t.dur * 100 : 0) + '%')); }
+}
+const formFocused = () => { const e = document.activeElement; return e && /^(INPUT|SELECT|TEXTAREA)$/.test(e.tagName) && $('#app').contains(e); };
+let lastReadTs = 0;
+function frame() {
+  tick();
+  if (cur()) {
+    const L = liveRow(), newRead = L && L.ts !== lastReadTs; if (newRead) lastReadTs = L.ts;
+    const auto = AUTO.has(route.name) || (route.name === 'reports' && false);
+    if (!formFocused() && ((getVer() !== lastVer && (auto || ['reports', 'users', 'locations', 'audit'].includes(route.name) && false)) || (newRead && route.name === 'quality'))) render();
+    else if (getVer() !== lastVer && !AUTO.has(route.name)) { /* static screen – re-render only after actions */ }
+    refreshLive();
+  }
+}
+
+/* ---------- actions ---------- */
+const copyText = async t => { try { await navigator.clipboard.writeText(t); return true; } catch (e) { return false; } };
+const ACT = {
+  nav: a => go(a), back: () => back(), open: a => go(a, {}, true), closeModal: () => { closeModal(); }, closeBg: (a, b, el) => { /* only when clicking backdrop itself */ }, togglePw: () => { ui.pw = !ui.pw; const v = [val('l-email'), val('l-pw')]; render(); $('#l-email').value = v[0]; $('#l-pw').value = v[1]; return false; },
+  doLogin: () => { try { login(val('l-email'), val('l-pw')); ui.err = ''; route = { name: can('dashboard.view') ? 'home' : 'more' }; stack.length = 0; toast('Welcome, ' + cur().name, 'ok'); } catch (e) { ui.err = e.message; ui.email = val('l-email'); } },
+  fillDemo: a => { $('#l-email').value = a; $('#l-pw').value = 'demo123'; return false; },
+  logout: () => { logout(); route = { name: 'home' }; stack.length = 0; ui.err = ''; closeModal(); },
+  theme: a => { LS.set(KEY_THEME, a); applyTheme(); },
+  startAnalysis: () => { startAnalysis(); go('purify'); return false; },
+  startPurify: () => startPurification(), pause: () => pausePurification(), resume: () => resumePurification(),
+  stopAsk: () => { need('purify.control'); confirmBox('Stop purification?', 'The run ends immediately and supply stays blocked until a new analysis, purification and final test pass.', 'Stop now', 'stopDo', '', 'red'); return false; },
+  stopDo: () => { stopPurification(); closeModal(); },
+  overrideAsk: () => { need('supply.override'); openModal('Admin override', `<div class="banner bad">${ic('warn', 20)}<div>This releases water that FAILED the final test. It is recorded in the audit log with your name.</div></div><label class="f"><span>Reason (required)</span><textarea id="ov-reason" style="font-family:inherit" placeholder="Why is supply being released?"></textarea></label><div class="row"><button class="btn line" style="flex:1" data-act="closeModal">Cancel</button><button class="btn red" style="flex:1" data-act="overrideDo">Release supply</button></div>`); return false; },
+  overrideDo: () => { overrideSupply(val('ov-reason')); closeModal(); toast('Supply released by admin override – logged', 'warn'); },
+  labModal: a => { need('analysis.run'); ui.labTarget = a === 'final' ? 'final' : 'lab'; const l = (ui.labTarget === 'final' ? db.meta.labFinal : db.meta.lab) || {}, sc = SCENARIOS[db.meta.scenario].extra, F = [['hardness', 'Hardness (mg/L)'], ['iron', 'Iron (mg/L)'], ['manganese', 'Manganese (mg/L)'], ['arsenic', 'Arsenic (mg/L)'], ['lead', 'Lead (mg/L)'], ['fluoride', 'Fluoride (mg/L)'], ['organics', 'Organics (mg/L)']];
+    openModal(ui.labTarget === 'final' ? 'Post-treatment lab values' : 'Lab / auxiliary values', `<p class="small muted" style="margin-top:0">Values here are used by the next analysis. Leave a field empty if it was not tested.</p><div class="two">${F.map(([k, t]) => `<label class="f"><span>${t}</span><input id="lab-${k}" type="number" step="any" min="0" value="${l[k] ?? ''}" placeholder="${db.meta.dataSource === 'demo' && sc[k] != null ? 'demo ' + sc[k] : ''}"></label>`).join('')}</div>${sel('lab-microbial', 'Microbial test', [['', 'Not tested'], ['yes', 'Positive'], ['no', 'Negative']], l.microbial === true ? 'yes' : l.microbial === false ? 'no' : '')}<div class="row"><button class="btn line" style="flex:1" data-act="labClear">Clear</button><button class="btn" style="flex:1" data-act="labSave">Save</button></div>`); return false; },
+  labSave: () => { const v = {}; ['hardness', 'iron', 'manganese', 'arsenic', 'lead', 'fluoride', 'organics', 'microbial'].forEach(k => v[k] = val('lab-' + k)); saveLab(v, ui.labTarget); closeModal(); toast('Lab values saved', 'ok'); },
+  labClear: () => { saveLab({}, ui.labTarget); closeModal(); },
+  alertFilter: a => { ui.alertFilter = a; }, ack: a => ackAlert(a),
+  resolveAsk: a => { const al = byId('alerts', a); if (!canHandle('resolve', al)) { audit('ACCESS_DENIED', 'alerts.resolve ' + al.type, { result: 'denied' }); throw new AppError('Access denied – your role cannot resolve this alert.'); } openModal('Resolve alert', `<p class="muted small" style="margin-top:0">${esc(al.message)}</p>${al.cleared ? '' : `<div class="banner warn">${ic('warn', 18)}<div>The condition is still present. It will raise a new alert after 90 seconds if it continues.</div></div>`}${fld('res-note', 'What was done? (optional)', 'text', '')}<div class="row"><button class="btn line" style="flex:1" data-act="closeModal">Cancel</button><button class="btn green" style="flex:1" data-act="resolveDo" data-a="${a}">Resolve</button></div>`); return false; },
+  resolveDo: a => { resolveAlert(a, val('res-note')); closeModal(); toast('Alert resolved', 'ok'); },
+  taskFromAlert: a => { const al = byId('alerts', a); taskModal({ device_id: al.device_id, title: ALERT_TYPES[al.type].label + ' – ' + devName(al.device_id), component: al.key || '', alert_id: a, description: al.message }); return false; },
+  taskFromComp: (a, b) => { taskModal({ device_id: a, component: b, title: 'Repair ' + COMP_LABEL[b] + ' – ' + devName(a) }); return false; },
+  addTask: () => { taskModal({ device_id: activeDev().id }); return false; },
+  taskSave: () => { addMaintenance({ device_id: val('t-dev'), component: val('t-comp'), kind: val('t-kind'), title: val('t-title'), description: val('t-desc'), alert_id: val('t-alert') || null }); closeModal(); toast('Maintenance task created', 'ok'); },
+  maintFilter: a => { ui.maintFilter = a; }, taskStart: a => updateMaintenance(a, 'in_progress'),
+  taskDoneAsk: a => { need('maintenance.manage'); const m = byId('maintenance_records', a), c = m.component ? comp(m.device_id, m.component) : null; openModal('Complete task', `<p class="muted small" style="margin-top:0">${esc(m.title)}</p>${fld('md-note', 'Work done', 'text', '')}${c && c.status === 'fault' ? `<div class="sw" style="margin-bottom:12px"><input type="checkbox" id="md-fix" checked><label for="md-fix">${COMP_LABEL[c.type]} is repaired – clear the fault</label></div>` : ''}<div class="row"><button class="btn line" style="flex:1" data-act="closeModal">Cancel</button><button class="btn green" style="flex:1" data-act="taskDoneDo" data-a="${a}">Complete</button></div>`); return false; },
+  taskDoneDo: a => { const fx = $('#md-fix'); updateMaintenance(a, 'done', { note: val('md-note'), repaired: fx && fx.checked }); closeModal(); toast('Task completed', 'ok'); },
+  devPick: () => { need('devices.view'); openModal('Active device', db.devices.map(d => `<button class="li" data-act="setActive" data-a="${d.id}"><span class="ib">${ic('cpu')}</span><span class="lc"><b>${esc(d.name)}</b><small>${d.code} · ${d.mode} · ${d.status}</small></span>${d.id === db.meta.activeDevice ? chip('active', 'ok') : ''}</button>`).join('')); return false; },
+  setActive: a => { setActiveDevice(a); closeModal(); toast('Monitoring ' + devName(a), 'ok'); },
+  openDevice: a => { go('device', { id: a }, true); return false; },
+  mode: (a, b) => setMode(a, b), selfTest: a => { const bad = selfTest(a); toast(bad.length ? 'Self-test failed: ' + bad.join(', ') : 'Self-test passed – all components healthy', bad.length ? 'bad' : 'ok'); },
+  ctl: (a, b) => { const [t, v] = b.split(':'); controlComp(a, t, v); }, repair: (a, b) => repairComp(a, b),
+  addDevice: () => { need('devices.manage'); openModal('Add device', `${fld('dv-name', 'Name', 'text', '', 'placeholder="Village RO plant"')}${fld('dv-code', 'Device code', 'text', '', 'placeholder="NZX-FX-04"')}${sel('dv-loc', 'Location', db.locations.map(l => [l.id, l.name]), '')}${sel('dv-mode', 'Mode', [['fixed', 'Fixed'], ['portable', 'Portable']], 'fixed')}${!isDemo() ? sel('dv-ct', 'Connection', [['http', 'Wi-Fi (HTTP)'], ['ws', 'Wi-Fi (WebSocket)'], ['serial', 'USB cable'], ['ble', 'Bluetooth'], ['cloud', 'Server']], 'http') + fld('dv-url', 'Machine address (Wi-Fi types)', 'url', '', 'placeholder="http://192.168.1.50"') : ''}<button class="btn block" data-act="devSave">Add device</button>`); return false; },
+  devSave: () => { addDevice({ name: val('dv-name'), code: val('dv-code'), location_id: val('dv-loc'), mode: val('dv-mode'), conn_type: val('dv-ct') || 'http', conn_url: val('dv-url') }); closeModal(); toast('Device added', 'ok'); },
+  editDevice: a => { need('devices.manage'); const d = byId('devices', a); openModal('Edit device', `${fld('dv-name', 'Name', 'text', d.name)}${sel('dv-loc', 'Location', db.locations.map(l => [l.id, l.name]), d.location_id)}<button class="btn block" data-act="devUpdate" data-a="${a}">Save</button>`); return false; },
+  devUpdate: a => { updateDevice(a, { name: val('dv-name'), location_id: val('dv-loc') }); closeModal(); },
+  delDeviceAsk: a => { need('devices.manage'); confirmBox('Remove device?', 'The device and its components are removed. Past readings stay in the history.', 'Remove', 'delDeviceDo', a, 'red'); return false; },
+  delDeviceDo: a => { deleteDevice(a); closeModal(); back(); },
+  repKind: a => { ui.rep = a; }, period: a => { ui.period = a; },
+  csv: () => { const R = buildReport(ui.rep), t = csvOf(R); openModal('Export CSV', `<p class="small muted" style="margin-top:0">${R.rows.length} row(s). Copy and paste into a spreadsheet.</p><textarea id="csvbox" readonly style="min-height:160px">${esc(t)}</textarea><div class="row" style="margin-top:10px"><button class="btn" style="flex:1" data-act="csvCopy">${ic('copy', 18)} Copy</button></div>`); audit('REPORT_EXPORT', ui.rep); return false; },
+  csvCopy: async () => { const b = $('#csvbox'); b.select(); if (await copyText(b.value)) toast('CSV copied', 'ok'); else { document.execCommand && document.execCommand('copy'); toast('Selected – press copy', ''); } return false; },
+  addUser: () => { need('users.manage'); openModal('Add user', `${fld('u-name', 'Full name')}${fld('u-email', 'Email', 'email')}${fld('u-pw', 'Temporary password (min 6)', 'text')}${sel('u-role', 'Role', db.roles.map(r => [r.id, r.name]), 'role_op')}<button class="btn block" data-act="userSave">Create user</button>`); return false; },
+  userSave: () => { addUser({ name: val('u-name'), email: val('u-email'), password: val('u-pw'), role_id: val('u-role') }); closeModal(); toast('User created', 'ok'); },
+  editUser: a => { need('users.manage'); const u = byId('users', a), me = u.id === cur().id; openModal('Edit user', `${fld('u-name', 'Full name', 'text', u.name)}<p class="small muted" style="margin:-4px 0 10px">${esc(u.email)}</p>${sel('u-role', 'Role', db.roles.map(r => [r.id, r.name]), u.role_id).replace('<select', me ? '<select disabled' : '<select')}<div class="sw" style="margin-bottom:12px"><input type="checkbox" id="u-act" ${u.active ? 'checked' : ''} ${me ? 'disabled' : ''}><label for="u-act">Account active</label></div>${fld('u-pw', 'New password (leave empty to keep)', 'text')}<div class="row"><button class="btn red" data-act="userDelAsk" data-a="${a}" ${me ? 'disabled' : ''}>${ic('trash', 16)}</button><button class="btn" style="flex:1" data-act="userUpdate" data-a="${a}">Save changes</button></div>`); return false; },
+  userUpdate: a => { const u = byId('users', a), me = u.id === cur().id; updateUser(a, { name: val('u-name'), role_id: me ? null : val('u-role'), active: me ? null : $('#u-act').checked, password: val('u-pw') }); closeModal(); toast('User updated', 'ok'); },
+  userDelAsk: a => { confirmBox('Delete user?', 'This cannot be undone. Their past actions stay in the audit log.', 'Delete', 'userDelDo', a, 'red'); return false; }, userDelDo: a => { deleteUser(a); closeModal(); toast('User deleted', 'ok'); },
+  addLoc: () => { locModal(null); return false; }, editLoc: a => { locModal(a); return false; },
+  locSave: a => { saveLocation(a || null, { name: val('l-name'), source_type: val('l-type'), lat: val('l-lat'), lng: val('l-lng'), address: val('l-addr') }); closeModal(); toast('Location saved', 'ok'); },
+  locDel: a => { deleteLocation(a); closeModal(); toast('Location deleted', 'ok'); },
+  cfgSave: () => { const c = { thresholds: {}, final: {}, alerts: {}, treatments: {} }; $$('[data-cfg]').forEach(i => { const [g, k] = i.dataset.cfg.split('.'); c[g][k] = i.value; }); Object.keys(TREAT).forEach(k => { c.treatments[k] = { enabled: $(`[data-cfg-en="${k}"]`).checked, duration: $(`[data-cfg-dur="${k}"]`).value }; }); saveConfig(c); toast('Configuration saved', 'ok'); },
+  cfgReset: () => { resetConfig(); toast('Defaults restored', 'ok'); },
+  auditF: a => { ui.auditDenied = a === '1'; },
+  syncNow: async () => { await syncNow(true); }, autoSync: (a, b, el) => { need('sync.manage'); db.meta.autoSync = el.checked; touch(); },
+  srvSave: () => setServerUrl(val('apibase')),
+  modeAsk: () => { need('data.manage'); const off = isDemo(); confirmBox(off ? 'Turn Demo mode off?' : 'Turn Demo mode on?', off ? 'Real machine mode uses a separate, empty database and shows only data from connected machines. Your demo data is kept and returns when you turn Demo mode on. Users and roles are shared.' : 'Demo mode shows simulated water and machines. Your real-machine data is kept and returns when you turn Demo mode off.', off ? 'Turn off demo' : 'Turn on demo', 'modeDo', '', off ? 'amber' : 'green'); return false; },
+  modeDo: () => { switchMode(!isDemo()); closeModal(); route = { name: 'home' }; stack.length = 0; },
+  connType: (a, b) => saveConn(a, { type: b }), connect: async a => { const i = $('[data-conn="' + a + '"]'); if (i) saveConn(a, { url: i.value }); await connectDevice(a); }, disconnect: a => disconnectDevice(a),
+  testIngest: () => { need('data.manage'); let p; try { p = JSON.parse(val('testjson')); } catch (e) { throw new AppError('Invalid JSON: ' + e.message); } ingestReading(activeDev().id, p, { source: 'api', force: true }); toast('Reading ingested', 'ok'); },
+  scenario: a => demoSet('scenario', a), demoOffline: (a, b, el) => demoSet('offline', el.checked), esp: a => demoSet('esp32', a), sensorFault: a => demoSet('sensor', a), pumpFault: () => demoSet('pumpfault', 1), batt: a => demoSet('battery', +a),
+  treatFault: a => demoSet('fault', a), speed: a => demoSet('speed', +a),
+  resetAsk: () => { need('data.manage'); confirmBox('Reset all data?', 'Deletes every reading, analysis, alert and user change on this device and restores the demo data. You will be signed out.', 'Reset', 'resetDo', '', 'red'); return false; },
+  resetDo: () => { resetAll(); location.reload(); return false; }
+};
+function taskModal(d) { need('maintenance.manage'); openModal('New maintenance task', `${sel('t-dev', 'Device', db.devices.map(x => [x.id, x.code + ' – ' + x.name]), d.device_id)}${sel('t-comp', 'Component', [['', 'General'], ...COMP_TYPES], d.component || '')}${sel('t-kind', 'Type', [['corrective', 'Corrective repair'], ['preventive', 'Preventive'], ['calibration', 'Calibration']], 'corrective')}${fld('t-title', 'Title', 'text', d.title || '')}${fld('t-desc', 'Details', 'text', d.description || '')}<input type="hidden" id="t-alert" value="${esc(d.alert_id || '')}"><button class="btn block" data-act="taskSave">Create task</button>`); }
+function locModal(id) { need('locations.manage'); const l = id ? byId('locations', id) : { name: '', source_type: 'Borewell', lat: '', lng: '', address: '' }; openModal(id ? 'Edit location' : 'Add location', `${fld('l-name', 'Name', 'text', l.name)}${sel('l-type', 'Water source', ['Borewell', 'River', 'Lake / Pond', 'Open well', 'Rainwater', 'Mine site', 'Municipal', 'Field'].map(x => [x, x]), l.source_type)}<div class="two">${fld('l-lat', 'Latitude', 'number', l.lat, 'step="any"')}${fld('l-lng', 'Longitude', 'number', l.lng, 'step="any"')}</div>${fld('l-addr', 'Address / notes', 'text', l.address)}<div class="row">${id ? `<button class="btn red" data-act="locDel" data-a="${id}">${ic('trash', 16)}</button>` : ''}<button class="btn" style="flex:1" data-act="locSave" data-a="${id || ''}">Save</button></div>`); }
+
+document.addEventListener('click', e => {
+  const bg = e.target.closest('.sheetbg'); if (bg && e.target === bg) { closeModal(); return; }
+  const el = e.target.closest('[data-act]'); if (!el || el.dataset.act === 'closeBg') return;
+  if (el.type === 'checkbox' && el.dataset.act !== 'togglePw' && false) return;
+  const fn = ACT[el.dataset.act]; if (!fn) return;
+  const done = r => { if (r !== false) render(); };
+  try { const r = fn(el.dataset.a, el.dataset.b, el); if (r && r.then) r.then(done, handleErr); else done(r); } catch (err) { handleErr(err); }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && modalOpen) closeModal(); if (e.key === 'Enter' && !cur() && e.target.closest && e.target.closest('.login') && e.target.tagName === 'INPUT') { ACT.doLogin(); render(); } });
+document.addEventListener('change', e => { const t = e.target; if (t && t.dataset && t.dataset.conn) { try { saveConn(t.dataset.conn, { url: t.value }); } catch (err) { } } });
+function handleErr(err) { if (err instanceof AppError) toast(err.message, 'bad'); else { console.error(err); toast('Something went wrong: ' + err.message, 'bad'); } render(); }
+function applyTheme() { const t = LS.get(KEY_THEME) || 'auto', r = document.documentElement; if (t === 'auto') r.removeAttribute('data-theme'); else r.setAttribute('data-theme', t); }
+
+/* ---------- boot ---------- */
+G.__onAnalysisDone = () => { if (['home', 'purify'].includes(route.name)) route = { name: 'purify' }; };
+G.NEXZORA = { version: '1.0', ingestReading: (deviceId, payload) => ingestReading(deviceId, payload, { source: 'api', force: false }), schema: SCHEMA, ddl };
+function boot() {
+  applyTheme(); loadDB(); restoreSession(); lastNet = netOnline();
+  if (cur()) route = { name: can('dashboard.view') ? 'home' : 'more' };
+  addEventListener('online', netTick); addEventListener('offline', netTick);
+  addEventListener('pagehide', () => persist(true)); document.addEventListener('visibilitychange', () => { if (document.hidden) persist(true); });
+  autoConnect(); render(); setInterval(frame, 500); setInterval(() => { persist(); }, 2000);
+}
+if (typeof document !== 'undefined' && document.getElementById('app')) boot();
+})();
+</script>
+</body>
+</html>
